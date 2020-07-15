@@ -60,7 +60,7 @@ class CloudConst
     const API_SPOT_TRADES_URL = '/spot/v1/trades';
 
     # contract url
-    const API_CONTRACT_CURRENCIES_URL = '/contract/v1/ifcontract/contracts';
+    const API_CONTRACT_CONTRACTS_URL = '/contract/v1/ifcontract/contracts';
     const API_CONTRACT_PNLS_URL = '/contract/v1/ifcontract/pnls';
     const API_CONTRACT_INDEXES_URL = '/contract/v1/ifcontract/indexes';
     const API_CONTRACT_TICKERS_URL = '/contract/v1/ifcontract/tickers';

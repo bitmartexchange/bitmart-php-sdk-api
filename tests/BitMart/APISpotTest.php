@@ -18,6 +18,8 @@ class APISpotTest extends TestCase
         ));
     }
 
+    // ------------ Public API
+
     public function testGetCurrencies()
     {
         $this->assertEquals(1000, $this->APISpot->getCurrencies()['response']->code);
@@ -45,6 +47,47 @@ class APISpotTest extends TestCase
         $this->assertEquals(1000, $this->APISpot->getSymbolTicker('BTC_USDT')['response']->code);
     }
 
+    public function testGetKlineStep()
+    {
+        $this->assertEquals(1000, $this->APISpot->getKlineStep()['response']->code);
+    }
+
+    public function testGetSymbolKline()
+    {
+        $this->assertEquals(1000, $this->APISpot->getSymbolKline(
+            'BTC_USDT',
+            1591789435,
+            1591875835,
+            60
+        )['response']->code);
+    }
+
+    public function testGetSymbolBook()
+    {
+        $this->assertEquals(1000, $this->APISpot->getSymbolBook(
+            'BTC_USDT',
+            null // Or 6,7,8
+        )['response']->code);
+    }
+
+    public function testGetSymbolTrades()
+    {
+        $this->assertEquals(1000, $this->APISpot->getSymbolTrades(
+            'BTC_USDT'
+        )['response']->code);
+    }
+
+
+    // ------------ Balance API
+
+    public function testGetWallet()
+    {
+        $this->assertEquals(1000, $this->APISpot->getWallet()['response']->code);
+    }
+
+
+
+    // ------------ Trading API
 
     public function testPostSubmitOrderLimitBuy()
     {
@@ -81,6 +124,58 @@ class APISpotTest extends TestCase
             '0.01'
         )['response']->code);
     }
+
+    public function testPostCancelOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->postCancelOrder(
+            'BTC_USDT',
+            2147622493
+        )['response']->code);
+    }
+
+    public function testPostCancelAllOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->postCancelAllOrder(
+            'BTC_USDT',
+            'buy'
+        )['response']->code);
+    }
+
+    public function testGetOrderDetail()
+    {
+        $this->assertEquals(1000, $this->APISpot->getOrderDetail(
+            'BTC_USDT',
+            2147622493
+        )['response']->code);
+    }
+
+    public function testGetUserOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->getUserOrder(
+            'BTC_USDT',
+            '1',
+            1,
+            10
+        )['response']->code);
+    }
+
+    public function testGetUserTrade()
+    {
+        $this->assertEquals(1000, $this->APISpot->getUserTrade(
+            'BTC_USDT',
+            1,
+            10
+        )['response']->code);
+    }
+
+    public function testGetUserOrderTrade()
+    {
+        $this->assertEquals(1000, $this->APISpot->getUserOrderTrade(
+            'BTC_USDT',
+            2147622493
+        )['response']->code);
+    }
+
 
 
 }
