@@ -1,0 +1,12 @@
+{
+  "require": {
+    "phpunit/phpunit": "^7.5",
+    "guzzlehttp/guzzle": "^7.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "BitMart\\": "src\\BitMart"
+    }
+  }
+}
