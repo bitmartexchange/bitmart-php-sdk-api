@@ -233,7 +233,7 @@ class APISpot
     }
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/cancel_order
+     * url: POST https://api-cloud.bitmart.com/spot/v2/cancel_order
      * Cancel an outstanding order
      * @param $symbol: Trading pair (e.g. BTC_USDT)
      * @param $orderId: Order id
