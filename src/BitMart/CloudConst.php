@@ -17,7 +17,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'BitMart-PHP-SDK/1.0.0';
+    const VERSION = 'BitMart-PHP-SDK/1.0.1';
 
     const GET = "GET";
     const POST = "POST";
@@ -53,7 +53,7 @@ class CloudConst
     const API_SPOT_SYMBOLS_TRADES_URL = '/spot/v1/symbols/trades';
     const API_SPOT_WALLET_URL = '/spot/v1/wallet';
     const API_SPOT_SUBMIT_ORDER_URL = '/spot/v1/submit_order';
-    const API_SPOT_CANCEL_ORDER_URL = '/spot/v1/cancel_order';
+    const API_SPOT_CANCEL_ORDER_URL = '/spot/v2/cancel_order';
     const API_SPOT_CANCEL_ORDERS_URL = '/spot/v1/cancel_orders';
     const API_SPOT_ORDER_DETAIL_URL = '/spot/v1/order_detail';
     const API_SPOT_ORDERS_URL = '/spot/v1/orders';
