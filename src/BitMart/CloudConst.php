@@ -6,7 +6,8 @@ class CloudConst
 {
 
     # domain
-    const API_URL = 'https://api-cloud.bitmart.com';
+    const API_URL_PRO = 'https://api-cloud.bitmart.com';
+    const API_URL_TEST = 'http://api-cloud.bitmartdev.com';
 
     # http header
     const CONTENT_TYPE = 'Content-Type';

@@ -11,10 +11,13 @@ use GuzzleHttp\RequestOptions;
 class CloudClient
 {
     protected $cloudConfig;
+    protected $client;
+
 
     public function __construct(CloudConfig $cloudConfig)
     {
         $this->cloudConfig = $cloudConfig;
+        $this->client = new Client();
     }
 
     public  function request($requestPath, $method, $params, $auth = Auth::NONE)
@@ -54,9 +57,7 @@ class CloudClient
             }
 
 
-
-            $client = new Client();
-            $response = $client->request($method, $url, [
+            $response = $this->client->request($method, $url, [
                 RequestOptions::TIMEOUT => $this->cloudConfig->timeoutSecond,
                 RequestOptions::HEADERS => $headers,
                 RequestOptions::BODY => $body,

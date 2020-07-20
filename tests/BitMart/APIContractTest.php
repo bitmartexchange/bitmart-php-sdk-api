@@ -11,7 +11,7 @@ class APIContractTest extends TestCase
     protected function setUp()
     {
         $this->APIContract = new APIContract(new CloudConfig(
-            "http://api-cloud.bitmartdev.com",
+            CloudConst::API_URL_TEST,
             "80618e45710812162b04892c7ee5ead4a3cc3e56",
             "6c6c98544461bbe71db2bca4c6d7fd0021e0ba9efc215f9c6ad41852df9d9df9",
             "test001"

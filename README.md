@@ -53,7 +53,7 @@ class APISpotClient
     protected function __construct()
     {
         $this->APISpot = new APISpot(new CloudConfig(
-            "https://api-cloud.bitmart.com",
+            "https://api-cloud.bitmart.com", // Ues Https Url
             "Your Access Key",
             "Your Secret Key",
             "Your Memo"
@@ -77,7 +77,7 @@ Release Notes
 
 ** 2020-07-16 
 - Interface Spot API `Cancel Order` update to v2 version that is `POST https://api-cloud.bitmart.com/spot/v2/cancel_order`
-- UserAgent set "BitMart-Java-SDK/1.0.1"
+- UserAgent set "BitMart-PHP-SDK/1.0.1"
              
              
 License
