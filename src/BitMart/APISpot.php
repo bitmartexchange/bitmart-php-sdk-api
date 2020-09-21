@@ -113,13 +113,16 @@ class APISpot
      * @param $precision: Price precision, the range is defined in trading pair details
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getSymbolBook($symbol, $precision)
+    public function getSymbolBook($symbol, $precision, $size)
     {
         $params = [
             "symbol" => $symbol,
         ];
         if ($precision) {
             $params["precision"] = $precision;
+        }
+        if ($size) {
+            $params["size"] = $size;
         }
 
         return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_BOOK_URL, CloudConst::GET, $params, Auth::NONE);

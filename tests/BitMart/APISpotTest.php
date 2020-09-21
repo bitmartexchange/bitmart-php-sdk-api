@@ -66,7 +66,8 @@ class APISpotTest extends TestCase
     {
         $this->assertEquals(1000, $this->APISpot->getSymbolBook(
             'BTC_USDT',
-            null // Or 6,7,8
+            null, // Or 6,7,8
+            10
         )['response']->code);
     }
 
