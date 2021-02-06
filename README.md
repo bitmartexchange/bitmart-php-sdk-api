@@ -17,7 +17,7 @@ Feature
 - Efficiency, higher speeds, and lower latencies
 - Priority in development and maintenance
 - Dedicated and responsive technical support
-
+- Provide webSocket apis calls
 
 Installation
 =========================
@@ -38,6 +38,9 @@ Usage
 * An example of a spot trade API
 * Replace it with your own API KEY
 * Run
+
+
+#### API Example
 ```php
 <?php
 
@@ -53,7 +56,7 @@ class APISpotClient
     protected function __construct()
     {
         $this->APISpot = new APISpot(new CloudConfig(
-            "https://api-cloud.bitmart.com", // Ues Https Url
+            CloudConst::WS_URL_PRO, // Use Https Url: "https://api-cloud.bitmart.com"
             "Your Access Key",
             "Your Secret Key",
             "Your Memo"
@@ -70,6 +73,34 @@ class APISpotClient
     }
 
 }
+```
+
+#### WebSocket Example
+```php
+// Cli Run: php tests/BitMart/CloudWebsocketTest.php start
+$cloudWebsocket = new CloudWebsocket(new CloudConfig(
+     CloudConst::WS_URL_PRO, // Use WebSocket Url: "ws://ws-manager-compress.bitmart.com?protocol=1.1"
+     "Your Access Key",
+     "Your Secret Key",
+     "Your Memo"
+));
+
+// Subscribe Public And Private Channels
+$cloudWebsocket->subscribeWithLogin(
+    [
+        'op' => "subscribe",
+        'args' => [
+            // Public Channel
+            CloudUtil::createChannelParam("spot/ticker", "BTC_USDT"),
+
+            // Private Channel
+            CloudUtil::createChannelParam("spot/user/order", "BTC_USDT")
+        ]
+    ],
+    function ($data) {
+        print_r($data);
+    }
+);
 ```
 
 Release Notes

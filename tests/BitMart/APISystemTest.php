@@ -11,7 +11,7 @@ class APISystemTest extends TestCase
     protected function setUp()
     {
         $this->APISystem = new APISystem(new CloudConfig(
-            CloudConst::API_URL_TEST
+            CloudConst::API_URL_PRO
         ));
     }
 
