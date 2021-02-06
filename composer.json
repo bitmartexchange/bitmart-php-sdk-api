@@ -2,7 +2,8 @@
   "require": {
     "phpunit/phpunit": "^7.5",
     "guzzlehttp/guzzle": "^7.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "workerman/workerman": "^3.5.31"
   },
   "autoload": {
     "psr-4": {
