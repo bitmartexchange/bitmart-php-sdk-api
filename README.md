@@ -90,11 +90,11 @@ $cloudWebsocket->subscribeWithLogin(
     [
         'op' => "subscribe",
         'args' => [
-            // Public Channel
-            CloudUtil::createChannelParam("spot/ticker", "BTC_USDT"),
+             // Public Channel
+            "spot/ticker:BTC_USDT",
 
             // Private Channel
-            CloudUtil::createChannelParam("spot/user/order", "BTC_USDT")
+            "spot/user/order:BTC_USDT",
         ]
     ],
     function ($data) {
