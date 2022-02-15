@@ -101,13 +101,12 @@ class APIAccount
      * @param $limit: Number of returns per page (value range 1-50)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getCurrencyDepositWithdrawHistory($currency, $operationType, $offset, $limit)
+    public function getCurrencyDepositWithdrawHistory($currency, $operationType, $N)
     {
         $params = [
             'currency' => $currency,
             'operation_type' => $operationType,
-            'offset' => $offset,
-            'limit' => $limit,
+            'N' => $N,
         ];
         return self::$cloudClient->request(CloudConst::API_ACCOUNT_DEPOSIT_WITHDRAW_HISTORY_URL, CloudConst::GET, $params, Auth::KEYED);
     }
@@ -120,12 +119,11 @@ class APIAccount
      * @param $limit: Number of returns per page (value range 1-50)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getDepositWithdrawHistory($operationType, $offset, $limit)
+    public function getDepositWithdrawHistory($operationType, $N)
     {
         $params = [
             'operation_type' => $operationType,
-            'offset' => $offset,
-            'limit' => $limit,
+            'N' => $N,
         ];
         return self::$cloudClient->request(CloudConst::API_ACCOUNT_DEPOSIT_WITHDRAW_HISTORY_URL, CloudConst::GET, $params, Auth::KEYED);
     }

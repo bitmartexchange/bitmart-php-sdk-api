@@ -36,7 +36,6 @@ class APISpotTest extends TestCase
     }
 
 
-
     public function testGetTicker()
     {
         $this->assertEquals(1000, $this->APISpot->getTicker()['response']->code);
@@ -87,43 +86,43 @@ class APISpotTest extends TestCase
     }
 
 
-
     // ------------ Trading API
 
-    public function testPostSubmitOrderLimitBuy()
+    public function testPostSubmitOrder()
     {
-        $this->assertEquals(1000, $this->APISpot->postSubmitOrderLimitBuy(
+        $this->assertEquals(1000, $this->APISpot->postSubmitOrder(
             'BTC_USDT',
-            '0.01',
-            '9200'
+            '0.1',
+            '8800',
+            'buy',
+            'limit',
+            ''
         )['response']->code);
     }
 
-    public function testPostSubmitOrderLimitSell()
+    public function testPostSubmitBatchOrder()
     {
-        $this->assertEquals(1000, $this->APISpot->postSubmitOrderLimitSell(
+        $orderParam = array();
+
+        $orderParam[] = new OrderParam(
             'BTC_USDT',
-            '0.01',
-            '9200'
-        )['response']->code);
-    }
+            'buy',
+            'limit',
+            '0.1',
+            '8800',
+            ''
+        );
 
-
-    public function testPostSubmitOrderMarketBuy()
-    {
-        $this->assertEquals(1000, $this->APISpot->postSubmitOrderMarketBuy(
+        $orderParam[] = new OrderParam(
             'BTC_USDT',
-            '10'
-        )['response']->code);
-    }
+            'sell',
+            'limit',
+            '0.1',
+            '8800',
+            ''
+        );
 
-
-    public function testPostSubmitOrderMarketSell()
-    {
-        $this->assertEquals(1000, $this->APISpot->postSubmitOrderMarketSell(
-            'BTC_USDT',
-            '0.01'
-        )['response']->code);
+        $this->assertEquals(1000, $this->APISpot->postSubmitBatchOrder($orderParam)['response']->code);
     }
 
     public function testPostCancelOrder()
@@ -155,8 +154,7 @@ class APISpotTest extends TestCase
         $this->assertEquals(1000, $this->APISpot->getUserOrder(
             'BTC_USDT',
             '1',
-            1,
-            10
+            100
         )['response']->code);
     }
 
@@ -176,7 +174,6 @@ class APISpotTest extends TestCase
             2147622493
         )['response']->code);
     }
-
 
 
 }

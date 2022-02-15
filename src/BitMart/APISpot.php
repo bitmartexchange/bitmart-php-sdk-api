@@ -164,75 +164,30 @@ class APISpot
      * @param $symbol: Trading pair (e.g. BTC_USDT)
      * @param $size: Order size
      * @param $price: Price
+     * @param $side: buy or sell
+     * @param $type: limit/market/limit_maker/ioc
+     * @param $notional: Quantity bought, required when buying at market price
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postSubmitOrderLimitBuy($symbol, $size, $price)
+    public function postSubmitOrder($symbol, $size, $price, $side, $type, $notional)
     {
         $params = [
             "symbol" => $symbol,
-            "side" => "buy",
-            "type" => "limit",
+            "side" => $side,
+            "type" => $type,
             "size" => $size,
             "price" => $price,
-        ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
-    }
-
-    /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/submit_order
-     * Place order
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $size: Order size
-     * @param $price: Price
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     */
-    public function postSubmitOrderLimitSell($symbol, $size, $price)
-    {
-        $params = [
-            "symbol" => $symbol,
-            "side" => "sell",
-            "type" => "limit",
-            "size" => $size,
-            "price" => $price,
-        ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
-    }
-
-
-    /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/submit_order
-     * Place order
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $notional: Quantity bought, required when buying at market price notional
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     */
-    public function postSubmitOrderMarketBuy($symbol, $notional)
-    {
-        $params = [
-            "symbol" => $symbol,
-            "side" => "buy",
-            "type" => "market",
             "notional" => $notional,
         ];
         return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
-    /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/submit_order
-     * Place order
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $size: Quantity sold, required when selling at market price size
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     */
-    public function postSubmitOrderMarketSell($symbol, $size)
+    public function postSubmitBatchOrder($orderParams)
     {
         $params = [
-            "symbol" => $symbol,
-            "side" => "sell",
-            "type" => "market",
-            "size" => $size,
+            "orderParams" => $orderParams
         ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_BATCH_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
@@ -303,13 +258,12 @@ class APISpot
      * @param $limit: Items returned per page (value range 1-100)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getUserOrder($symbol, $status, $offset, $limit)
+    public function getUserOrder($symbol, $status, $N)
     {
         $params = [
             "symbol" => $symbol,
             "status" => $status,
-            "offset" => $offset,
-            "limit" => $limit,
+            "N" => $N,
         ];
         return self::$cloudClient->request(CloudConst::API_SPOT_ORDERS_URL, CloudConst::GET, $params, Auth::KEYED);
     }
