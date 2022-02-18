@@ -29,13 +29,13 @@ class APIAccount
     /**
      * url: GET https://api-cloud.bitmart.com/account/v1/wallet
      * Gets Account Balance
-     * @param $accountType: Account Type 1=spot 2=contract
+     * @param $currency: Token symbol, e.g., 'BTC'
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getWallet($accountType)
+    public function getWallet($currency)
     {
         $params = [
-            'account_type' => $accountType
+            'currency' => $currency
         ];
         return self::$cloudClient->request(CloudConst::API_ACCOUNT_WALLET_URL, CloudConst::GET, $params, Auth::KEYED);
     }
@@ -93,12 +93,11 @@ class APIAccount
     }
 
     /**
-     * url: GET https://api-cloud.bitmart.com/account/v1/deposit-withdraw/history
+     * url: GET https://api-cloud.bitmart.com/account/v2/deposit-withdraw/history
      * Search for all existed withdraws and deposits and return their latest status.
      * @param $currency: Token symbol, e.g., 'BTC'
      * @param $operationType: Type deposit=deposit; withdraw=withdraw
-     * @param $offset: The current page starts at 1
-     * @param $limit: Number of returns per page (value range 1-50)
+     * @param $N: Recent N records (value range 1-100)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getCurrencyDepositWithdrawHistory($currency, $operationType, $N)
@@ -112,11 +111,10 @@ class APIAccount
     }
 
     /**
-     * url: GET https://api-cloud.bitmart.com/account/v1/deposit-withdraw/history
+     * url: GET https://api-cloud.bitmart.com/account/v2/deposit-withdraw/history
      * Search for all existed withdraws and deposits and return their latest status.
      * @param $operationType: Type deposit=deposit; withdraw=withdraw
-     * @param $offset: The current page starts at 1
-     * @param $limit: Number of returns per page (value range 1-50)
+     * @param $N: Recent N records (value range 1-100)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getDepositWithdrawHistory($operationType, $N)

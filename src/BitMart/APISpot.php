@@ -6,7 +6,7 @@ namespace BitMart;
 
 class APISpot
 {
-    static $cloudClient ;
+    static $cloudClient;
 
     public function __construct(CloudConfig $cloudConfig)
     {
@@ -63,7 +63,7 @@ class APISpot
      * url: GET https://api-cloud.bitmart.com/spot/v1/ticker
      * Ticker is an overview of the market status of a trading pair,
      *      including the latest trade price, top bid and ask prices and 24-hour trading volume
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getSymbolTicker($symbol)
@@ -89,10 +89,10 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/kline
      * Get k-line data within a specified time range of a specified trading pair
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $from: Start timestamp (in seconds, UTC+0 TimeZome)
-     * @param $to: End timestamp (in seconds, UTC+0 TimeZome)
-     * @param $step: k-line step Steps (in minutes, default 1 minute)
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $from : Start timestamp (in seconds, UTC+0 TimeZome)
+     * @param $to : End timestamp (in seconds, UTC+0 TimeZome)
+     * @param $step : k-line step Steps (in minutes, default 1 minute)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getSymbolKline($symbol, $from, $to, $step = 1)
@@ -109,8 +109,9 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/book
      * Get full depth of trading pairs.
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $precision: Price precision, the range is defined in trading pair details
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $precision : Price precision, the range is defined in trading pair details
+     * @param $size : Number of results per request. The value can be transmitted [1-200], there are altogether [2-400] buying and selling depths
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getSymbolBook($symbol, $precision, $size)
@@ -132,7 +133,7 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/trades
      * Get the latest trade records of the specified trading pair
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getSymbolTrades($symbol)
@@ -161,12 +162,12 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v1/submit_order
      * Place order
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $size: Order size
-     * @param $price: Price
-     * @param $side: buy or sell
-     * @param $type: limit/market/limit_maker/ioc
-     * @param $notional: Quantity bought, required when buying at market price
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $size : Order size
+     * @param $price : Price
+     * @param $side : buy or sell
+     * @param $type : limit/market/limit_maker/ioc
+     * @param $notional : Quantity bought, required when buying at market price
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postSubmitOrder($symbol, $size, $price, $side, $type, $notional)
@@ -182,6 +183,12 @@ class APISpot
         return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v1/batch_orders
+     * Batch order
+     * @param $orderParams : Order parameters, the number of transactions cannot exceed 10
+     * @return array
+     */
     public function postSubmitBatchOrder($orderParams)
     {
         $params = [
@@ -193,8 +200,8 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v2/cancel_order
      * Cancel an outstanding order
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $orderId: Order id
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $orderId : Order id
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postCancelOrder($symbol, $orderId)
@@ -209,8 +216,8 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v1/cancel_orders
      * Cancel all outstanding orders in the specified side for a trading pair
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $side: buy or sell
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $side : buy or sell
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postCancelAllOrder($symbol, $side)
@@ -226,8 +233,8 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/order_detail
      * Get order detail
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $orderId: Order id
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $orderId : Order id
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getOrderDetail($symbol, $orderId)
@@ -240,10 +247,10 @@ class APISpot
     }
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/orders
+     * url: GET https://api-cloud.bitmart.com/spot/v2/orders
      * Get a list of user orders
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $status: Status
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $status : Status
      *                  1=Order failure
      *                  2=Order success
      *                  3=Freeze failure
@@ -254,8 +261,7 @@ class APISpot
      *                  8=Canceled
      *                  9=Outstanding (4 and 5)
      *                  10= 6 and 8
-     * @param $offset: Current page, starts from 1
-     * @param $limit: Items returned per page (value range 1-100)
+     * @param $N : Recent N records (value range 1-100)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getUserOrder($symbol, $status, $N)
@@ -271,9 +277,9 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/trades
      * Get user trade history
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $offset: Current page, starts from 1
-     * @param $limit: Records returned per page (value range 1-100)
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $offset : Current page, starts from 1
+     * @param $limit : Records returned per page (value range 1-100)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getUserTrade($symbol, $offset, $limit)
@@ -289,8 +295,8 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/trades
      * Get user trade history
-     * @param $symbol: Trading pair (e.g. BTC_USDT)
-     * @param $orderId: Order id
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
+     * @param $orderId : Order id
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getUserOrderTrade($symbol, $orderId)

@@ -25,7 +25,7 @@ class APIAccountTest extends TestCase
 
     public function testGetWallet()
     {
-        $this->assertEquals(1000, $this->APIAccount->getWallet("1")['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getWallet("BTC")['response']->code);
     }
 
     public function testGetDepositAddress()

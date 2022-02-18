@@ -19,7 +19,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'BitMart-PHP-SDK/1.0.1';
+    const VERSION = 'BitMart-PHP-SDK/1.0.3';
 
     const GET = "GET";
     const POST = "POST";
