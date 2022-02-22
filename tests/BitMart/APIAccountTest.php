@@ -25,7 +25,7 @@ class APIAccountTest extends TestCase
 
     public function testGetWallet()
     {
-        $this->assertEquals(1000, $this->APIAccount->getWallet("1")['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getWallet("BTC")['response']->code);
     }
 
     public function testGetDepositAddress()
@@ -51,13 +51,13 @@ class APIAccountTest extends TestCase
 
     public function testGetCurrencyDepositWithdrawHistory()
     {
-        $this->assertEquals(1000, $this->APIAccount->getCurrencyDepositWithdrawHistory("USDT-ERC20", "withdraw", 1, 10)['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getCurrencyDepositWithdrawHistory("USDT-ERC20", "withdraw", 100)['response']->code);
     }
 
 
     public function testGetDepositWithdrawHistory()
     {
-        $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory( "withdraw", 1, 10)['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory( "withdraw", 100)['response']->code);
     }
 
     public function testGetDepositWithdrawDetail()

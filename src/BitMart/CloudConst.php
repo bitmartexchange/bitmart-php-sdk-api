@@ -7,7 +7,8 @@ class CloudConst
 
     # domain
     const API_URL_PRO = 'https://api-cloud.bitmart.com';
-    const WS_URL_PRO = 'ws://ws-manager-compress.bitmart.com?protocol=1.1';
+    const WS_URL_PRO = 'ws://ws-manager-compress.bitmart.com/api?protocol=1.1';
+    const WS_URL_PRIVATE_PRO = 'wss://ws-manager-compress.bitmart.com/user?protocol=1.1';
 
     # http header
     const CONTENT_TYPE = 'Content-Type';
@@ -18,7 +19,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'BitMart-PHP-SDK/1.0.1';
+    const VERSION = 'BitMart-PHP-SDK/1.0.3';
 
     const GET = "GET";
     const POST = "POST";
@@ -40,7 +41,7 @@ class CloudConst
     const API_ACCOUNT_DEPOSIT_ADDRESS_URL = '/account/v1/deposit/address';
     const API_ACCOUNT_WITHDRAW_CHARGE_URL = '/account/v1/withdraw/charge';
     const API_ACCOUNT_WITHDRAW_APPLY_URL = '/account/v1/withdraw/apply';
-    const API_ACCOUNT_DEPOSIT_WITHDRAW_HISTORY_URL = '/account/v1/deposit-withdraw/history';
+    const API_ACCOUNT_DEPOSIT_WITHDRAW_HISTORY_URL = '/account/v2/deposit-withdraw/history';
     const API_ACCOUNT_DEPOSIT_WITHDRAW_DETAIL = '/account/v1/deposit-withdraw/detail';
 
     # spot url
@@ -54,35 +55,15 @@ class CloudConst
     const API_SPOT_SYMBOLS_TRADES_URL = '/spot/v1/symbols/trades';
     const API_SPOT_WALLET_URL = '/spot/v1/wallet';
     const API_SPOT_SUBMIT_ORDER_URL = '/spot/v1/submit_order';
+    const API_SPOT_SUBMIT_BATCH_ORDER_URL = '/spot/v1/batch_orders';
     const API_SPOT_CANCEL_ORDER_URL = '/spot/v2/cancel_order';
     const API_SPOT_CANCEL_ORDERS_URL = '/spot/v1/cancel_orders';
     const API_SPOT_ORDER_DETAIL_URL = '/spot/v1/order_detail';
-    const API_SPOT_ORDERS_URL = '/spot/v1/orders';
+    const API_SPOT_ORDERS_URL = '/spot/v2/orders';
     const API_SPOT_TRADES_URL = '/spot/v1/trades';
 
     # contract url
-    const API_CONTRACT_CONTRACTS_URL = '/contract/v1/ifcontract/contracts';
-    const API_CONTRACT_PNLS_URL = '/contract/v1/ifcontract/pnls';
-    const API_CONTRACT_INDEXES_URL = '/contract/v1/ifcontract/indexes';
-    const API_CONTRACT_TICKERS_URL = '/contract/v1/ifcontract/tickers';
-    const API_CONTRACT_QUOTE_URL = '/contract/v1/ifcontract/quote';
-    const API_CONTRACT_INDEX_QUOTE_URL = '/contract/v1/ifcontract/indexquote';
-    const API_CONTRACT_TRADES_URL = '/contract/v1/ifcontract/trades';
-    const API_CONTRACT_DEPTH_URL = '/contract/v1/ifcontract/depth';
-    const API_CONTRACT_FUNDING_RATE_URL = '/contract/v1/ifcontract/fundingrate';
-    const API_CONTRACT_USER_ORDERS_URL = '/contract/v1/ifcontract/userOrders';
-    const API_CONTRACT_USER_ORDER_INFO_URL = '/contract/v1/ifcontract/userOrderInfo';
-    const API_CONTRACT_USER_SUBMIT_ORDER_URL = '/contract/v1/ifcontract/submitOrder';
-    const API_CONTRACT_USER_BATCH_ORDERS_URL = '/contract/v1/ifcontract/batchOrders';
-    const API_CONTRACT_CANCEL_ORDERS_URL = '/contract/v1/ifcontract/cancelOrders';
-    const API_CONTRACT_USER_TRADES_URL = '/contract/v1/ifcontract/userTrades';
-    const API_CONTRACT_ORDER_TRADES_URL = '/contract/v1/ifcontract/orderTrades';
-    const API_CONTRACT_ACCOUNTS_URL = '/contract/v1/ifcontract/accounts';
-    const API_CONTRACT_USER_POSITIONS_URL = '/contract/v1/ifcontract/userPositions';
-    const API_CONTRACT_USER_LIQ_RECORDS_URL = '/contract/v1/ifcontract/userLiqRecords';
-    const API_CONTRACT_POSITION_FEE_URL = '/contract/v1/ifcontract/positionFee';
-    const API_CONTRACT_MARGIN_OPER_URL = '/contract/v1/ifcontract/marginOper';
-
+    const API_CONTRACT_TICKERS_URL = '/contract/v1/tickers';
 
 }
 
