@@ -1,12 +1,15 @@
-[![Logo](logo.png)](https://bitmart.com)
+[![Logo](https://img.bitmart.com/static-file/public/sdk/sdk_logo.png)](https://bitmart.com)
+
+
 
 BitMart-PHP-SDK-API
 =========================
-<p align="left">
-    <a href='#'><img src='https://travis-ci.org/meolu/walle-web.svg?branch=master' alt="Build Status"></a>  
-</p>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-PHP client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
+
+
+[BitMart Exchange official](https://bitmart.com) PHP client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
+
 
 
 
@@ -18,20 +21,24 @@ Feature
 - Priority in development and maintenance
 - Dedicated and responsive technical support
 - Provide webSocket apis calls
+- Supported APIs:
+  - `/spot/*`
+  - `/contract/*`
+  - `/account/*`
+  - Spot WebSocket Market Stream
+  - Spot User Data Stream
+  - Contract User Data Stream
+  - Contract WebSocket Market Stream
+- Test cases and examples
+
+
 
 Installation
 =========================
 
-* 1.Php 5.5+ support
-
-* 2.Clone
-```git
-git clone https://github.com/bitmartexchange/bitmart-php-sdk-api.git
-composer install
+```php
+composer require bitmartexchange/bitmart-php-sdk-api
 ```
-
-* 3.Run Test
-[![Test](test.png)](#)
 
 Usage
 =========================
@@ -39,145 +46,275 @@ Usage
 * Replace it with your own API KEY
 * Run
 
+#### Spot Public API Example
+```php
+<?php
+use BitMart\Lib\CloudConfig;
+use BitMart\Spot\APISpot;
 
-#### API Example
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$APISpot = new APISpot(new CloudConfig([
+    'timeoutSecond' => 5,
+]));
+
+// Get a list of all cryptocurrencies on the platform
+$response = $APISpot->getCurrencies()['response'];
+
+// Querying aggregated tickers of a particular trading pair
+$response = $APISpot->getTickerDetail("BTC_USDT")['response'];
+
+```
+
+
+
+
+### More Examples:
+
+#### Spot / Margin Trading Endpoints
+
+<details>
+
+<summary>New Order(v2) (SIGNED)</summary>
+
+```php
+<?php
+use BitMart\Lib\CloudConfig;
+use BitMart\Param\SpotOrderParam;
+use BitMart\Spot\APISpot;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$APISpot = new APISpot(new CloudConfig([
+    'accessKey' => "<your_api_key>",
+    'secretKey' => "<your_secret_key>",
+    'memo' => "<your_memo>",
+]));
+
+$response = $APISpot->postSubmitOrder(new SpotOrderParam([
+    'symbol' => 'BTC_USDT',
+    'side' => 'buy',
+    'type' => 'limit',
+    'size' => '0.1',
+    'price' => '8800',
+    'clientOrderId' => 'test20000000001'
+]))['response'];
+
+echo json_encode($response);
+
+```
+
+</details>
+
+
+#### Spot WebSocket Subscribe Channels
+
+<details>
+
+<summary>Subscribe Private Channel: 【Private】Order Progress </summary>
+
 ```php
 <?php
 
-namespace Tests;
+use BitMart\Websocket\Spot\WsSpotPrv;
 
-use BitMart\APISpot;
-use BitMart\CloudConfig;
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
-class APISpotClient
-{
-    protected $APISpot;
-
-    protected function __construct()
-    {
-        $this->APISpot = new APISpot(new CloudConfig(
-            CloudConst::WS_URL_PRO, // Use Https Url: "https://api-cloud.bitmart.com"
-            "Your Access Key",
-            "Your Secret Key",
-            "Your Memo"
-        ));
-    }
-
-    public function testPostSubmitOrderLimitBuy()
-    {
-         $this->APISpot->postSubmitOrderLimitBuy(
-            'BTC_USDT',
-            '0.01',
-            '9200'
-        )['response']->code;
-    }
-
-}
-```
-
-#### WebSocket Example
-```php
-// Cli Run: php tests/BitMart/CloudWebsocketTest.php start
-$cloudWebsocket = new CloudWebsocket(new CloudConfig(
-     CloudConst::WS_URL_PRO, // Use WebSocket Url: "wss://ws-manager-compress.bitmart.com/api?protocol=1.1"
-     "",
-     "",
-     ""
-));
-
-$cloudPrivateWebsocket = new CloudWebsocket(new CloudConfig(
-     CloudConst::WS_URL_PRIVATE_PRO, // Use WebSocket Url: "wss://ws-manager-compress.bitmart.com/user?protocol=1.1"
-     "Your Access Key",
-     "Your Secret Key",
-     "Your Memo"
-));
-
-// Subscribe Public Channels
-$cloudWebsocket->subscribeWithoutLogin(
-    [
-        'op' => "subscribe",
-        'args' => [
-             // Public Channel
-            "spot/ticker:BTC_USDT",
-        ]
-    ],
-    function ($data) {
-        echo "----------------\n";
-        print_r($data);
-        echo "----------------\n";
-    }
-);
+$ws = new WsSpotPrv([
+    'accessKey' => "<your_api_key>",
+    'secretKey' => "<your_secret_key>",
+    'memo' => "<your_memo>",
+    'xdebug' => false
+]);
 
 // Subscribe Private Channels
-$cloudPrivateWebsocket->subscribeWithLogin(
+$ws->subscribe(
     [
         'op' => "subscribe",
         'args' => [
-            // Private Channel
+            // Only Support Private Channel
             "spot/user/order:BTC_USDT",
         ]
     ],
     function ($data) {
-        echo "----------------\n";
+        echo "-------------------------" . PHP_EOL;
         print_r($data);
-        echo "----------------\n";
     }
 );
+
+```
+</details>
+
+
+<details>
+
+<summary>Subscribe Public Channel: 【Public】Ticker Channel </summary>
+
+```php
+<?php
+use BitMart\Websocket\Spot\WsSpotPub;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$ws = new WsSpotPub();
+
+// Subscribe Public Channels
+$ws->subscribe(
+    [
+        'op' => "subscribe",
+        'args' => [
+            // Only Support Public Channel
+            "spot/ticker:BTC_USDT",
+        ]
+    ],
+    function ($data) {
+        echo "-------------------------" . PHP_EOL;
+        echo print_r($data);
+    }
+);
+
+```
+</details>
+
+
+#### Futures Market Data Endpoints
+
+<details>
+
+<summary>Get Contract Details</summary>
+
+```php
+<?php
+
+use BitMart\Futures\APIContractMarket;
+use BitMart\Lib\CloudConfig;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$APIContract = new APIContractMarket(new CloudConfig([
+    'timeoutSecond' => 5,
+]));
+
+$response = $APIContract->getContractDetails("BTCUSDT")['response'];
+
+echo json_encode($response);
+
 ```
 
-Release Notes
-=========================
-
-###### 2020-07-16
-- Interface Spot API `Cancel Order` update to v2 version that is `POST https://api-cloud.bitmart.com/spot/v2/cancel_order`
-- UserAgent set "BitMart-PHP-SDK/1.0.1"
+</details>
 
 
-###### 2020-09-21
-- Interface Spot API `/spot/v1/symbols/book` add `size` parameter, which represents the number of depths
+#### Futures Trading Endpoints
+
+<details>
+
+<summary>Submit Order (SIGNED)</summary>
+
+```php
+<?php
+
+use BitMart\Futures\APIContractTrading;
+use BitMart\Lib\CloudConfig;
+use BitMart\Param\ContractOrderParam;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$APIContract = new APIContractTrading(new CloudConfig([
+    'accessKey' => "<your_api_key>",
+    'secretKey' => "<your_secret_key>",
+    'memo' => "<your_memo>",
+]));
+
+$response = $APIContract->submitOrder(new ContractOrderParam([
+    'symbol' => "BTCUSDT",
+    'clientOrderId' => "test3000000001",
+    'type' => "limit",
+    'side' => 1,
+    'leverage' => "1",
+    'openType' => "isolated",
+    'mode' => 1,
+    'price' => "10",
+    'size' => 1,
+]))['response'];
+
+echo json_encode($response);
+```
+
+</details>
+
+#### Futures WebSocket Subscribe Channels
+
+<details>
+
+<summary>Subscribe Private Channel: 【Private】Assets Channel </summary>
+
+```php
+<?php
+
+use BitMart\Websocket\Futures\WsContractPrv;
+
+include_once __DIR__ . '/../../../vendor/autoload.php';
 
 
-###### 2021-01-19
-- New endpoints for Spot WebSocket
-    - Public - ticket channels
-    - Public - K channel
-    - Public - trading channels
-    - Public - depth channels
-    - Login
-    - User - Trading Channel
+$ws = new WsContractPrv([
+    'accessKey' => "<your_api_key>",
+    'secretKey' => "<your_secret_key>",
+    'memo' => "<your_memo>",
+]);
 
 
-###### 2021-11-06
-- Update endpoints for Spot WebSocket
-    - Public-Depth Channel:
-        - spot/depth50     50 Level Depth Channel
-        - spot/depth100    100 Level Depth Channel
-    - User-Trade Channel:
-        - Eligible pushes add new orders successfully
+// Subscribe Public Channels
+$ws->subscribe(
+    [
+        'action' => "subscribe",
+        'args' => [
+            "futures/asset:USDT"
+        ]
+    ],
+    function ($data) {
+        echo "-------------------------" . PHP_EOL;
+        echo print_r($data);
+    }
+);
+
+```
+</details>
 
 
-###### 2021-11-24
-- New endpoints for Spot
-    - <code>/spot/v2/orders</code>Get User Order History V2
-    - <code>/spot/v1/batch_orders</code>Batch Order
-- Update endpoints for Spot
-    - <code>/spot/v1/symbols/kline</code>Add new field 'quote_volume'
-    - <code>/spot/v1/symbols/trades</code>Add optional parameter N to return the number of items, the default is up to 50 items
-    - <code>/spot/v1/order_detail</code>Add new field 'unfilled_volume'
-    - <code>/spot/v1/submit_order</code>The request parameter type added limit_maker and ioc order types
-- New endpoints for Account
-    - <code>/account/v2/deposit-withdraw/history</code>Get Deposit And Withdraw  History V2
-- Update endpoints for Account
-    - <code>/account/v1/wallet</code>Remove the account_type,Only respond to currency accounts; you can bring currency parameters (optional)
+<details>
+
+<summary>Subscribe Public Channel: 【Public】Ticker Channel </summary>
+
+```php
+<?php
+
+use BitMart\Websocket\Futures\WsContractPub;
 
 
-###### 2022-01-18
-- websocket public channel address<code>wss://ws-manager-compress.bitmart.com?protocol=1.1</code>will be taken down on 2022-02-28 UTC time,The new address is<code>wss://ws-manager-compress.bitmart.com/api?protocol=1.1</code>
+include_once __DIR__ . '/../../../vendor/autoload.php';
+
+$ws = new WsContractPub();
 
 
-###### 2022-01-20
-- Update endpoints for Spot
-    - <code>/spot/v1/symbols/details</code>Add a new respond parameter trade_status, to show the trading status of a trading pair symbol.
-    
-License
-=========================
+// Subscribe Public Channels
+$ws->subscribe(
+    [
+        'action' => "subscribe",
+        'args' => [
+            // Only Support Public Channel
+            "futures/ticker"
+        ]
+    ],
+    function ($data) {
+        echo "-------------------------" . PHP_EOL;
+        echo print_r($data);
+    }
+);
+
+```
+</details>
+
+
+
+## License
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
