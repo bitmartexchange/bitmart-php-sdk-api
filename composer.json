@@ -1,13 +1,39 @@
 {
+  "name": "bitmartexchange/bitmart-php-sdk-api",
+  "description": "PHP client for the BitMart Cloud API.",
+  "homepage": "https://github.com/bitmartexchange/bitmart-php-sdk-api",
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "BitMart",
+      "email": "developer@bitmart.com"
+    }
+  ],
   "require": {
-    "phpunit/phpunit": "^7.5",
-    "guzzlehttp/guzzle": "^7.0",
+    "php": ">=7.3.0",
+    "guzzlehttp/guzzle": "^7.5",
+    "ratchet/pawl": "^0.4",
     "ext-json": "*",
-    "workerman/workerman": "^3.5.31"
+    "ext-zlib": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5"
   },
   "autoload": {
     "psr-4": {
       "BitMart\\": "src\\BitMart"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BitMart\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test-coverage": "XDEBUG_MODE=coverage phpunit --coverage-html=build/artifacts/coverage"
   }
+
 }
