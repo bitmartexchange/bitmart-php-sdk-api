@@ -12,7 +12,7 @@ class APISpotTest extends TestCase
 {
     protected $APISpot;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->APISpot = new APISpot(new CloudConfig(
             [
@@ -42,14 +42,14 @@ class APISpotTest extends TestCase
         $this->assertEquals(1000, $this->APISpot->getSymbolDetail()['response']->code);
     }
 
-    public function testGetTicker()
+    public function testGetV3Tickers()
     {
-        $this->assertEquals(1000, $this->APISpot->getTicker()['response']->code);
+        $this->assertEquals(1000, $this->APISpot->getV3Tickers()['response']->code);
     }
 
-    public function testGetSymbolTicker()
+    public function testGetV3Ticker()
     {
-        $this->assertEquals(1000, $this->APISpot->getTickerDetail('BTC_USDT')['response']->code);
+        $this->assertEquals(1000, $this->APISpot->getV3Ticker('BTC_USDT')['response']->code);
     }
 
     public function testGetKlineStep()
@@ -57,28 +57,43 @@ class APISpotTest extends TestCase
         $this->assertEquals(1000, $this->APISpot->getKlineStep()['response']->code);
     }
 
-    public function testGetSymbolKline()
+    public function testGetV3LatestKline()
     {
-        $this->assertEquals(1000, $this->APISpot->getSymbolKline(
+        $before = round(microtime(true));
+        $after = $before - (60*60);
+        $this->assertEquals(1000, $this->APISpot->getV3LatestKline(
             'BTC_USDT',
-            1591789435,
-            1591875835,
-            15
+            $before,
+            $after,
+            15,
+            1
         )['response']->code);
     }
 
-    public function testGetSymbolBook()
+    public function testGetV3HistoryKline()
     {
-        $this->assertEquals(1000, $this->APISpot->getSymbolBook(
+        $before = round(microtime(true));
+        $after = $before - (60*60);
+        $this->assertEquals(1000, $this->APISpot->getV3HistoryKline(
             'BTC_USDT',
-            null, // Or 6,7,8
-            10
+            $before,
+            $after,
+            15,
+            1
         )['response']->code);
     }
 
-    public function testGetSymbolTrades()
+    public function testGetV3Book()
     {
-        $this->assertEquals(1000, $this->APISpot->getSymbolTrades(
+        $this->assertEquals(1000, $this->APISpot->getV3Book(
+            'BTC_USDT',
+            5
+        )['response']->code);
+    }
+
+    public function testGetV3Trades()
+    {
+        $this->assertEquals(1000, $this->APISpot->getV3Trades(
             'BTC_USDT',
             1
         )['response']->code);

@@ -13,7 +13,7 @@ class APIContractMarketTradingTest extends TestCase
 {
     protected $APIContract;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->APIContract = new APIContractTrading(new CloudConfig(
             [
@@ -151,6 +151,15 @@ class APIContractMarketTradingTest extends TestCase
             "1",
             "spot_to_contract",
             5000
+        )['response']->code);
+    }
+
+    public function testSubmitLeverage()
+    {
+        $this->assertEquals(1000, $this->APIContract->submitLeverage(
+            "USDT",
+            "cross",
+            "1",
         )['response']->code);
     }
 

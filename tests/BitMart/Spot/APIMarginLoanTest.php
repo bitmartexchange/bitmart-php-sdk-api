@@ -10,7 +10,7 @@ class APIMarginLoanTest extends TestCase
 {
     protected $APIMarginLoan;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->APIMarginLoan = new APIMarginLoan(new CloudConfig(
             [

@@ -10,7 +10,7 @@ class APIContractMarketTest extends TestCase
 {
     protected $APIContract;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->APIContract = new APIContractMarket(new CloudConfig(
             [

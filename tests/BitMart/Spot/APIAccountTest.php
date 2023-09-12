@@ -10,7 +10,7 @@ class APIAccountTest extends TestCase
 {
     protected $APIAccount;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->APIAccount = new APIAccount(new CloudConfig(
             [
