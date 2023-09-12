@@ -12,7 +12,7 @@ class APISystemTest extends TestCase
 {
     protected $APISystem;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->APISystem = new APISystem(new CloudConfig(
             [

@@ -233,4 +233,28 @@ class APIContractTrading
         return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRANSFER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
+    /**
+     * url: POST https://api-cloud.bitmart.com/contract/private/submit-leverage
+     * Submit Leverage (SIGNED) - Applicable for adjust contract leverage
+     * @param $symbol : Symbol of the contract(like BTCUSDT)
+     * @param $leverage : Order leverage
+     * @param $open_type : Open type, required at close position
+                                -cross
+                                -isolated
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function submitLeverage($symbol, $open_type, $leverage): array
+    {
+        $params = [
+            'symbol' => $symbol,
+            'open_type' => $open_type,
+        ];
+
+        if ($leverage) {
+            $params["leverage"] = $leverage;
+        }
+
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_SUBMIT_LEVERAGE_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
 }

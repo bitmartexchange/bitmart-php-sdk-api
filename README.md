@@ -8,7 +8,7 @@ BitMart-PHP-SDK-API
 
 
 
-[BitMart Exchange official](https://bitmart.com) PHP client for the [BitMart Cloud API](http://developer-pro.bitmart.com).
+[BitMart Exchange official](https://bitmart.com) PHP client for the BitMart Cloud API.
 
 
 
@@ -40,12 +40,13 @@ Installation
 composer require bitmartexchange/bitmart-php-sdk-api
 ```
 
-Usage
+Documentation
 =========================
-* An example of a spot trade API
-* Replace it with your own API KEY
-* Run
+[API Documentation](https://developer-pro.bitmart.com/en/spot/#change-log)
 
+
+Example
+=========================
 #### Spot Public API Example
 ```php
 <?php
@@ -62,7 +63,7 @@ $APISpot = new APISpot(new CloudConfig([
 $response = $APISpot->getCurrencies()['response'];
 
 // Querying aggregated tickers of a particular trading pair
-$response = $APISpot->getTickerDetail("BTC_USDT")['response'];
+$response = $APISpot->getV3Ticker("BTC_USDT")['response'];
 
 ```
 
@@ -315,6 +316,53 @@ $ws->subscribe(
 </details>
 
 
+Extra Options
+=========================
 
-## License
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Authentication
+How to set API KEY?
+
+```php
+$APISpot = new APISpot(new CloudConfig(
+      [
+          'accessKey' => "your_api_key",
+          'secretKey' => "your_secret_key",
+          'memo' => "your_memo",
+      ]
+  ));
+```
+
+### Timeout
+Set HTTP `connection timeout` and `read timeout`.
+
+```php
+$APISpot = new APISpot(new CloudConfig(
+      [
+          'timeoutSecond' => 5
+      ]
+  ));
+```
+
+### Logging
+If you want to `debug` the data requested by the API and the corresponding data returned by the API,
+you can set it like this:
+
+```php
+$APISpot = new APISpot(new CloudConfig(
+      [
+          'xdebug' => true
+      ]
+  ));
+```
+
+### Domain
+How to set API domain name? The domain name parameter is optional,
+the default domain name is `https://api-cloud.bitmart.com`.
+
+```php
+$APISpot = new APISpot(new CloudConfig(
+      [
+          'url' => 'https://api-cloud.bitmart.com'
+      ]
+  ));
+```

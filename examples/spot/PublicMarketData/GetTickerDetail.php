@@ -10,6 +10,6 @@ $APISpot = new APISpot(new CloudConfig([
     'timeoutSecond' => 5,
 ]));
 
-$response = $APISpot->getTickerDetail("BTC_USDT")['response'];
+$response = $APISpot->getV3Ticker("BTC_USDT")['response'];
 
 echo json_encode($response);

@@ -19,7 +19,8 @@ $cloudWebsocket->subscribe(
         'action' => "subscribe",
         'args' => [
             // Only Support Public Channel
-            "futures/ticker"
+            "futures/ticker",
+            "futures/depth20:BTCUSDT"
         ]
     ],
     function ($data) {
