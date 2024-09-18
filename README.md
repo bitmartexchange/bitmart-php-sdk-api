@@ -68,15 +68,7 @@ $response = $APISpot->getV3Ticker("BTC_USDT")['response'];
 ```
 
 
-
-
-### More Examples:
-
 #### Spot / Margin Trading Endpoints
-
-<details>
-
-<summary>New Order(v2) (SIGNED)</summary>
 
 ```php
 <?php
@@ -105,14 +97,13 @@ echo json_encode($response);
 
 ```
 
-</details>
+Please find example/spot/ folder to check for more endpoints.
 
 
-#### Spot WebSocket Subscribe Channels
+---
 
-<details>
+#### Spot WebSocket Subscribe Private Channels
 
-<summary>Subscribe Private Channel: 【Private】Order Progress </summary>
 
 ```php
 <?php
@@ -144,12 +135,10 @@ $ws->subscribe(
 );
 
 ```
-</details>
 
 
-<details>
+#### Spot WebSocket Subscribe Public Channels
 
-<summary>Subscribe Public Channel: 【Public】Ticker Channel </summary>
 
 ```php
 <?php
@@ -175,14 +164,13 @@ $ws->subscribe(
 );
 
 ```
-</details>
 
+Please find example/spot/Websocket/ folder to check for more endpoints.
+
+
+---
 
 #### Futures Market Data Endpoints
-
-<details>
-
-<summary>Get Contract Details</summary>
 
 ```php
 <?php
@@ -202,14 +190,10 @@ echo json_encode($response);
 
 ```
 
-</details>
 
 
 #### Futures Trading Endpoints
 
-<details>
-
-<summary>Submit Order (SIGNED)</summary>
 
 ```php
 <?php
@@ -241,13 +225,13 @@ $response = $APIContract->submitOrder(new ContractOrderParam([
 echo json_encode($response);
 ```
 
-</details>
 
-#### Futures WebSocket Subscribe Channels
+Please find example/futures/ folder to check for more endpoints.
 
-<details>
+---
 
-<summary>Subscribe Private Channel: 【Private】Assets Channel </summary>
+#### Futures WebSocket Subscribe Private Channels
+
 
 ```php
 <?php
@@ -279,12 +263,10 @@ $ws->subscribe(
 );
 
 ```
-</details>
 
 
-<details>
+#### Futures WebSocket Subscribe Public Channels
 
-<summary>Subscribe Public Channel: 【Public】Ticker Channel </summary>
 
 ```php
 <?php
@@ -313,7 +295,9 @@ $ws->subscribe(
 );
 
 ```
-</details>
+
+Please find example/futures/Websocket/ folder to check for more endpoints.
+
 
 
 Extra Options
