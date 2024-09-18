@@ -343,6 +343,7 @@ $APISpot = new APISpot(new CloudConfig(
 How to set API domain name? The domain name parameter is optional,
 the default domain name is `https://api-cloud.bitmart.com`.
 
+
 ```php
 $APISpot = new APISpot(new CloudConfig(
       [
@@ -355,7 +356,6 @@ $APISpot = new APISpot(new CloudConfig(
 ### Custom request headers
 You can add your own request header information here, but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`
 
-
 ```php
 $APISpot = new APISpot(new CloudConfig([
     'customHeaders' => array(
@@ -363,4 +363,36 @@ $APISpot = new APISpot(new CloudConfig([
         "Your-Custom-Header2" => "value2",
     ),
 ]));
+```
+
+
+### Response Metadata
+
+The bitmart API server provides the endpoint rate limit usage in the header of each response.
+This information can be obtained from the headers property.
+`x-bm-ratelimit-remaining` indicates the number of times the current window has been used,
+`x-bm-ratelimit-limit` indicates the maximum number of times the current window can be used,
+and `x-bm-ratelimit-reset` indicates the current window time.
+
+
+##### Example:
+
+```
+x-bm-ratelimit-mode: IP
+x-bm-ratelimit-remaining: 10
+x-bm-ratelimit-limit: 600
+x-bm-ratelimit-reset: 60
+```
+
+This means that this IP can call the endpoint 600 times within 60 seconds, and has called 10 times so far.
+
+
+```php
+$response = $APISpot->getV3Ticker("BTC_USDT");
+
+echo $response['limit']['Remaining'];
+echo $response['limit']['Limit'];
+echo $response['limit']['Reset'];
+echo $response['limit']['Mode'];
+
 ```

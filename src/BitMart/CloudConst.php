@@ -32,6 +32,7 @@ class CloudConst
     const RATE_LIMIT_REMAINING = 'X-BM-RateLimit-Remaining';
     const RATE_LIMIT_LIMIT = 'X-BM-RateLimit-Limit';
     const RATE_LIMIT_RESET = 'X-BM-RateLimit-Reset';
+    const RATE_LIMIT_MODE = 'X-BM-RateLimit-Mode';
 
 
     # system url

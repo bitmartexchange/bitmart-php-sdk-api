@@ -74,6 +74,7 @@ class CloudClient
                 'Remaining' => $response->hasHeader(CloudConst::RATE_LIMIT_REMAINING) ? $response->getHeader(CloudConst::RATE_LIMIT_REMAINING)[0] : 0,
                 'Limit' => $response->hasHeader(CloudConst::RATE_LIMIT_LIMIT) ? $response->getHeader(CloudConst::RATE_LIMIT_LIMIT)[0] : 0,
                 'Reset' => $response->hasHeader(CloudConst::RATE_LIMIT_RESET) ? $response->getHeader(CloudConst::RATE_LIMIT_RESET)[0] : 0,
+                'Mode' => $response->hasHeader(CloudConst::RATE_LIMIT_MODE) ? $response->getHeader(CloudConst::RATE_LIMIT_MODE)[0] : 0,
             ];
 
             $result = [
