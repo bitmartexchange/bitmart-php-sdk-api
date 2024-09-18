@@ -20,7 +20,11 @@ class APISpotTest extends TestCase
                 'secretKey' => "your_secret_key",
                 'memo' => "your_memo",
                 'timeoutSecond' => 5,
-                'xdebug' => true
+                'xdebug' => true,
+                'customHeaders' => array(
+                    "Your-Custom-Header1" => "value1",
+                    "Your-Custom-Header2" => "value2",
+                ),
             ]
         ));
     }

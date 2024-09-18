@@ -34,13 +34,13 @@ class CloudClient
         $body = $method == 'POST' ? json_encode($params, JSON_UNESCAPED_SLASHES) : '';
 
         if ($auth == Auth::NONE) {
-            $headers = CloudUtil::getHeader("", "", "");
+            $headers = CloudUtil::getHeader("", "", "", $this->cloudConfig->customHeaders);
         } else if ($auth == Auth::KEYED) {
-            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, "", "");
+            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, "", "", $this->cloudConfig->customHeaders);
         } else {
             $timestamp = round(microtime(true) * 1000);
             $sign = CloudUtil::signature($timestamp, $body, $this->cloudConfig);
-            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, $sign, $timestamp);
+            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, $sign, $timestamp, $this->cloudConfig->customHeaders);
         }
 
         try {

@@ -9,7 +9,7 @@ use BitMart\CloudConst;
 class CloudUtil
 {
 
-    public static function getHeader($apiKey, $sign, $timestamp): array
+    public static function getHeader($apiKey, $sign, $timestamp, $customHeaders): array
     {
         $headers = array();
 
@@ -26,6 +26,10 @@ class CloudUtil
 
         if ($timestamp) {
             $headers[CloudConst::X_BM_TIMESTAMP] = $timestamp;
+        }
+
+        foreach ($customHeaders as $key => $value) {
+            $headers[$key] = $value;
         }
 
         return $headers;

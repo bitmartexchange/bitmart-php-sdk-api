@@ -14,6 +14,7 @@ class CloudConfig
     public $memo;
     public $timeoutSecond;
     public $xdebug;
+    public $customHeaders;
 
     public function __construct($args = array())
     {
@@ -23,6 +24,7 @@ class CloudConfig
         $this->memo        = $args['memo'] ?? "your_api_memo";
         $this->timeoutSecond          = $args['timeoutSecond'] ?? 5;
         $this->xdebug      = $args['xdebug'] ?? false;
+        $this->customHeaders      = $args['customHeaders'] ?? array();
     }
 
 

@@ -350,3 +350,17 @@ $APISpot = new APISpot(new CloudConfig(
       ]
   ));
 ```
+
+
+### Custom request headers
+You can add your own request header information here, but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`
+
+
+```php
+$APISpot = new APISpot(new CloudConfig([
+    'customHeaders' => array(
+        "Your-Custom-Header1" => "value1",
+        "Your-Custom-Header2" => "value2",
+    ),
+]));
+```

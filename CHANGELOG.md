@@ -14,10 +14,6 @@ Changelog
   - `/spot/v1/symbols/trades`
 #### Improvements
 - Support custom request headers
-- Class Renaming
-  - OrderRequest renamed to GetOrderDetailRequest
-  - OrderHistoryRequest renamed to GetOrderHistoryRequest
-  - PositionRequest renamed to GetPositionRequest
 #### Bug Fixes
 
 ---
