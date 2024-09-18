@@ -6,6 +6,12 @@ Changelog
 - New
 - Updated
 - Removed
+  - `/spot/v2/ticker`
+  - `spot/v1/ticker_detail`
+  - `/spot/v1/steps`
+  - `/spot/v1/symbols/kline`
+  - `/spot/v1/symbols/book`
+  - `/spot/v1/symbols/trades`
 #### Improvements
 - Support custom request headers
 - Class Renaming

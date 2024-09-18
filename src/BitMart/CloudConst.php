@@ -55,14 +55,6 @@ class CloudConst
     const API_SPOT_CURRENCIES_URL = '/spot/v1/currencies';
     const API_SPOT_SYMBOLS_URL = '/spot/v1/symbols';
     const API_SPOT_SYMBOLS_DETAILS_URL = '/spot/v1/symbols/details';
-    const API_SPOT_TICKER_URL = '/spot/v2/ticker';
-
-    const API_SPOT_TICKER_DETAIL_URL = '/spot/v1/ticker_detail';
-    const API_SPOT_STEPS_URL = '/spot/v1/steps';
-    const API_SPOT_SYMBOLS_KLINE_URL = '/spot/v1/symbols/kline';
-    const API_SPOT_SYMBOLS_BOOK_URL = '/spot/v1/symbols/book';
-    const API_SPOT_SYMBOLS_TRADES_URL = '/spot/v1/symbols/trades';
-
     const API_SPOT_V3_TICKERS_URL = '/spot/quotation/v3/tickers';
     const API_SPOT_V3_TICKER_URL = '/spot/quotation/v3/ticker';
     const API_SPOT_V3_LATEST_KLINE_URL = '/spot/quotation/v3/lite-klines';

@@ -57,19 +57,6 @@ class APISpot
     }
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v2/ticker
-     * Applicable to query the latest ticker of all trading pairs, please note that the endpoint returns more data, please reduce the frequency of calls
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3Tickers()
-     */
-    public function getTicker(): array
-    {
-        return self::$cloudClient->request(CloudConst::API_SPOT_TICKER_URL, CloudConst::GET, []);
-    }
-
-    /**
      * Get Ticker of All Pairs (V3)
      *
      * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/tickers
@@ -83,23 +70,6 @@ class APISpot
     public function getV3Tickers(): array
     {
         return self::$cloudClient->request(CloudConst::API_SPOT_V3_TICKERS_URL, CloudConst::GET, []);
-    }
-
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/ticker_detail
-     * Applicable for querying aggregated tickers of a particular trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3Ticker()
-     */
-    public function getTickerDetail($symbol): array
-    {
-        $params = [
-            "symbol" => $symbol,
-        ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_TICKER_DETAIL_URL, CloudConst::GET, $params);
     }
 
     /**
@@ -120,44 +90,6 @@ class APISpot
             "symbol" => $symbol,
         ];
         return self::$cloudClient->request(CloudConst::API_SPOT_V3_TICKER_URL, CloudConst::GET, $params);
-    }
-
-
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/steps
-     * Get all k-line steps supported by the platform, expressed in minutes, minimum 1 minute.
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see k-line step, value [1, 3, 5, 15, 30, 45, 60, 120, 180, 240, 1440, 10080, 43200] unit: minutes
-     */
-    public function getKlineStep(): array
-    {
-        return self::$cloudClient->request(CloudConst::API_SPOT_STEPS_URL, CloudConst::GET, []);
-    }
-
-
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/kline
-     * Get k-line data within a specified time range of a specified trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $from : Start timestamp (in seconds, UTC+0 TimeZome)
-     * @param $to : End timestamp (in seconds, UTC+0 TimeZome)
-     * @param $step : k-line step Steps (in minutes, default 1 minute)
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3LatestKline()
-     */
-    public function getSymbolKline($symbol, $from, $to, $step = 1): array
-    {
-        $params = [
-            "symbol" => $symbol,
-            "from" => $from,
-            "to" => $to,
-            "step" => $step,
-        ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_KLINE_URL, CloudConst::GET, $params);
     }
 
     /**
@@ -241,31 +173,6 @@ class APISpot
         return self::$cloudClient->request(CloudConst::API_SPOT_V3_HISTORY_KLINE_URL, CloudConst::GET, $params);
     }
 
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/book
-     * Get full depth of trading pairs.
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $precision : Price precision, the range is defined in trading pair details
-     * @param $size : Number of results per request. The value can be transmitted [1-200], there are altogether [2-400] buying and selling depths
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3Book()
-     */
-    public function getSymbolBook($symbol, $precision, $size): array
-    {
-        $params = [
-            "symbol" => $symbol,
-        ];
-        if ($precision) {
-            $params["precision"] = $precision;
-        }
-        if ($size) {
-            $params["size"] = $size;
-        }
-
-        return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_BOOK_URL, CloudConst::GET, $params);
-    }
 
     /**
      * Get Depth (V3)
@@ -291,28 +198,6 @@ class APISpot
     }
 
 
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/trades
-     * Get the latest trade records of the specified trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $n : Number of returned items, the default maximum is 50
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     * @deprecated
-     * @see getV3Trades()
-     */
-    public function getSymbolTrades($symbol, $n): array
-    {
-        $params = [
-            "symbol" => $symbol,
-        ];
-
-        if ($n) {
-            $params["N"] = $n;
-        }
-
-
-        return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_TRADES_URL, CloudConst::GET, $params);
-    }
 
 
     /**
