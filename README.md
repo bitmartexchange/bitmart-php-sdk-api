@@ -216,7 +216,6 @@ echo json_encode($response);
 
 use BitMart\Futures\APIContractTrading;
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\ContractOrderParam;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -226,17 +225,19 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->submitOrder(new ContractOrderParam([
-    'symbol' => "BTCUSDT",
-    'clientOrderId' => "test3000000001",
-    'type' => "limit",
-    'side' => 1,
-    'leverage' => "1",
-    'openType' => "isolated",
-    'mode' => 1,
-    'price' => "10",
-    'size' => 1,
-]))['response'];
+$response = $APIContract->submitOrder(
+    'BTCUSDT',
+    1,
+    [
+        'client_order_id' => "test3000000001",
+        'type' => "limit",
+        'leverage' => "1",
+        'open_type' => "isolated",
+        'mode' => 1,
+        'price' => "10",
+        'size' => 1,
+    ]
+)['response'];
 
 echo json_encode($response);
 ```

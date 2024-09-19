@@ -11,7 +11,14 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->cancelOrder("BTCUSDT", "<order_id>")['response'];
+$response = $APIContract->getContractPositionRisk(
+)['response'];
+echo json_encode($response);
 
 
+$response = $APIContract->getContractPositionRisk(
+    [
+        'symbol' => 'BTCUSDT',
+    ]
+)['response'];
 echo json_encode($response);

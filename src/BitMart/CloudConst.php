@@ -100,7 +100,9 @@ class CloudConst
     const API_CONTRACT_PRV_ORDER_URL = '/contract/private/order';
     const API_CONTRACT_PRV_ORDER_HISTORY_URL = '/contract/private/order-history';
     const API_CONTRACT_PRV_OPEN_ORDERS_URL = '/contract/private/get-open-orders';
+    const API_CONTRACT_PRV_CURRENT_PLAN_ORDERS_URL = '/contract/private/current-plan-order';
     const API_CONTRACT_PRV_POSITION_URL = '/contract/private/position';
+    const API_CONTRACT_PRV_POSITION_RISK_URL = '/contract/private/position-risk';
     const API_CONTRACT_PRV_TRADES_URL = '/contract/private/trades';
     const API_CONTRACT_PRV_TRANSFER_LIST_URL = '/account/v1/transfer-contract-list';
     const API_CONTRACT_PRV_SUBMIT_ORDER_URL = '/contract/private/submit-order';
@@ -109,7 +111,12 @@ class CloudConst
     const API_CONTRACT_PRV_SUBMIT_PLAN_ORDER_URL = '/contract/private/submit-plan-order';
     const API_CONTRACT_PRV_CANCEL_PLAN_ORDER_URL = '/contract/private/cancel-plan-order';
     const API_CONTRACT_PRV_SUBMIT_LEVERAGE_URL = '/contract/private/submit-leverage';
+    const API_CONTRACT_PRV_SUBMIT_TP_SL_ORDER_URL = '/contract/private/submit-tp-sl-order';
+    const API_CONTRACT_PRV_MODIFY_PLAN_ORDER_ORDER_URL = '/contract/private/modify-plan-order';
+    const API_CONTRACT_PRV_MODIFY_PRESET_PLAN_ORDER_URL = '/contract/private/modify-preset-plan-order';
+    const API_CONTRACT_PRV_MODIFY_TP_SL_ORDER_ORDER_URL = '/contract/private/modify-tp-sl-order';
     const API_CONTRACT_PRV_TRANSFER_URL = '/account/v1/transfer-contract';
+
 
 }
 

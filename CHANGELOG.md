@@ -7,11 +7,18 @@ Changelog
   - `/spot/v4/batch_orders`
   - `/spot/v4/cancel_orders`
   - `/spot/v4/cancel_all`
+  - `/contract/private/position-risk`
+  - `/contract/private/submit-tp-sl-order`
+  - `/contract/private/modify-plan-order`
+  - `/contract/private/modify-preset-plan-order`
+  - `/contract/private/modify-tp-sl-order`
 - Updated
   - `/spot/v2/submit_order`
   - `/spot/v3/cancel_order`
   - `/account/v1/withdraw/apply`
   - `/account/v2/deposit-withdraw/history`
+  - `/contract/private/submit-order`
+  - `/contract/private/submit-plan-order`
 - Removed
   - `/spot/v2/ticker`
   - `spot/v1/ticker_detail`

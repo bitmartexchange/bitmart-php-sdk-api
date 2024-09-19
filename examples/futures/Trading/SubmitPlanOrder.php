@@ -11,17 +11,20 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->submitOrder(
-    'BTCUSDT',
-    1,
+$response = $APIContract->submitPlanOrder(
+    'ETHUSDT',
+    4,
     [
-        'client_order_id' => "test3000000001",
         'type' => "limit",
-        'leverage' => "1",
+        'leverage' => "5",
         'open_type' => "isolated",
         'mode' => 1,
         'price' => "10",
         'size' => 1,
+        'trigger_price' => "2000",
+        'executive_price' => "1800",
+        'price_way' => 1,
+        'price_type' => 1,
     ]
 )['response'];
 

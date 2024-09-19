@@ -11,19 +11,19 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->submitOrder(
-    'BTCUSDT',
-    1,
+$response = $APIContract->getContractOrderHistory(
+    "BTCUSDT"
+)['response'];
+echo json_encode($response);
+
+
+$endTime = round(microtime(true) );
+$startTime = $endTime - (60*60);
+$response = $APIContract->getContractOrderHistory(
+    "BTCUSDT",
     [
-        'client_order_id' => "test3000000001",
-        'type' => "limit",
-        'leverage' => "1",
-        'open_type' => "isolated",
-        'mode' => 1,
-        'price' => "10",
-        'size' => 1,
+        'start_time' => $startTime,
+        'end_time' => $endTime,
     ]
 )['response'];
-
-
 echo json_encode($response);

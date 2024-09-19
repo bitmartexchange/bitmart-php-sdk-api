@@ -3,7 +3,6 @@
 namespace BitMart\Tests;
 
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\MarginOrderParam;
 use BitMart\Spot\APISpot;
 use PHPUnit\Framework\TestCase;
 

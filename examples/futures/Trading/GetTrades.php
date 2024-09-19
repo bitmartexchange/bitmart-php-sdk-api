@@ -11,7 +11,19 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->cancelOrder("BTCUSDT", "<order_id>")['response'];
+$response = $APIContract->getContractTrades(
+    "BTCUSDT"
+)['response'];
+echo json_encode($response);
 
 
+$endTime = round(microtime(true) );
+$startTime = $endTime - (60*60);
+$response = $APIContract->getContractTrades(
+    "BTCUSDT",
+    [
+        'start_time' => $startTime,
+        'end_time' => $endTime,
+    ]
+)['response'];
 echo json_encode($response);

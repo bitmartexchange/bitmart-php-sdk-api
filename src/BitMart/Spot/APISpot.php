@@ -11,8 +11,6 @@ use BitMart\Auth;
 use BitMart\CloudConst;
 use BitMart\Lib\CloudClient;
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\MarginOrderParam;
-use stdClass;
 
 class APISpot
 {
@@ -253,10 +251,11 @@ class APISpot
                             -market=Market order
                             -limit_maker=PostOnly order
                             -ioc=IOC order
-     * @param string $options.clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
-     * @param string $options.size : Order size || Required for placing orders by quantity
-     * @param string $options.price : Order Price
-     * @param string $options.notional : Required for placing orders by amount
+     * @param array $options
+     *  clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     *  size : Order size || Required for placing orders by quantity
+     *  price : Order Price
+     *  notional : Required for placing orders by amount
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postSubmitOrder(string $symbol,string $side, string $type, array $options = []): array
@@ -285,10 +284,11 @@ class APISpot
                             -market=Market order
                             -limit_maker=PostOnly order
                             -ioc=IOC order
-     * @param string $options.clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
-     * @param string $options.size : Order size || Required for placing orders by quantity
-     * @param string $options.price : Order Price
-     * @param string $options.notional : Required for placing orders by amount
+     * @param array $options
+     *  clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     *  size : Order size || Required for placing orders by quantity
+     *  price : Order Price
+     *  notional : Required for placing orders by amount
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postSubmitMarginOrder(string $symbol,string $side, string $type, array $options = []): array
@@ -328,12 +328,13 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v3/cancel_order
      * Cancel Order(v3) (SIGNED) - Applicable to the cancellation of a specified unfinished order
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $options.orderId : Order id
-     * @param $options.clientOrderId : Client-defined Order ID
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param array $options
+     *  orderId : Order id
+     *  clientOrderId : Client-defined Order ID
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postCancelOrder($symbol, array $options = []): array
+    public function postCancelOrder(string $symbol, array $options = []): array
     {
         $params = array_merge(
             [
@@ -348,13 +349,14 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v4/cancel_orders
      * Cancel all outstanding orders in the specified direction for the specified trading pair or cancel based on the order ID
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $options.orderIds : Order Id List (Either orderIds or clientOrderIds must be provided)
-     * @param $options.clientOrderIds : Client-defined OrderId List (Either orderIds or clientOrderIds must be provided)
-     * @param $options.recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param array $options
+     *  orderIds : Order Id List (Either orderIds or clientOrderIds must be provided)
+     *  clientOrderIds : Client-defined OrderId List (Either orderIds or clientOrderIds must be provided)
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postCancelBatchOrder($symbol, array $options = []): array
+    public function postCancelBatchOrder(string $symbol, array $options = []): array
     {
         $params = array_merge(
             [
@@ -368,8 +370,9 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v4/cancel_all
      * Cancel all orders
-     * @param $options.symbol : Trading pair (e.g. BTC_USDT)
-     * @param $options.side : Order side
+     * @param array $options
+     *  symbol : Trading pair (e.g. BTC_USDT)
+     *  side : Order side
                             -buy
                             -sell
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)

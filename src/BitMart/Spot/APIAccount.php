@@ -79,15 +79,16 @@ class APIAccount
      * Creates a withdraw request from spot account to an external address
      * @param string $currency: Token symbol, e.g., 'BTC'
      * @param string $amount: The amount of currency to withdraw
-     * @param string $options.destination: -To Digital Address=Withdraw to the digital currency address
-     * @param string $options.address: Address (only the address added on the official website is supported)
-     * @param string $options.address_memo: Tag(tag Or payment_id Or memo)
-     * @param int $options.type: Account type
+     * @param array $options
+     *  destination: -To Digital Address=Withdraw to the digital currency address
+     *  address: Address (only the address added on the official website is supported)
+     *  address_memo: Tag(tag Or payment_id Or memo)
+     *  type: Account type
                         1=CID
                         2=Email
                         3=Phone
-     * @param string $options.value: Account
-     * @param string $options.areaCode: Phone area code, required when account type is phone, e.g.: 61
+     *  value: Account
+     *  areaCode: Phone area code, required when account type is phone, e.g.: 61
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postWithdraw(string $currency, string $amount, array $options = []): array
