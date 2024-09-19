@@ -9,6 +9,7 @@ use BitMart\CloudConst;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
+use stdClass;
 
 class CloudClient
 {
@@ -31,16 +32,19 @@ class CloudClient
         }
 
         // set body
+        if(empty($params)) {
+            $params = new stdClass();
+        }
         $body = $method == 'POST' ? json_encode($params, JSON_UNESCAPED_SLASHES) : '';
 
         if ($auth == Auth::NONE) {
-            $headers = CloudUtil::getHeader("", "", "");
+            $headers = CloudUtil::getHeader("", "", "", $this->cloudConfig->customHeaders);
         } else if ($auth == Auth::KEYED) {
-            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, "", "");
+            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, "", "", $this->cloudConfig->customHeaders);
         } else {
             $timestamp = round(microtime(true) * 1000);
             $sign = CloudUtil::signature($timestamp, $body, $this->cloudConfig);
-            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, $sign, $timestamp);
+            $headers = CloudUtil::getHeader($this->cloudConfig->accessKey, $sign, $timestamp, $this->cloudConfig->customHeaders);
         }
 
         try {
@@ -74,6 +78,7 @@ class CloudClient
                 'Remaining' => $response->hasHeader(CloudConst::RATE_LIMIT_REMAINING) ? $response->getHeader(CloudConst::RATE_LIMIT_REMAINING)[0] : 0,
                 'Limit' => $response->hasHeader(CloudConst::RATE_LIMIT_LIMIT) ? $response->getHeader(CloudConst::RATE_LIMIT_LIMIT)[0] : 0,
                 'Reset' => $response->hasHeader(CloudConst::RATE_LIMIT_RESET) ? $response->getHeader(CloudConst::RATE_LIMIT_RESET)[0] : 0,
+                'Mode' => $response->hasHeader(CloudConst::RATE_LIMIT_MODE) ? $response->getHeader(CloudConst::RATE_LIMIT_MODE)[0] : 0,
             ];
 
             $result = [

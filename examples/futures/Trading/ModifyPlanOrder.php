@@ -11,7 +11,16 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->cancelOrder("BTCUSDT", "<order_id>")['response'];
+$response = $APIContract->modifyPlanOrder(
+    'ETHUSDT',
+    [
+        'trigger_price' => '2000',
+        'executive_price' => '1450',
+        'price_type' => 1,
+        'client_order_id' => '2132131231231212',
+        'type' => 'limit',
+    ]
+)['response'];
 
 
 echo json_encode($response);

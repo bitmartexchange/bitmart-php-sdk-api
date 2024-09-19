@@ -22,7 +22,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'BitMart-PHP-SDK-API/1.0.1';
+    const VERSION = 'BitMart-PHP-SDK-API/2.0.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -32,6 +32,7 @@ class CloudConst
     const RATE_LIMIT_REMAINING = 'X-BM-RateLimit-Remaining';
     const RATE_LIMIT_LIMIT = 'X-BM-RateLimit-Limit';
     const RATE_LIMIT_RESET = 'X-BM-RateLimit-Reset';
+    const RATE_LIMIT_MODE = 'X-BM-RateLimit-Mode';
 
 
     # system url
@@ -55,14 +56,6 @@ class CloudConst
     const API_SPOT_CURRENCIES_URL = '/spot/v1/currencies';
     const API_SPOT_SYMBOLS_URL = '/spot/v1/symbols';
     const API_SPOT_SYMBOLS_DETAILS_URL = '/spot/v1/symbols/details';
-    const API_SPOT_TICKER_URL = '/spot/v2/ticker';
-
-    const API_SPOT_TICKER_DETAIL_URL = '/spot/v1/ticker_detail';
-    const API_SPOT_STEPS_URL = '/spot/v1/steps';
-    const API_SPOT_SYMBOLS_KLINE_URL = '/spot/v1/symbols/kline';
-    const API_SPOT_SYMBOLS_BOOK_URL = '/spot/v1/symbols/book';
-    const API_SPOT_SYMBOLS_TRADES_URL = '/spot/v1/symbols/trades';
-
     const API_SPOT_V3_TICKERS_URL = '/spot/quotation/v3/tickers';
     const API_SPOT_V3_TICKER_URL = '/spot/quotation/v3/ticker';
     const API_SPOT_V3_LATEST_KLINE_URL = '/spot/quotation/v3/lite-klines';
@@ -73,9 +66,10 @@ class CloudConst
     const API_SPOT_WALLET_URL = '/spot/v1/wallet';
     const API_SPOT_SUBMIT_ORDER_URL = '/spot/v2/submit_order';
     const API_SPOT_SUBMIT_MARGIN_ORDER_URL = '/spot/v1/margin/submit_order';
-    const API_SPOT_SUBMIT_BATCH_ORDER_URL = '/spot/v2/batch_orders';
+    const API_SPOT_SUBMIT_BATCH_ORDER_URL = '/spot/v4/batch_orders';
     const API_SPOT_CANCEL_ORDER_URL = '/spot/v3/cancel_order';
-    const API_SPOT_CANCEL_ORDERS_URL = '/spot/v1/cancel_orders';
+    const API_SPOT_CANCEL_ORDERS_URL = '/spot/v4/cancel_orders';
+    const API_SPOT_CANCEL_ALL_URL = '/spot/v4/cancel_all';
 
     const API_SPOT_V4_QUERY_ORDER_BY_ID_URL = '/spot/v4/query/order';
     const API_SPOT_V4_QUERY_ORDER_BY_CLIENT_ID_URL = '/spot/v4/query/client-order';
@@ -106,7 +100,9 @@ class CloudConst
     const API_CONTRACT_PRV_ORDER_URL = '/contract/private/order';
     const API_CONTRACT_PRV_ORDER_HISTORY_URL = '/contract/private/order-history';
     const API_CONTRACT_PRV_OPEN_ORDERS_URL = '/contract/private/get-open-orders';
+    const API_CONTRACT_PRV_CURRENT_PLAN_ORDERS_URL = '/contract/private/current-plan-order';
     const API_CONTRACT_PRV_POSITION_URL = '/contract/private/position';
+    const API_CONTRACT_PRV_POSITION_RISK_URL = '/contract/private/position-risk';
     const API_CONTRACT_PRV_TRADES_URL = '/contract/private/trades';
     const API_CONTRACT_PRV_TRANSFER_LIST_URL = '/account/v1/transfer-contract-list';
     const API_CONTRACT_PRV_SUBMIT_ORDER_URL = '/contract/private/submit-order';
@@ -115,7 +111,12 @@ class CloudConst
     const API_CONTRACT_PRV_SUBMIT_PLAN_ORDER_URL = '/contract/private/submit-plan-order';
     const API_CONTRACT_PRV_CANCEL_PLAN_ORDER_URL = '/contract/private/cancel-plan-order';
     const API_CONTRACT_PRV_SUBMIT_LEVERAGE_URL = '/contract/private/submit-leverage';
+    const API_CONTRACT_PRV_SUBMIT_TP_SL_ORDER_URL = '/contract/private/submit-tp-sl-order';
+    const API_CONTRACT_PRV_MODIFY_PLAN_ORDER_ORDER_URL = '/contract/private/modify-plan-order';
+    const API_CONTRACT_PRV_MODIFY_PRESET_PLAN_ORDER_URL = '/contract/private/modify-preset-plan-order';
+    const API_CONTRACT_PRV_MODIFY_TP_SL_ORDER_ORDER_URL = '/contract/private/modify-tp-sl-order';
     const API_CONTRACT_PRV_TRANSFER_URL = '/account/v1/transfer-contract';
+
 
 }
 

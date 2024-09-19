@@ -1,7 +1,42 @@
 Changelog
 =========================
 
+### v2.0.0 Release
+#### New Features
+- New
+  - `/spot/v4/batch_orders`
+  - `/spot/v4/cancel_orders`
+  - `/spot/v4/cancel_all`
+  - `/contract/private/position-risk`
+  - `/contract/private/submit-tp-sl-order`
+  - `/contract/private/modify-plan-order`
+  - `/contract/private/modify-preset-plan-order`
+  - `/contract/private/modify-tp-sl-order`
+- Updated
+  - `/spot/v2/submit_order`
+  - `/spot/v3/cancel_order`
+  - `/account/v1/withdraw/apply`
+  - `/account/v2/deposit-withdraw/history`
+  - `/contract/private/submit-order`
+  - `/contract/private/submit-plan-order`
+- Removed
+  - `/spot/v2/ticker`
+  - `spot/v1/ticker_detail`
+  - `/spot/v1/steps`
+  - `/spot/v1/symbols/kline`
+  - `/spot/v1/symbols/book`
+  - `/spot/v1/symbols/trades`
+  - `/spot/v2/batch_orders`
+  - `/spot/v1/cancel_orders`
+#### Improvements
+- Support custom request headers
+#### Bug Fixes
 
+---
+
+
+### v1.0.1 Release
+#### New Features
 ##### 2023-09-12
 - New endpoints for API Spot Market
   - <code>/spot/quotation/v3/tickers</code> Get Ticker of All Pairs (V3)
@@ -15,7 +50,9 @@ Changelog
 
 ---
 
-###### 2023-06-16
+### v1.0.0 Release
+#### New Features
+##### 2023-06-16
 - New endpoints for Contract Market
   - <code>/contract/public/details</code>Get contract details
   - <code>/contract/public/depth</code>Get contract depth
@@ -44,21 +81,17 @@ Changelog
   - <code>/spot/v1/margin/isolated/repay_record</code>Applicable to the inquiry of repayment records of isolated margin account
   - <code>/spot/v1/margin/isolated/pairs</code>Applicable for checking the borrowing rate and borrowing amount of trading pairs
 
----
 
-###### 2022-01-20
+##### 2022-01-20
 - Update endpoints for Spot
   - <code>/spot/v1/symbols/details</code>Add a new respond parameter trade_status, to show the trading status of a trading pair symbol.
 
----
 
-###### 2022-01-18
+##### 2022-01-18
 - websocket public channel address<code>wss://ws-manager-compress.bitmart.com?protocol=1.1</code>will be taken down on 2022-02-28 UTC time,The new address is<code>wss://ws-manager-compress.bitmart.com/api?protocol=1.1</code>
 
 
----
-
-###### 2021-11-24
+##### 2021-11-24
 - New endpoints for Spot
     - <code>/spot/v2/orders</code>Get User Order History V2
     - <code>/spot/v1/batch_orders</code>Batch Order
@@ -73,10 +106,7 @@ Changelog
     - <code>/account/v1/wallet</code>Remove the account_type,Only respond to currency accounts; you can bring currency parameters (optional)
 
 
----
-
-
-###### 2021-11-24
+##### 2021-11-24
 - New endpoints for Spot
   - <code>/spot/v2/orders</code>Get User Order History V2
   - <code>/spot/v1/batch_orders</code>Batch Order
@@ -91,9 +121,7 @@ Changelog
   - <code>/account/v1/wallet</code>Remove the account_type,Only respond to currency accounts; you can bring currency parameters (optional)
 
 
----
-
-###### 2021-01-19
+##### 2021-01-19
 - New endpoints for Spot WebSocket
   - Public - ticket channels
   - Public - K channel
@@ -103,15 +131,11 @@ Changelog
   - User - Trading Channel
 
 
----
-
-###### 2020-09-21
+##### 2020-09-21
 - Interface Spot API `/spot/v1/symbols/book` add `size` parameter, which represents the number of depths
 
 
----
-
-###### 2020-07-16
+##### 2020-07-16
 - Interface Spot API `Cancel Order` update to v2 version that is `POST https://api-cloud.bitmart.com/spot/v2/cancel_order`
 - UserAgent set "BitMart-PHP-SDK/1.0.1"
 

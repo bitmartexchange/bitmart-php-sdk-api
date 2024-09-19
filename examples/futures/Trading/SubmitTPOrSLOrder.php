@@ -11,17 +11,18 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->submitOrder(
+$response = $APIContract->submitTPOrSLOrder(
     'BTCUSDT',
-    1,
+    'take_profit',
+    2,
     [
-        'client_order_id' => "test3000000001",
-        'type' => "limit",
-        'leverage' => "1",
-        'open_type' => "isolated",
-        'mode' => 1,
-        'price' => "10",
-        'size' => 1,
+        'size' => 10,
+        'trigger_price' => '2000',
+        'executive_price' => '1450',
+        'price_type' => 1,
+        'plan_category' => 1,
+        'client_order_id' => '2132131231231212',
+        'category' => 'limit',
     ]
 )['response'];
 

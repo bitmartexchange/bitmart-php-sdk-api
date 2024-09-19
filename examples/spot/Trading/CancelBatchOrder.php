@@ -11,16 +11,16 @@ $APISpot = new APISpot(new CloudConfig([
 ]));
 
 
-$response = $APISpot->postCancelOrder("BTC_USDT", [
-    'order_id' => '137478201134228205',
+$response = $APISpot->postCancelBatchOrder("BTC_USDT", [
+    'clientOrderIds' => '137478201134228205',
 ])['response'];
 
 echo json_encode($response);
 
 
 
-$response = $APISpot->postCancelOrder("BTC_USDT", [
-    'client_order_id' => '137478201134228205',
+$response = $APISpot->postCancelBatchOrder("BTC_USDT", [
+    'orderIds' => '137478201134228205',
 ])['response'];
 
 echo json_encode($response);

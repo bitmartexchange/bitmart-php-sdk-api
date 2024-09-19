@@ -68,20 +68,11 @@ $response = $APISpot->getV3Ticker("BTC_USDT")['response'];
 ```
 
 
-
-
-### More Examples:
-
 #### Spot / Margin Trading Endpoints
-
-<details>
-
-<summary>New Order(v2) (SIGNED)</summary>
 
 ```php
 <?php
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\SpotOrderParam;
 use BitMart\Spot\APISpot;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -92,27 +83,43 @@ $APISpot = new APISpot(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APISpot->postSubmitOrder(new SpotOrderParam([
-    'symbol' => 'BTC_USDT',
-    'side' => 'buy',
-    'type' => 'limit',
-    'size' => '0.1',
-    'price' => '8800',
-    'clientOrderId' => 'test20000000001'
-]))['response'];
+
+$response = $APISpot->postSubmitOrder(
+    'BTC_USDT',
+    'buy',
+    'limit',
+    [
+        'size' => '0.1',
+        'price' => '8800',
+        'client_order_id' => 'test20000000005'
+    ]
+)['response'];
+
+echo json_encode($response);
+
+
+$response = $APISpot->postSubmitOrder(
+    'BTC_USDT',
+    'buy',
+    'market',
+    [
+        'size' => '0.1',
+        'notional' => '8800',
+        'client_order_id' => 'test20000000006'
+    ]
+)['response'];
 
 echo json_encode($response);
 
 ```
 
-</details>
+Please find example/spot/ folder to check for more endpoints.
 
 
-#### Spot WebSocket Subscribe Channels
+---
 
-<details>
+#### Spot WebSocket Subscribe Private Channels
 
-<summary>Subscribe Private Channel: 【Private】Order Progress </summary>
 
 ```php
 <?php
@@ -144,12 +151,10 @@ $ws->subscribe(
 );
 
 ```
-</details>
 
 
-<details>
+#### Spot WebSocket Subscribe Public Channels
 
-<summary>Subscribe Public Channel: 【Public】Ticker Channel </summary>
 
 ```php
 <?php
@@ -175,14 +180,13 @@ $ws->subscribe(
 );
 
 ```
-</details>
 
+Please find example/spot/Websocket/ folder to check for more endpoints.
+
+
+---
 
 #### Futures Market Data Endpoints
-
-<details>
-
-<summary>Get Contract Details</summary>
 
 ```php
 <?php
@@ -202,21 +206,16 @@ echo json_encode($response);
 
 ```
 
-</details>
 
 
 #### Futures Trading Endpoints
 
-<details>
-
-<summary>Submit Order (SIGNED)</summary>
 
 ```php
 <?php
 
 use BitMart\Futures\APIContractTrading;
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\ContractOrderParam;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -226,28 +225,30 @@ $APIContract = new APIContractTrading(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APIContract->submitOrder(new ContractOrderParam([
-    'symbol' => "BTCUSDT",
-    'clientOrderId' => "test3000000001",
-    'type' => "limit",
-    'side' => 1,
-    'leverage' => "1",
-    'openType' => "isolated",
-    'mode' => 1,
-    'price' => "10",
-    'size' => 1,
-]))['response'];
+$response = $APIContract->submitOrder(
+    'BTCUSDT',
+    1,
+    [
+        'client_order_id' => "test3000000001",
+        'type' => "limit",
+        'leverage' => "1",
+        'open_type' => "isolated",
+        'mode' => 1,
+        'price' => "10",
+        'size' => 1,
+    ]
+)['response'];
 
 echo json_encode($response);
 ```
 
-</details>
 
-#### Futures WebSocket Subscribe Channels
+Please find example/futures/ folder to check for more endpoints.
 
-<details>
+---
 
-<summary>Subscribe Private Channel: 【Private】Assets Channel </summary>
+#### Futures WebSocket Subscribe Private Channels
+
 
 ```php
 <?php
@@ -279,12 +280,10 @@ $ws->subscribe(
 );
 
 ```
-</details>
 
 
-<details>
+#### Futures WebSocket Subscribe Public Channels
 
-<summary>Subscribe Public Channel: 【Public】Ticker Channel </summary>
 
 ```php
 <?php
@@ -313,7 +312,9 @@ $ws->subscribe(
 );
 
 ```
-</details>
+
+Please find example/futures/Websocket/ folder to check for more endpoints.
+
 
 
 Extra Options
@@ -359,10 +360,56 @@ $APISpot = new APISpot(new CloudConfig(
 How to set API domain name? The domain name parameter is optional,
 the default domain name is `https://api-cloud.bitmart.com`.
 
+
 ```php
 $APISpot = new APISpot(new CloudConfig(
       [
           'url' => 'https://api-cloud.bitmart.com'
       ]
   ));
+```
+
+
+### Custom request headers
+You can add your own request header information here, but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`
+
+```php
+$APISpot = new APISpot(new CloudConfig([
+    'customHeaders' => array(
+        "Your-Custom-Header1" => "value1",
+        "Your-Custom-Header2" => "value2",
+    ),
+]));
+```
+
+
+### Response Metadata
+
+The bitmart API server provides the endpoint rate limit usage in the header of each response.
+This information can be obtained from the headers property.
+`x-bm-ratelimit-remaining` indicates the number of times the current window has been used,
+`x-bm-ratelimit-limit` indicates the maximum number of times the current window can be used,
+and `x-bm-ratelimit-reset` indicates the current window time.
+
+
+##### Example:
+
+```
+x-bm-ratelimit-mode: IP
+x-bm-ratelimit-remaining: 10
+x-bm-ratelimit-limit: 600
+x-bm-ratelimit-reset: 60
+```
+
+This means that this IP can call the endpoint 600 times within 60 seconds, and has called 10 times so far.
+
+
+```php
+$response = $APISpot->getV3Ticker("BTC_USDT");
+
+echo $response['limit']['Remaining'];
+echo $response['limit']['Limit'];
+echo $response['limit']['Reset'];
+echo $response['limit']['Mode'];
+
 ```

@@ -1,3 +1,4 @@
 .idea
 runtime/*
 vendor/*
+.phpunit.result.cache

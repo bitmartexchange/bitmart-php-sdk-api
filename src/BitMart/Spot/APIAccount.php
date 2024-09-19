@@ -38,7 +38,7 @@ class APIAccount
      * @param $currency: Token symbol, e.g., 'BTC'
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getWallet($currency): array
+    public function getWallet(string $currency): array
     {
         $params = [
             'currency' => $currency
@@ -52,7 +52,7 @@ class APIAccount
      * @param $currency: Token symbol, e.g., 'BTC'
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getDepositAddress($currency): array
+    public function getDepositAddress(string $currency): array
     {
         $params = [
             'currency' => $currency
@@ -66,7 +66,7 @@ class APIAccount
      * @param $currency: Token symbol, e.g., 'BTC'
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getWithdrawQuota($currency): array
+    public function getWithdrawQuota(string $currency): array
     {
         $params = [
             'currency' => $currency
@@ -77,40 +77,50 @@ class APIAccount
     /**
      * url: POST https://api-cloud.bitmart.com/account/v1/withdraw/apply
      * Creates a withdraw request from spot account to an external address
-     * @param $currency: Token symbol, e.g., 'BTC'
-     * @param $amount: The amount of currency to withdraw
-     * @param $destination: -To Digital Address=Withdraw to the digital currency address
-     * @param $address: Address (only the address added on the official website is supported)
-     * @param $addressMemo: Tag(tag Or payment_id Or memo)
+     * @param string $currency: Token symbol, e.g., 'BTC'
+     * @param string $amount: The amount of currency to withdraw
+     * @param array $options
+     *  destination: -To Digital Address=Withdraw to the digital currency address
+     *  address: Address (only the address added on the official website is supported)
+     *  address_memo: Tag(tag Or payment_id Or memo)
+     *  type: Account type
+                        1=CID
+                        2=Email
+                        3=Phone
+     *  value: Account
+     *  areaCode: Phone area code, required when account type is phone, e.g.: 61
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postWithdraw($currency, $amount, $destination, $address, $addressMemo): array
+    public function postWithdraw(string $currency, string $amount, array $options = []): array
     {
-        $params = [
-            'currency' => $currency,
-            'amount' => $amount,
-            'destination' => $destination,
-            'address' => $address,
-            'address_memo' => $addressMemo,
-        ];
+        $params = array_merge(
+            [
+                'currency' => $currency,
+                'amount' => $amount,
+            ],
+            $options
+        );
         return self::$cloudClient->request(CloudConst::API_ACCOUNT_WITHDRAW_APPLY_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
      * url: GET https://api-cloud.bitmart.com/account/v2/deposit-withdraw/history
      * Search for all existed withdraws and deposits and return their latest status.
-     * @param $currency: Token symbol, e.g., 'BTC'
-     * @param $operationType: Type deposit=deposit; withdraw=withdraw
-     * @param $N: Recent N records (value range 1-100)
+     * @param string $operationType: Type deposit=deposit; withdraw=withdraw
+     * @param int $N: Recent N records (value range 1-100)
+     * @param string $options.currency: Token symbol, e.g., 'BTC'
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getDepositWithdrawHistory($currency, $operationType, $N): array
+    public function getDepositWithdrawHistory(string $operationType, int $N, array $options = []): array
     {
-        $params = [
-            'currency' => $currency,
-            'operation_type' => $operationType,
-            'N' => $N,
-        ];
+        $params = array_merge(
+            [
+                'operation_type' => $operationType,
+                'N' => $N,
+            ],
+            $options
+        );
+
         return self::$cloudClient->request(CloudConst::API_ACCOUNT_DEPOSIT_WITHDRAW_HISTORY_URL, CloudConst::GET, $params, Auth::KEYED);
     }
 
@@ -118,10 +128,10 @@ class APIAccount
     /**
      * url: GET https://api-cloud.bitmart.com/account/v1/deposit-withdraw/detail
      * Query a single charge record
-     * @param $id: withdraw_id or deposit_id
+     * @param string $id: withdraw_id or deposit_id
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getDepositWithdrawDetail($id): array
+    public function getDepositWithdrawDetail(string $id): array
     {
         $params = [
             'id' => $id,

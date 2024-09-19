@@ -5,12 +5,12 @@ namespace BitMart\Spot;
 
 
 
+use Binance\Exception\MissingArgumentException;
+use Binance\Util\Strings;
 use BitMart\Auth;
 use BitMart\CloudConst;
 use BitMart\Lib\CloudClient;
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\MarginOrderParam;
-use BitMart\Param\SpotOrderParam;
 
 class APISpot
 {
@@ -57,19 +57,6 @@ class APISpot
     }
 
     /**
-     * url: GET https://api-cloud.bitmart.com/spot/v2/ticker
-     * Applicable to query the latest ticker of all trading pairs, please note that the endpoint returns more data, please reduce the frequency of calls
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3Tickers()
-     */
-    public function getTicker(): array
-    {
-        return self::$cloudClient->request(CloudConst::API_SPOT_TICKER_URL, CloudConst::GET, []);
-    }
-
-    /**
      * Get Ticker of All Pairs (V3)
      *
      * url: GET https://api-cloud.bitmart.com/spot/quotation/v3/tickers
@@ -83,23 +70,6 @@ class APISpot
     public function getV3Tickers(): array
     {
         return self::$cloudClient->request(CloudConst::API_SPOT_V3_TICKERS_URL, CloudConst::GET, []);
-    }
-
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/ticker_detail
-     * Applicable for querying aggregated tickers of a particular trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3Ticker()
-     */
-    public function getTickerDetail($symbol): array
-    {
-        $params = [
-            "symbol" => $symbol,
-        ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_TICKER_DETAIL_URL, CloudConst::GET, $params);
     }
 
     /**
@@ -120,44 +90,6 @@ class APISpot
             "symbol" => $symbol,
         ];
         return self::$cloudClient->request(CloudConst::API_SPOT_V3_TICKER_URL, CloudConst::GET, $params);
-    }
-
-
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/steps
-     * Get all k-line steps supported by the platform, expressed in minutes, minimum 1 minute.
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see k-line step, value [1, 3, 5, 15, 30, 45, 60, 120, 180, 240, 1440, 10080, 43200] unit: minutes
-     */
-    public function getKlineStep(): array
-    {
-        return self::$cloudClient->request(CloudConst::API_SPOT_STEPS_URL, CloudConst::GET, []);
-    }
-
-
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/kline
-     * Get k-line data within a specified time range of a specified trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $from : Start timestamp (in seconds, UTC+0 TimeZome)
-     * @param $to : End timestamp (in seconds, UTC+0 TimeZome)
-     * @param $step : k-line step Steps (in minutes, default 1 minute)
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3LatestKline()
-     */
-    public function getSymbolKline($symbol, $from, $to, $step = 1): array
-    {
-        $params = [
-            "symbol" => $symbol,
-            "from" => $from,
-            "to" => $to,
-            "step" => $step,
-        ];
-        return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_KLINE_URL, CloudConst::GET, $params);
     }
 
     /**
@@ -241,31 +173,6 @@ class APISpot
         return self::$cloudClient->request(CloudConst::API_SPOT_V3_HISTORY_KLINE_URL, CloudConst::GET, $params);
     }
 
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/book
-     * Get full depth of trading pairs.
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $precision : Price precision, the range is defined in trading pair details
-     * @param $size : Number of results per request. The value can be transmitted [1-200], there are altogether [2-400] buying and selling depths
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     *
-     * @deprecated
-     * @see getV3Book()
-     */
-    public function getSymbolBook($symbol, $precision, $size): array
-    {
-        $params = [
-            "symbol" => $symbol,
-        ];
-        if ($precision) {
-            $params["precision"] = $precision;
-        }
-        if ($size) {
-            $params["size"] = $size;
-        }
-
-        return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_BOOK_URL, CloudConst::GET, $params);
-    }
 
     /**
      * Get Depth (V3)
@@ -291,28 +198,6 @@ class APISpot
     }
 
 
-    /**
-     * url: GET https://api-cloud.bitmart.com/spot/v1/symbols/trades
-     * Get the latest trade records of the specified trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $n : Number of returned items, the default maximum is 50
-     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
-     * @deprecated
-     * @see getV3Trades()
-     */
-    public function getSymbolTrades($symbol, $n): array
-    {
-        $params = [
-            "symbol" => $symbol,
-        ];
-
-        if ($n) {
-            $params["N"] = $n;
-        }
-
-
-        return self::$cloudClient->request(CloudConst::API_SPOT_SYMBOLS_TRADES_URL, CloudConst::GET, $params);
-    }
 
 
     /**
@@ -357,72 +242,145 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v2/submit_order
      * New Order(v2) (SIGNED) - Send in a new order.
-     * @param SpotOrderParam $spotOrderParam : <see BitMart\Param\SpotOrderParam>
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param string $side : Side
+                               -buy=Buy order
+                               -sell=Sell order
+     * @param string $type : Order type
+                            -limit=Limit order
+                            -market=Market order
+                            -limit_maker=PostOnly order
+                            -ioc=IOC order
+     * @param array $options
+     *  clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     *  size : Order size || Required for placing orders by quantity
+     *  price : Order Price
+     *  notional : Required for placing orders by amount
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postSubmitOrder(SpotOrderParam $spotOrderParam): array
+    public function postSubmitOrder(string $symbol,string $side, string $type, array $options = []): array
     {
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $spotOrderParam, Auth::SIGNED);
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'side' => $side,
+                'type' => $type,
+            ],
+            $options,
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v1/margin/submit_order
      * New Margin Order(v1) (SIGNED) - Applicable for margin order placement
-     * @param MarginOrderParam $marginOrderParam :  <see BitMart\Param\MarginOrderParam>
+     *
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param string $side : Side
+                             -buy=Buy order
+                             -sell=Sell order
+     * @param string $type : Order type
+                            -limit=Limit order
+                            -market=Market order
+                            -limit_maker=PostOnly order
+                            -ioc=IOC order
+     * @param array $options
+     *  clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     *  size : Order size || Required for placing orders by quantity
+     *  price : Order Price
+     *  notional : Required for placing orders by amount
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postSubmitMarginOrder(MarginOrderParam $marginOrderParam): array
+    public function postSubmitMarginOrder(string $symbol,string $side, string $type, array $options = []): array
     {
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_MARGIN_ORDER_URL, CloudConst::POST, $marginOrderParam, Auth::SIGNED);
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'side' => $side,
+                'type' => $type,
+            ],
+            $options,
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_MARGIN_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v2/batch_orders
-     * New Batch Order(v2) (SIGNED) - Batch order
+     * url: POST https://api-cloud.bitmart.com/spot/v4/batch_orders
+     * New Batch Order(v4) (SIGNED) - Batch order
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
      * @param $orderParams : Order parameters, the number of transactions cannot exceed 10
+     * @param $options.recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @return array
      */
-    public function postSubmitBatchOrder($orderParams): array
+    public function postSubmitBatchOrder(string $symbol, array $orderParams, array $options = []): array
     {
-        $params = [
-            "order_params" => $orderParams
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'orderParams' => $orderParams,
+            ],
+            $options,
+        );
+
         return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_BATCH_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v3/cancel_order
      * Cancel Order(v3) (SIGNED) - Applicable to the cancellation of a specified unfinished order
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $orderId : Order id
-     * @param $clientOrderId : Client-defined Order ID
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param array $options
+     *  orderId : Order id
+     *  clientOrderId : Client-defined Order ID
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postCancelOrder($symbol, $orderId, $clientOrderId): array
+    public function postCancelOrder(string $symbol, array $options = []): array
     {
-        $params = [
-            "symbol" => $symbol,
-            "order_id" => $orderId,
-            "client_order_id" => $clientOrderId,
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
 
         return self::$cloudClient->request(CloudConst::API_SPOT_CANCEL_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/cancel_orders
-     * Cancel all outstanding orders in the specified side for a trading pair
-     * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $side : buy or sell
+     * url: POST https://api-cloud.bitmart.com/spot/v4/cancel_orders
+     * Cancel all outstanding orders in the specified direction for the specified trading pair or cancel based on the order ID
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param array $options
+     *  orderIds : Order Id List (Either orderIds or clientOrderIds must be provided)
+     *  clientOrderIds : Client-defined OrderId List (Either orderIds or clientOrderIds must be provided)
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postCancelAllOrder($symbol, $side): array
+    public function postCancelBatchOrder(string $symbol, array $options = []): array
     {
-        $params = [
-            "symbol" => $symbol,
-            "side" => $side,
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
         return self::$cloudClient->request(CloudConst::API_SPOT_CANCEL_ORDERS_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/cancel_all
+     * Cancel all orders
+     * @param array $options
+     *  symbol : Trading pair (e.g. BTC_USDT)
+     *  side : Order side
+                            -buy
+                            -sell
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postCancelAllOrder(array $options = []): array
+    {
+        $params = $options;
+        return self::$cloudClient->request(CloudConst::API_SPOT_CANCEL_ALL_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
 

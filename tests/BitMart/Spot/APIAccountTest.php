@@ -30,33 +30,49 @@ class APIAccountTest extends TestCase
 
     public function testGetWallet()
     {
-        $this->assertEquals(1000, $this->APIAccount->getWallet("BTC")['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getWallet('BTC')['response']->code);
     }
 
     public function testGetDepositAddress()
     {
-        $this->assertEquals(1000, $this->APIAccount->getDepositAddress("USDT-TRC20")['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getDepositAddress('USDT-TRC20')['response']->code);
     }
 
     public function testGetWithdrawQuota()
     {
-        $this->assertEquals(1000, $this->APIAccount->getWithdrawQuota("USDT")['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getWithdrawQuota('USDT')['response']->code);
     }
 
     public function testPostWithdraw()
     {
         $this->assertEquals(1000, $this->APIAccount->postWithdraw(
-            "USDT-ERC20",
-            "40",
-            "To Digital Address",
-            "0xe57b69a8776b37860407965B73cdFFBDF****",
-            ""
+            'USDT-ERC20',
+            '40',
+            [
+                'address' => "0xe57b69a8776b37860407965B73cdFFBDF",
+                'address_memo' => '123',
+                'destination' => 'To Digital Address',
+            ],
+        )['response']->code);
+
+
+        $this->assertEquals(1000, $this->APIAccount->postWithdraw(
+            'USDT-ERC20',
+            '40',
+            [
+                'type' => 1,
+                'value' => '876940329',
+                'areaCode' => '',
+            ],
         )['response']->code);
     }
 
     public function testGetCurrencyDepositWithdrawHistory()
     {
-        $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory("USDT-ERC20", "withdraw", 100)['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory( "withdraw", 100)['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory( "withdraw", 100, [
+            'currency' => "USDT",
+        ])['response']->code);
     }
 
 
