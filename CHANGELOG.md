@@ -10,6 +10,8 @@ Changelog
 - Updated
   - `/spot/v2/submit_order`
   - `/spot/v3/cancel_order`
+  - `/account/v1/withdraw/apply`
+  - `/account/v2/deposit-withdraw/history`
 - Removed
   - `/spot/v2/ticker`
   - `spot/v1/ticker_detail`
