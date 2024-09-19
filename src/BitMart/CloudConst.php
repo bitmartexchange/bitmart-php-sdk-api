@@ -66,9 +66,10 @@ class CloudConst
     const API_SPOT_WALLET_URL = '/spot/v1/wallet';
     const API_SPOT_SUBMIT_ORDER_URL = '/spot/v2/submit_order';
     const API_SPOT_SUBMIT_MARGIN_ORDER_URL = '/spot/v1/margin/submit_order';
-    const API_SPOT_SUBMIT_BATCH_ORDER_URL = '/spot/v2/batch_orders';
+    const API_SPOT_SUBMIT_BATCH_ORDER_URL = '/spot/v4/batch_orders';
     const API_SPOT_CANCEL_ORDER_URL = '/spot/v3/cancel_order';
-    const API_SPOT_CANCEL_ORDERS_URL = '/spot/v1/cancel_orders';
+    const API_SPOT_CANCEL_ORDERS_URL = '/spot/v4/cancel_orders';
+    const API_SPOT_CANCEL_ALL_URL = '/spot/v4/cancel_all';
 
     const API_SPOT_V4_QUERY_ORDER_BY_ID_URL = '/spot/v4/query/order';
     const API_SPOT_V4_QUERY_ORDER_BY_CLIENT_ID_URL = '/spot/v4/query/client-order';

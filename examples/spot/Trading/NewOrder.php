@@ -1,6 +1,5 @@
 <?php
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\SpotOrderParam;
 use BitMart\Spot\APISpot;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -11,15 +10,30 @@ $APISpot = new APISpot(new CloudConfig([
     'memo' => "<your_memo>",
 ]));
 
-$response = $APISpot->postSubmitOrder(new SpotOrderParam(
+$response = $APISpot->postSubmitOrder(
+    'BTC_USDT',
+    'buy',
+    'limit',
     [
-        'symbol' => 'BTC_USDT',
-        'side' => 'buy',
-        'type' => 'limit',
         'size' => '0.1',
         'price' => '8800',
-        'clientOrderId' => 'test20000000001'
+        'client_order_id' => 'test20000000005'
     ]
-))['response'];
+)['response'];
 
 echo json_encode($response);
+
+
+$response = $APISpot->postSubmitOrder(
+    'BTC_USDT',
+    'buy',
+    'market',
+    [
+        'notional' => '2',
+        'price' => '8800',
+        'client_order_id' => 'test20000000006'
+    ]
+)['response'];
+
+echo json_encode($response);
+

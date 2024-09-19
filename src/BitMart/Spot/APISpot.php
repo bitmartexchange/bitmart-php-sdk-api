@@ -5,12 +5,14 @@ namespace BitMart\Spot;
 
 
 
+use Binance\Exception\MissingArgumentException;
+use Binance\Util\Strings;
 use BitMart\Auth;
 use BitMart\CloudConst;
 use BitMart\Lib\CloudClient;
 use BitMart\Lib\CloudConfig;
 use BitMart\Param\MarginOrderParam;
-use BitMart\Param\SpotOrderParam;
+use stdClass;
 
 class APISpot
 {
@@ -242,36 +244,84 @@ class APISpot
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v2/submit_order
      * New Order(v2) (SIGNED) - Send in a new order.
-     * @param SpotOrderParam $spotOrderParam : <see BitMart\Param\SpotOrderParam>
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param string $side : Side
+                               -buy=Buy order
+                               -sell=Sell order
+     * @param string $type : Order type
+                            -limit=Limit order
+                            -market=Market order
+                            -limit_maker=PostOnly order
+                            -ioc=IOC order
+     * @param string $options.clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     * @param string $options.size : Order size || Required for placing orders by quantity
+     * @param string $options.price : Order Price
+     * @param string $options.notional : Required for placing orders by amount
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postSubmitOrder(SpotOrderParam $spotOrderParam): array
+    public function postSubmitOrder(string $symbol,string $side, string $type, array $options = []): array
     {
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $spotOrderParam, Auth::SIGNED);
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'side' => $side,
+                'type' => $type,
+            ],
+            $options,
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
      * url: POST https://api-cloud.bitmart.com/spot/v1/margin/submit_order
      * New Margin Order(v1) (SIGNED) - Applicable for margin order placement
-     * @param MarginOrderParam $marginOrderParam :  <see BitMart\Param\MarginOrderParam>
+     *
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param string $side : Side
+                             -buy=Buy order
+                             -sell=Sell order
+     * @param string $type : Order type
+                            -limit=Limit order
+                            -market=Market order
+                            -limit_maker=PostOnly order
+                            -ioc=IOC order
+     * @param string $options.clientOrderId : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     * @param string $options.size : Order size || Required for placing orders by quantity
+     * @param string $options.price : Order Price
+     * @param string $options.notional : Required for placing orders by amount
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postSubmitMarginOrder(MarginOrderParam $marginOrderParam): array
+    public function postSubmitMarginOrder(string $symbol,string $side, string $type, array $options = []): array
     {
-        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_MARGIN_ORDER_URL, CloudConst::POST, $marginOrderParam, Auth::SIGNED);
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'side' => $side,
+                'type' => $type,
+            ],
+            $options,
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_MARGIN_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v2/batch_orders
-     * New Batch Order(v2) (SIGNED) - Batch order
+     * url: POST https://api-cloud.bitmart.com/spot/v4/batch_orders
+     * New Batch Order(v4) (SIGNED) - Batch order
+     * @param $symbol : Trading pair (e.g. BTC_USDT)
      * @param $orderParams : Order parameters, the number of transactions cannot exceed 10
+     * @param $options.recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @return array
      */
-    public function postSubmitBatchOrder($orderParams): array
+    public function postSubmitBatchOrder(string $symbol, array $orderParams, array $options = []): array
     {
-        $params = [
-            "order_params" => $orderParams
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'orderParams' => $orderParams,
+            ],
+            $options,
+        );
+
         return self::$cloudClient->request(CloudConst::API_SPOT_SUBMIT_BATCH_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
@@ -279,35 +329,55 @@ class APISpot
      * url: POST https://api-cloud.bitmart.com/spot/v3/cancel_order
      * Cancel Order(v3) (SIGNED) - Applicable to the cancellation of a specified unfinished order
      * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $orderId : Order id
-     * @param $clientOrderId : Client-defined Order ID
+     * @param $options.orderId : Order id
+     * @param $options.clientOrderId : Client-defined Order ID
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postCancelOrder($symbol, $orderId, $clientOrderId): array
+    public function postCancelOrder($symbol, array $options = []): array
     {
-        $params = [
-            "symbol" => $symbol,
-            "order_id" => $orderId,
-            "client_order_id" => $clientOrderId,
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
 
         return self::$cloudClient->request(CloudConst::API_SPOT_CANCEL_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
     /**
-     * url: POST https://api-cloud.bitmart.com/spot/v1/cancel_orders
-     * Cancel all outstanding orders in the specified side for a trading pair
+     * url: POST https://api-cloud.bitmart.com/spot/v4/cancel_orders
+     * Cancel all outstanding orders in the specified direction for the specified trading pair or cancel based on the order ID
      * @param $symbol : Trading pair (e.g. BTC_USDT)
-     * @param $side : buy or sell
+     * @param $options.orderIds : Order Id List (Either orderIds or clientOrderIds must be provided)
+     * @param $options.clientOrderIds : Client-defined OrderId List (Either orderIds or clientOrderIds must be provided)
+     * @param $options.recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function postCancelAllOrder($symbol, $side): array
+    public function postCancelBatchOrder($symbol, array $options = []): array
     {
-        $params = [
-            "symbol" => $symbol,
-            "side" => $side,
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
         return self::$cloudClient->request(CloudConst::API_SPOT_CANCEL_ORDERS_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/cancel_all
+     * Cancel all orders
+     * @param $options.symbol : Trading pair (e.g. BTC_USDT)
+     * @param $options.side : Order side
+                            -buy
+                            -sell
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postCancelAllOrder(array $options = []): array
+    {
+        $params = $options;
+        return self::$cloudClient->request(CloudConst::API_SPOT_CANCEL_ALL_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
 

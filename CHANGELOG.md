@@ -4,7 +4,12 @@ Changelog
 ### v2.0.0 Release
 #### New Features
 - New
+  - `/spot/v4/batch_orders`
+  - `/spot/v4/cancel_orders`
+  - `/spot/v4/cancel_all`
 - Updated
+  - `/spot/v2/submit_order`
+  - `/spot/v3/cancel_order`
 - Removed
   - `/spot/v2/ticker`
   - `spot/v1/ticker_detail`
@@ -12,6 +17,8 @@ Changelog
   - `/spot/v1/symbols/kline`
   - `/spot/v1/symbols/book`
   - `/spot/v1/symbols/trades`
+  - `/spot/v2/batch_orders`
+  - `/spot/v1/cancel_orders`
 #### Improvements
 - Support custom request headers
 #### Bug Fixes

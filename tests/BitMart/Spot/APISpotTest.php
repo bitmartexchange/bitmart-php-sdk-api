@@ -3,7 +3,6 @@
 namespace BitMart\Tests;
 
 use BitMart\Lib\CloudConfig;
-use BitMart\Param\SpotOrderParam;
 use BitMart\Param\MarginOrderParam;
 use BitMart\Spot\APISpot;
 use PHPUnit\Framework\TestCase;
@@ -56,10 +55,6 @@ class APISpotTest extends TestCase
         $this->assertEquals(1000, $this->APISpot->getV3Ticker('BTC_USDT')['response']->code);
     }
 
-    public function testGetKlineStep()
-    {
-        $this->assertEquals(1000, $this->APISpot->getKlineStep()['response']->code);
-    }
 
     public function testGetV3LatestKline()
     {
@@ -116,76 +111,108 @@ class APISpotTest extends TestCase
 
     public function testPostSubmitOrder()
     {
-        $this->assertEquals(1000, $this->APISpot->postSubmitOrder(new SpotOrderParam(
+        $this->assertEquals(1000, $this->APISpot->postSubmitOrder(
+            'BTC_USDT',
+            'buy',
+            'limit',
             [
-                'symbol' => 'BTC_USDT',
-                'side' => 'buy',
-                'type' => 'limit',
                 'size' => '0.1',
                 'price' => '8800',
-                'clientOrderId' => 'test20000000001'
+                'client_order_id' => 'test20000000005'
             ]
-        ))['response']->code);
+        )['response']->code);
     }
 
     public function testPostSubmitMarginOrder()
     {
-        $this->assertEquals(1000, $this->APISpot->postSubmitMarginOrder(new MarginOrderParam(
+        $this->assertEquals(1000, $this->APISpot->postSubmitMarginOrder(
+            'BTC_USDT',
+            'buy',
+            'limit',
             [
-                'symbol' => 'BTC_USDT',
-                'side' => 'buy',
-                'type' => 'limit',
                 'size' => '0.1',
                 'price' => '8800',
                 'clientOrderId' => 'test200000000022221'
             ]
-        ))['response']->code);
+        )['response']->code);
     }
 
     public function testPostSubmitBatchOrder()
     {
         $orderParam = array();
 
-        $orderParam[] = new SpotOrderParam(
+        $orderParam[] =
             [
                 'symbol' => 'BTC_USDT',
                 'side' => 'buy',
                 'type' => 'limit',
                 'size' => '0.1',
                 'price' => '8800',
-                'clientOrderId' => 'test0000000001'
-            ]
-        );
+                'clientOrderId' => 'test0000000003'
+            ];
 
-        $orderParam[] = new SpotOrderParam(
+        $orderParam[] =
             [
                 'symbol' => 'BTC_USDT',
-                'side' => 'buy',
-                'type' => 'limit',
+                'side' => 'sell',
+                'type' => 'market',
                 'size' => '0.2',
-                'price' => '8800',
-                'clientOrderId' => 'test0000000002'
-            ]
-        );
+                'notional' => '5',
+                'clientOrderId' => 'test0000000004'
+            ];
 
-        $this->assertEquals(1000, $this->APISpot->postSubmitBatchOrder($orderParam)['response']->code);
+        $this->assertEquals(1000, $this->APISpot->postSubmitBatchOrder('BTC_USDT', $orderParam, [
+            'recvWindow' => 5000
+        ])['response']->code);
+
+        // 732599977008000256
+        // 732599977024777472
     }
 
     public function testPostCancelOrder()
     {
         $this->assertEquals(1000, $this->APISpot->postCancelOrder(
             'BTC_USDT',
-            '137478201134228205',
-            null
+            [
+                'order_id' => '137478201134228205',
+            ]
+        )['response']->code);
+
+        $this->assertEquals(1000, $this->APISpot->postCancelOrder(
+            'BTC_USDT',
+            [
+                'client_order_id' => '137478201134228205',
+            ]
+        )['response']->code);
+    }
+
+    public function testPostCancelBatchOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->postCancelBatchOrder(
+            'BTC_USDT',
+            [
+                'orderIds' => ["1231231231", "12312312312"]
+            ]
+        )['response']->code);
+
+        $this->assertEquals(1000, $this->APISpot->postCancelBatchOrder(
+            'BTC_USDT',
+            [
+                'clientOrderIds' => ["1231231231", "12312312312"]
+            ]
         )['response']->code);
     }
 
     public function testPostCancelAllOrder()
     {
+        $this->assertEquals(1000, $this->APISpot->postCancelAllOrder()['response']->code);
         $this->assertEquals(1000, $this->APISpot->postCancelAllOrder(
-            'BTC_USDT',
-            'buy'
+            [
+                'symbol' => 'BTC_USDT',
+                'side' => 'buy',
+            ]
         )['response']->code);
+
     }
 
     public function testGetOrderByOrderId()

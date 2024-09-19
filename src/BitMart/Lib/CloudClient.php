@@ -9,6 +9,7 @@ use BitMart\CloudConst;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
+use stdClass;
 
 class CloudClient
 {
@@ -31,6 +32,9 @@ class CloudClient
         }
 
         // set body
+        if(empty($params)) {
+            $params = new stdClass();
+        }
         $body = $method == 'POST' ? json_encode($params, JSON_UNESCAPED_SLASHES) : '';
 
         if ($auth == Auth::NONE) {
