@@ -7,6 +7,7 @@ class CloudConst
 
     # domain
     const API_URL_PRO = 'https://api-cloud.bitmart.com';
+    const API_URL_V2_PRO = 'https://api-cloud-v2.bitmart.com';
     const WS_SPOT_PUBLIC_URL_PRO = 'wss://ws-manager-compress.bitmart.com/api?protocol=1.1';
     const WS_SPOT_PRIVATE_URL_PRO = 'wss://ws-manager-compress.bitmart.com/user?protocol=1.1';
 
@@ -22,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'BitMart-PHP-SDK-API/2.0.0';
+    const VERSION = 'bitmart-php-sdk-api/2.1.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -97,6 +98,7 @@ class CloudConst
     const API_CONTRACT_ASSETS_URL = '/contract/private/assets-detail';
 
     # Futures Trading
+    const API_CONTRACT_PRV_TRADE_FEE_RATE_URL = '/contract/private/trade-fee-rate';
     const API_CONTRACT_PRV_ORDER_URL = '/contract/private/order';
     const API_CONTRACT_PRV_ORDER_HISTORY_URL = '/contract/private/order-history';
     const API_CONTRACT_PRV_OPEN_ORDERS_URL = '/contract/private/get-open-orders';

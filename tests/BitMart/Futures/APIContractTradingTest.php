@@ -2,6 +2,7 @@
 
 namespace BitMart\Tests;
 
+use BitMart\CloudConst;
 use BitMart\Futures\APIContractTrading;
 use BitMart\Lib\CloudConfig;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +15,7 @@ class APIContractMarketTradingTest extends TestCase
     {
         $this->APIContract = new APIContractTrading(new CloudConfig(
             [
+                'url' => CloudConst::API_URL_V2_PRO,
                 'accessKey' => "your_api_key",
                 'secretKey' => "your_secret_key",
                 'memo' => "your_memo",
@@ -27,6 +29,11 @@ class APIContractMarketTradingTest extends TestCase
     public function testGetContractAssets()
     {
         $this->assertEquals(1000, $this->APIContract->getContractAssets()['response']->code);
+    }
+
+    public function testGetContractTradeFeeRate()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractTradeFeeRate("BTCUSDT", "220609666322019")['response']->code);
     }
 
     public function testGetContractOrderDetail()

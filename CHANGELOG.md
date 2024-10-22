@@ -1,6 +1,17 @@
 Changelog
 =========================
 
+
+### v2.1.0 Release
+#### New Features
+- New
+  - `/contract/private/trade-fee-rate` Support querying trade fee rate(KEYED)
+#### Improvements
+- Add CloudConst::API_URL_V2_PRO=`https://api-cloud-v2.bitmart.com`
+- The ping/pong mechanism of the spot websocket has been modified to support `ping` text
+
+---
+
 ### v2.0.0 Release
 #### New Features
 - New

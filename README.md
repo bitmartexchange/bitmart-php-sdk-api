@@ -5,6 +5,7 @@
 BitMart-PHP-SDK-API
 =========================
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Telegram](https://img.shields.io/badge/Telegram-Join%20Us-blue?logo=Telegram)](https://t.me/bitmart_api)
 
 
 
@@ -25,10 +26,11 @@ Feature
   - `/spot/*`
   - `/contract/*`
   - `/account/*`
+- Supported websockets:
   - Spot WebSocket Market Stream
   - Spot User Data Stream
-  - Contract User Data Stream
-  - Contract WebSocket Market Stream
+  - futures User Data Stream
+  - futures WebSocket Market Stream
 - Test cases and examples
 
 
@@ -61,10 +63,10 @@ $APISpot = new APISpot(new CloudConfig([
 
 // Get a list of all cryptocurrencies on the platform
 $response = $APISpot->getCurrencies()['response'];
-
+echo json_encode($response);
 // Querying aggregated tickers of a particular trading pair
 $response = $APISpot->getV3Ticker("BTC_USDT")['response'];
-
+echo json_encode($response);
 ```
 
 
