@@ -12,20 +12,21 @@ $cloudWebsocket = new WsContractPrv([
     'accessKey' => "your_api_key",
     'secretKey' => "your_secret_key",
     'memo' =>  "your_memo",
-    'xdebug' => true
+    'xdebug' => true,
+    'callback' => function ($data) {
+        echo "-------------------------".PHP_EOL;
+        print_r($data);
+    },
+    'pong' => function ($data) {
+        echo "-------------------------".$data.PHP_EOL;
+    }
 ]);
 
+// Login
+$cloudWebsocket->login();
 
 // Subscribe Private Channels
-$cloudWebsocket->subscribe(
-    [
-        'action' => "subscribe",
-        'args' => [
-            "futures/asset:USDT"
-        ]
-    ],
-    function ($data) {
-        echo "-------------------------" . PHP_EOL;
-        echo print_r($data);
-    }
-);
+$cloudWebsocket->send('{
+    "action": "subscribe",
+    "args":["futures/asset:USDT", "futures/asset:BTC", "futures/asset:ETH"]
+}');

@@ -125,61 +125,55 @@ Please find example/spot/ folder to check for more endpoints.
 
 ```php
 <?php
-
 use BitMart\Websocket\Spot\WsSpotPrv;
-
 require_once __DIR__ . '/../../../vendor/autoload.php';
-
+// Create Spot Websocket Client
 $ws = new WsSpotPrv([
     'accessKey' => "<your_api_key>",
     'secretKey' => "<your_secret_key>",
     'memo' => "<your_memo>",
-    'xdebug' => false
-]);
-
-// Subscribe Private Channels
-$ws->subscribe(
-    [
-        'op' => "subscribe",
-        'args' => [
-            // Only Support Private Channel
-            "spot/user/order:BTC_USDT",
-        ]
-    ],
-    function ($data) {
+    'callback' => function ($data) {
         echo "-------------------------" . PHP_EOL;
         print_r($data);
-    }
-);
+    },
+]);
+
+// Login
+$ws->login();
+
+// Subscribe Private Channels
+$ws->send('{"op": "subscribe", "args": ["spot/user/balance:BALANCE_UPDATE"]}');
+
+$ws->send('{"op": "subscribe", "args": ["spot/user/order:BTC_USDT"]}');
+
+
 
 ```
 
 
 #### Spot WebSocket Subscribe Public Channels
 
-
 ```php
 <?php
 use BitMart\Websocket\Spot\WsSpotPub;
-
 require_once __DIR__ . '/../../../vendor/autoload.php';
+// Create Spot Websocket Client
+$ws = new WsSpotPub([
+    'callback' => function ($data) {
+        echo "-------------------------".PHP_EOL;
+        print_r($data);
+    },
+    'pong' => function ($data) {
+        echo "-------------------------".$data.PHP_EOL;
+    }
+]);
 
-$ws = new WsSpotPub();
 
 // Subscribe Public Channels
-$ws->subscribe(
-    [
-        'op' => "subscribe",
-        'args' => [
-            // Only Support Public Channel
-            "spot/ticker:BTC_USDT",
-        ]
-    ],
-    function ($data) {
-        echo "-------------------------" . PHP_EOL;
-        echo print_r($data);
-    }
-);
+$ws->send('{"op": "subscribe", "args": ["spot/ticker:BTC_USDT"]}');
+$ws->send('{"op": "subscribe", "args": ["spot/kline1m:BTC_USDT"]}');
+$ws->send('{"op": "subscribe", "args": ["spot/depth5:BTC_USDT"]}');
+$ws->send('{"op": "subscribe", "args": ["spot/trade:BTC_USDT"]}');
 
 ```
 
@@ -254,33 +248,28 @@ Please find example/futures/ folder to check for more endpoints.
 
 ```php
 <?php
-
 use BitMart\Websocket\Futures\WsContractPrv;
-
 include_once __DIR__ . '/../../../vendor/autoload.php';
-
-
 $ws = new WsContractPrv([
     'accessKey' => "<your_api_key>",
     'secretKey' => "<your_secret_key>",
     'memo' => "<your_memo>",
-]);
-
-
-// Subscribe Public Channels
-$ws->subscribe(
-    [
-        'action' => "subscribe",
-        'args' => [
-            "futures/asset:USDT"
-        ]
-    ],
-    function ($data) {
-        echo "-------------------------" . PHP_EOL;
-        echo print_r($data);
+    'callback' => function ($data) {
+        echo "-------------------------".PHP_EOL;
+        print_r($data);
+    },
+    'pong' => function ($data) {
+        echo "-------------------------".$data.PHP_EOL;
     }
-);
+]);
+// Login
+$ws->login();
 
+// Subscribe Private Channels
+$ws->send('{
+    "action": "subscribe",
+    "args":["futures/asset:USDT", "futures/asset:BTC", "futures/asset:ETH"]
+}');
 ```
 
 
@@ -289,29 +278,25 @@ $ws->subscribe(
 
 ```php
 <?php
-
 use BitMart\Websocket\Futures\WsContractPub;
-
-
 include_once __DIR__ . '/../../../vendor/autoload.php';
-
-$ws = new WsContractPub();
-
-
-// Subscribe Public Channels
-$ws->subscribe(
-    [
-        'action' => "subscribe",
-        'args' => [
-            // Only Support Public Channel
-            "futures/ticker"
-        ]
-    ],
-    function ($data) {
-        echo "-------------------------" . PHP_EOL;
-        echo print_r($data);
+$ws = new WsContractPub([
+    'callback' => function ($data) {
+        echo "-------------------------".PHP_EOL;
+        print_r($data);
+    },
+        'pong' => function ($data) {
+        echo "-------------------------".$data.PHP_EOL;
     }
-);
+]);
+// Subscribe Public Channels
+$ws->send('{"action":"subscribe","args":["futures/ticker"]}');
+$ws->send('{"action":"subscribe","args":["futures/depth20:BTCUSDT"]}');
+$ws->send('{"action":"subscribe","args":["futures/trade:BTCUSDT"]}');
+$ws->send('{"action":"subscribe","args":["futures/klineBin1m:BTCUSDT"]}');
+
+
+
 
 ```
 

@@ -9,6 +9,10 @@ Changelog
 #### Improvements
 - Add CloudConst::API_URL_V2_PRO=`https://api-cloud-v2.bitmart.com`
 - The ping/pong mechanism of the spot websocket has been modified to support `ping` text
+- Optimize websocket, add `login` function and `send` function and data return `callback` parameters
+  - The login function is used for ws login subscription
+  - The send function replaces the subscribe function and can be used to subscribe and unsubscribe
+  - The callback parameter function allows customers to customize the callback function
 
 ---
 

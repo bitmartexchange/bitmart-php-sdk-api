@@ -16,20 +16,11 @@ class WsSpotPub extends CloudWebsocket
     {
         $url= $args['url'] ?? CloudConst::WS_SPOT_PUBLIC_URL_PRO;
         $xdebug = $args['xdebug'] ?? false;
+        $callback = $args['callback'] ?? null;
+        $pong = $args['pong'] ?? null;
 
-        parent::__construct($url, $xdebug, false);
-    }
+        parent::__construct($url, $xdebug, false, true, $callback, $pong);
 
-
-    /**
-     * Send subscribe message and receive message
-     * @param array $subscribeParam {"op": "subscribe", "args": ["spot/user/ticker:ETH_BTC"]}
-     * @param func $callback Receive message, callback function
-     */
-    public function subscribe(array $subscribeParam, $callback)
-    {
-        $this->addParam($subscribeParam);
-        $this->connection($callback);
     }
 
 }

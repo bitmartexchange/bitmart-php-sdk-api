@@ -10,27 +10,16 @@ use BitMart\Lib\CloudWebsocket;
 class WsContractPub extends CloudWebsocket
 {
     protected $cloudConfig = null;
-    protected $useLogin = false;
 
     public function __construct($args = array())
     {
-        $url= $args['url'] ?? CloudConst::WS_CONTRACT_PUBLIC_URL_PRO;
+        $url = $args['url'] ?? CloudConst::WS_CONTRACT_PUBLIC_URL_PRO;
         $xdebug = $args['xdebug'] ?? false;
+        $callback = $args['callback'] ?? null;
+        $pong = $args['pong'] ?? null;
 
-        parent::__construct($url, $xdebug, false);
+        parent::__construct($url, $xdebug, false, false, $callback, $pong);
     }
 
-
-    /**
-     * Send subscribe message and receive message
-     * @param array $subscribeParam {"action":"subscribe","args":["futures/ticker","futures/depth20:BTCUSDT"]}
-     * @param func $callback Receive message, callback function
-     */
-    public function subscribe(array $subscribeParam, $callback)
-    {
-        $this->addParam($subscribeParam);
-        $this->connection($callback);
-    }
 
 }
-

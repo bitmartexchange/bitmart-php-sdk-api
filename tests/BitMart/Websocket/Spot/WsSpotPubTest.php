@@ -9,21 +9,17 @@ include_once __DIR__ . '/../../../../vendor/autoload.php';
 
 // Cli Run: php tests/BitMart/Websocket/Spot/WsSpotPubTest.php start
 $cloudWebsocket = new WsSpotPub([
-    'xdebug' => true
+    'xdebug' => true,
+    'callback' => function ($data) {
+        echo "-------------------------".PHP_EOL;
+        print_r($data);
+    },
+    'pong' => function ($data) {
+        echo "-------------------------".$data.PHP_EOL;
+    }
 ]);
 
 
 // Subscribe Public Channels
-$cloudWebsocket->subscribe(
-    [
-        'op' => "subscribe",
-        'args' => [
-            // Only Support Public Channel
-            "spot/ticker:BTC_USDT",
-        ]
-    ],
-    function ($data) {
-        echo "-------------------------" . PHP_EOL;
-        echo print_r($data);
-    }
-);
+$cloudWebsocket->send('{"op": "subscribe", "args": ["spot/ticker:BTC_USDT"]}');
+
