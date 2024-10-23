@@ -18,6 +18,8 @@ class WsContractPrv extends CloudWebsocket
     {
         $url= $args['url'] ?? CloudConst::WS_CONTRACT_PRIVATE_URL_PRO;
         $xdebug = $args['xdebug'] ?? false;
+        $callback = $args['callback'] ?? null;
+        $pong = $args['pong'] ?? null;
 
         $this->cloudConfig = new CloudConfig([
             'accessKey' => $args['accessKey'] ?? "your_api_key",
@@ -25,31 +27,7 @@ class WsContractPrv extends CloudWebsocket
             'memo' => $args['memo'] ?? "your_api_memo",
         ]);
 
-        parent::__construct($url, $xdebug, true);
-    }
-
-
-    /**
-     * Send subscribe message and receive message
-     * @param array $subscribeParam {"action": "subscribe","args":["futures/asset:USDT"]}
-     * @param func $callback Receive message, callback function
-     */
-    public function subscribe(array $subscribeParam, $callback)
-    {
-        $this->loginParam = $this->createLoginParam();
-        $this->addParam($subscribeParam);
-        $this->connection($callback);
-    }
-
-    public function createLoginParam(): string
-    {
-        $timestamp = round(microtime(true) * 1000);
-        $sign = CloudUtil::signature($timestamp, "bitmart.WebSocket", $this->cloudConfig);
-
-        return json_encode([
-            'action' => "access",
-            'args' => [$this->cloudConfig->accessKey, $timestamp.'', $sign, 'web']
-        ]);
+        parent::__construct($url, $xdebug, true, false, $callback, $pong);
     }
 
 }

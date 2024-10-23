@@ -9,22 +9,17 @@ include_once __DIR__ . '/../../../../vendor/autoload.php';
 
 // Cli Run: php tests/BitMart/Websocket/Futures/WsContractPubTest.php start
 $cloudWebsocket = new WsContractPub([
-    'xdebug' => false
+    'xdebug' => true,
+    'callback' => function ($data) {
+        echo "-------------------------".PHP_EOL;
+        print_r($data);
+    },
+    'pong' => function ($data) {
+        echo "-------------------------".$data.PHP_EOL;
+    }
 ]);
 
-
 // Subscribe Public Channels
-$cloudWebsocket->subscribe(
-    [
-        'action' => "subscribe",
-        'args' => [
-            // Only Support Public Channel
-            "futures/ticker",
-            "futures/depth20:BTCUSDT"
-        ]
-    ],
-    function ($data) {
-        echo "-------------------------" . PHP_EOL;
-        echo print_r($data);
-    }
-);
+$cloudWebsocket->send('{"action":"subscribe","args":["futures/ticker"]}');
+
+

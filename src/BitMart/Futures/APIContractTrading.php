@@ -32,6 +32,21 @@ class APIContractTrading
     }
 
     /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/trade-fee-rate
+     * Get Trade Fee Rate (KEYED) - Applicable for querying trade fee rate
+     * @param string $symbol : Symbol of the contract(like BTCUSDT)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractTradeFeeRate(string $symbol): array
+    {
+        $params = [
+            'symbol' => $symbol,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRADE_FEE_RATE_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+
+    /**
      * url: GET https://api-cloud-v2.bitmart.com/contract/private/order
      * Get Order Detail (KEYED) - Applicable for querying contract order detail
      * @param string $symbol : Symbol of the contract(like BTCUSDT)
