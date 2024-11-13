@@ -230,11 +230,17 @@ class APISpot
     /**
      * url: GET https://api-cloud.bitmart.com/spot/v1/wallet
      * Get the user's wallet balance for all currencies
+     * @param array $options
+     *   currency : currency
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getWallet(): array
+    public function getWallet(array $options = []): array
     {
-        return self::$cloudClient->request(CloudConst::API_SPOT_WALLET_URL, CloudConst::GET, [], Auth::KEYED);
+        $params = array_merge(
+            $options
+        );
+
+        return self::$cloudClient->request(CloudConst::API_SPOT_WALLET_URL, CloudConst::GET, $params, Auth::KEYED);
     }
 
     // -------------- Trading API

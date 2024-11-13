@@ -64,7 +64,7 @@ class APISpotTest extends TestCase
             $before,
             $after,
             15,
-            1
+            10
         )['response']->code);
     }
 
@@ -77,7 +77,7 @@ class APISpotTest extends TestCase
             $before,
             $after,
             15,
-            1
+            10
         )['response']->code);
     }
 
