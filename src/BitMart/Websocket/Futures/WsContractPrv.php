@@ -16,7 +16,7 @@ class WsContractPrv extends CloudWebsocket
 
     public function __construct($args = array())
     {
-        $url= $args['url'] ?? CloudConst::WS_CONTRACT_PRIVATE_URL_PRO;
+        $url= $args['url'] ?? CloudConst::WS_FUTURES_PRIVATE_URL_PRO;
         $xdebug = $args['xdebug'] ?? false;
         $callback = $args['callback'] ?? null;
         $pong = $args['pong'] ?? null;

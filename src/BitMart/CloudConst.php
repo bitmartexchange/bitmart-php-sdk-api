@@ -11,8 +11,8 @@ class CloudConst
     const WS_SPOT_PUBLIC_URL_PRO = 'wss://ws-manager-compress.bitmart.com/api?protocol=1.1';
     const WS_SPOT_PRIVATE_URL_PRO = 'wss://ws-manager-compress.bitmart.com/user?protocol=1.1';
 
-    const WS_CONTRACT_PUBLIC_URL_PRO = 'wss://openapi-ws.bitmart.com/api?protocol=1.1';
-    const WS_CONTRACT_PRIVATE_URL_PRO = 'wss://openapi-ws.bitmart.com/user?protocol=1.1';
+    const WS_FUTURES_PUBLIC_URL_PRO = 'wss://openapi-ws-v2.bitmart.com/api?protocol=1.1';
+    const WS_FUTURES_PRIVATE_URL_PRO = 'wss://openapi-ws-v2.bitmart.com/user?protocol=1.1';
 
     # http header
     const CONTENT_TYPE = 'Content-Type';
@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.1.0';
+    const VERSION = 'bitmart-php-sdk-api/2.1.1';
 
     const GET = "GET";
     const POST = "POST";
