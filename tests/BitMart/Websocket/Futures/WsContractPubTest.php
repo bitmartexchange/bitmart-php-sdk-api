@@ -20,6 +20,6 @@ $cloudWebsocket = new WsContractPub([
 ]);
 
 // Subscribe Public Channels
-$cloudWebsocket->send('{"action":"subscribe","args":["futures/ticker"]}');
+$cloudWebsocket->send('{"action":"subscribe","args":["futures/ticker:BTCUSDT"]}');
 
 

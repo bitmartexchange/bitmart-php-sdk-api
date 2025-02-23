@@ -123,6 +123,22 @@ class APIContractMarketTradingTest extends TestCase
         )['response']->code);
     }
 
+    public function testGetContractTransactionHistory()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractTransactionHistory(
+        )['response']->code);
+
+        $endTime = round(microtime(true) ) * 1000;
+        $startTime = $endTime - (60*60)*1000;
+        $this->assertEquals(1000, $this->APIContract->getContractTransactionHistory(
+            [
+                'flow_type' => 0,
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+            ]
+        )['response']->code);
+    }
+
     public function testGetContractTransferList()
     {
         $this->assertEquals(1000, $this->APIContract->getContractTransferList(
@@ -284,7 +300,28 @@ class APIContractMarketTradingTest extends TestCase
         )['response']->code);
     }
 
+    public function testSubmitTrailOrder()
+    {
+        $this->assertEquals(1000, $this->APIContract->submitTrailOrder(
+            [
+                'symbol' => "BTCUSDT",
+                'side' => 1,
+                'leverage' => "5",
+                'open_type' => "isolated",
+                'size' => 1,
+                'activation_price' => "80000",
+                'callback_rate' => "2",
+                'activation_price_type' => 1,
+            ]
+        )['response']->code);
+    }
 
+    public function testCancelTrailOrder()
+    {
+        $this->assertEquals(1000, $this->APIContract->cancelTrailOrder("BTCUSDT", [
+            "order_id" => "60633000005"
+        ])['response']->code);
+    }
 
 
 }

@@ -78,6 +78,25 @@ class APIContractMarket
     }
 
     /**
+     * url: GET https://api-cloud.bitmart.com/contract/public/funding-rate-history
+     * Get Funding Rate History
+     * @param string $symbol : Symbol of the contract(like BTCUSDT)
+     * @param array $options
+     *  limit : Number of results per request. The maximum is 100; The default is 100
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractFundingRateHistory(string $symbol, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_FUNDING_RATE_HISTORY_URL, CloudConst::GET, $params);
+    }
+
+    /**
      * url: GET https://api-cloud.bitmart.com/contract/public/kline
      * Get K-line
      * @param string$symbol : Symbol of the contract(like BTCUSDT)
@@ -95,6 +114,26 @@ class APIContractMarket
             "end_time" => $endTime,
         ];
         return self::$cloudClient->request(CloudConst::API_CONTRACT_KLINE_URL, CloudConst::GET, $params);
+    }
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/contract/public/markprice-kline
+     * Get Mark Price K-line
+     * @param string$symbol : Symbol of the contract(like BTCUSDT)
+     * @param int $step : K-Line step, default is 1 minute. step: 1, 3, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080
+     * @param int $startTime : Start time. Timestamps need to be in seconds
+     * @param int $endTime : End time. Timestamps need to be in seconds
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractMarkPriceKline(string $symbol, int $step, int $startTime, int $endTime): array
+    {
+        $params = [
+            "symbol" => $symbol,
+            "step" => $step,
+            "start_time" => $startTime,
+            "end_time" => $endTime,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_MARK_PRICE_KLINE_URL, CloudConst::GET, $params);
     }
 
 }
