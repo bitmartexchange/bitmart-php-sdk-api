@@ -2,6 +2,23 @@ Changelog
 =========================
 
 
+### v2.2.0 Release
+#### New Features
+- New
+  - `/contract/private/submit-trail-order` Submit Trail Order (SIGNED)
+  - `/contract/private/cancel-trail-order` Cancel Trail Order (SIGNED)
+  - `/contract/public/funding-rate-history` Query Funding Rate History
+  - `/contract/public/transaction-history` Query Transaction History (KEYED)
+  - `/contract/public/markprice-kline` Get MarkPrice K-line
+  - `/account/v1/withdraw/address/list` Query Withdraw Address List (KEYED)
+- Update
+  - `/contract/private/submit-order` Submit Order (SIGNED): Remove the Request Parameters related replacing trail orders
+  - `/contract/private/modify-plan-order` Modify Plan Order (SIGNED): Remove the Request Parameters **client_order_id**
+  - `/account/v1/currencies` Get Currencies: Add the Request Parameters **startTime** And **endTime**
+  - `/account/v2/deposit-withdraw/history` Get Currencies: Add the Request Parameters **currencies**
+
+---
+
 ### v2.1.1 Release
 #### Improvements
 - The domain name `wss://openapi-ws.bitmart.com` will not provide Futures 1.0 Websocket services.

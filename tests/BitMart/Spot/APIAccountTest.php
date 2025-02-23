@@ -26,6 +26,9 @@ class APIAccountTest extends TestCase
     public function testGetCurrencies()
     {
         $this->assertEquals(1000, $this->APIAccount->getCurrencies()['response']->code);
+        $this->assertEquals(1000, $this->APIAccount->getCurrencies([
+            'currencies' => "BTC"
+        ])['response']->code);
     }
 
     public function testGetWallet()
@@ -36,6 +39,11 @@ class APIAccountTest extends TestCase
     public function testGetDepositAddress()
     {
         $this->assertEquals(1000, $this->APIAccount->getDepositAddress('USDT-TRC20')['response']->code);
+    }
+
+    public function testGetWithdrawAddress()
+    {
+        $this->assertEquals(1000, $this->APIAccount->getWithdrawAddress()['response']->code);
     }
 
     public function testGetWithdrawQuota()
@@ -69,9 +77,14 @@ class APIAccountTest extends TestCase
 
     public function testGetCurrencyDepositWithdrawHistory()
     {
+        $endTime = round(microtime(true) * 1000);
+        $startTime = $endTime - (60*60*1000);
+
         $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory( "withdraw", 100)['response']->code);
         $this->assertEquals(1000, $this->APIAccount->getDepositWithdrawHistory( "withdraw", 100, [
             'currency' => "USDT",
+            'startTime' => $startTime,
+            'endTime' => $endTime,
         ])['response']->code);
     }
 

@@ -173,6 +173,7 @@ abstract class CloudWebsocket
         $this->useLogin = true;
         $timestamp = round(microtime(true) * 1000);
         $sign = CloudUtil::signature($timestamp, "bitmart.WebSocket", $this->cloudConfig);
+        sleep(2);// wait connection
 
         if ($this->isSpot) {
             $this->loginParam = json_encode([

@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.1.1';
+    const VERSION = 'bitmart-php-sdk-api/2.2.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -44,6 +44,7 @@ class CloudConst
     const API_ACCOUNT_CURRENCIES_URL = '/account/v1/currencies';
     const API_ACCOUNT_WALLET_URL = '/account/v1/wallet';
     const API_ACCOUNT_DEPOSIT_ADDRESS_URL = '/account/v1/deposit/address';
+    const API_ACCOUNT_WITHDRAW_ADDRESS_URL = '/account/v1/withdraw/address/list';
     const API_ACCOUNT_WITHDRAW_CHARGE_URL = '/account/v1/withdraw/charge';
     const API_ACCOUNT_WITHDRAW_APPLY_URL = '/account/v1/withdraw/apply';
     const API_ACCOUNT_DEPOSIT_WITHDRAW_HISTORY_URL = '/account/v2/deposit-withdraw/history';
@@ -92,7 +93,9 @@ class CloudConst
     const API_CONTRACT_DEPTH_URL = '/contract/public/depth';
     const API_CONTRACT_OPEN_INTEREST_URL = '/contract/public/open-interest';
     const API_CONTRACT_FUNDING_RATE_URL = '/contract/public/funding-rate';
+    const API_CONTRACT_FUNDING_RATE_HISTORY_URL = '/contract/public/funding-rate-history';
     const API_CONTRACT_KLINE_URL = '/contract/public/kline';
+    const API_CONTRACT_MARK_PRICE_KLINE_URL = '/contract/public/markprice-kline';
 
     # Futures Account Data
     const API_CONTRACT_ASSETS_URL = '/contract/private/assets-detail';
@@ -106,9 +109,12 @@ class CloudConst
     const API_CONTRACT_PRV_POSITION_URL = '/contract/private/position';
     const API_CONTRACT_PRV_POSITION_RISK_URL = '/contract/private/position-risk';
     const API_CONTRACT_PRV_TRADES_URL = '/contract/private/trades';
+    const API_CONTRACT_PRV_TRANSACTION_HISTORY_URL = '/contract/private/transaction-history';
     const API_CONTRACT_PRV_TRANSFER_LIST_URL = '/account/v1/transfer-contract-list';
     const API_CONTRACT_PRV_SUBMIT_ORDER_URL = '/contract/private/submit-order';
     const API_CONTRACT_PRV_CANCEL_ORDER_URL = '/contract/private/cancel-order';
+    const API_CONTRACT_PRV_SUBMIT_TRAIL_ORDER_URL = '/contract/private/submit-trail-order';
+    const API_CONTRACT_PRV_CANCEL_TRAIL_ORDER_URL = '/contract/private/cancel-trail-order';
     const API_CONTRACT_PRV_CANCEL_ALL_ORDER_URL = '/contract/private/cancel-orders';
     const API_CONTRACT_PRV_SUBMIT_PLAN_ORDER_URL = '/contract/private/submit-plan-order';
     const API_CONTRACT_PRV_CANCEL_PLAN_ORDER_URL = '/contract/private/cancel-plan-order';

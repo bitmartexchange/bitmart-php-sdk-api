@@ -163,6 +163,29 @@ class APIContractTrading
     }
 
     /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/transaction-history
+     * Get Transaction History (KEYED) - Applicable for querying futures transaction history
+     * @param array $options
+     *  symbol : Symbol of the contract
+     *  flow_type : Type
+                    - 0 = All (default)
+                    - 1 = Transfer
+                    - 2 = Realized PNL
+                    - 3 = Funding Fee
+                    - 4 = Commission Fee
+                    - 5 = Liquidation Clearance
+     *  startTime : Start time, timestamp in ms
+     *  endTime : End time, timestamp in ms
+     *  page_size : Default 100; max 1000
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractTransactionHistory(array $options = []): array
+    {
+        $params = $options;
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRANSACTION_HISTORY_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
      * url: POST https://api-cloud-v2.bitmart.com/account/v1/transfer-contract-list
      * Get Transfer List (SIGNED) - Query futures account transfer records
      * @param int $page : Number of pages, allowed range [1,1000]
@@ -525,5 +548,52 @@ class APIContractTrading
     }
 
 
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/submit-trail-order
+     * Submit Trail Order (SIGNED) - Applicable for placing contract trail orders
+     * @param array $options :
+     * string $symbol : Symbol of the contract(like BTCUSDT)
+     * int $side : Order side
+                -1=buy_open_long
+                -2=buy_close_short
+                -3=sell_close_long
+                -4=sell_open_short
+     *  leverage : Order leverage
+     *  open_type : Open type, required at close position
+            -cross
+            -isolated
+     *  size : Order size (Number of contracts)
+     *  activation_price : Activation price, required at trailing order
+     *  callback_rate : Callback rate, required at trailing order, min 0.1, max 5 where 1 for 1%
+     *  activation_price_type : Activation price type, required at trailing order
+            -1=last_price
+            -2=fair_price
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function submitTrailOrder(array $options = []): array
+    {
+        $params = $options;
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_SUBMIT_TRAIL_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/cancel-trail-order
+     * Cancel Trail Order (SIGNED) - Applicable for canceling a specific contract trail order
+     * @param string $symbol : Symbol of the contract(like BTCUSDT)
+     * @param array $options :
+     *  order_id : Order ID
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function cancelTrailOrder(string $symbol, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_CANCEL_TRAIL_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
 
 }

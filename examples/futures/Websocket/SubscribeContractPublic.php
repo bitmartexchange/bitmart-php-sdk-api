@@ -12,7 +12,7 @@ $ws = new WsContractPub([
     }
 ]);
 // Subscribe Public Channels
-$ws->send('{"action":"subscribe","args":["futures/ticker"]}');
+$ws->send('{"action":"subscribe","args":["futures/ticker:BTCUSDT"]}');
 $ws->send('{"action":"subscribe","args":["futures/depth20:BTCUSDT"]}');
 $ws->send('{"action":"subscribe","args":["futures/trade:BTCUSDT"]}');
 $ws->send('{"action":"subscribe","args":["futures/klineBin1m:BTCUSDT"]}');

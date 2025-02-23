@@ -17,11 +17,15 @@ $response = $APIAccount->getDepositWithdrawHistory(
 
 echo json_encode($response);
 
+$endTime = round(microtime(true) * 1000);
+$startTime = $endTime - (60*60*1000);
 
 $response = $APIAccount->getDepositWithdrawHistory(
     "withdraw", 100,
     [
         'currency' => 'BTC',
+        'startTime' => $startTime,
+        'endTime' => $endTime,
     ],
 )['response'];
 

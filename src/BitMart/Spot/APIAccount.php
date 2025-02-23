@@ -24,11 +24,14 @@ class APIAccount
     /**
      * url: GET https://api-cloud.bitmart.com/account/v1/currencies
      * Gets the currency of the asset for withdrawal
+     * @param array $options
+     *  currencies: - Single query, such as BTC; multiple queries, such as BTC,ETH,BMX, can have a maximum of 20.
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getCurrencies(): array
+    public function getCurrencies(array $options = []): array
     {
-        return self::$cloudClient->request(CloudConst::API_ACCOUNT_CURRENCIES_URL, CloudConst::GET, []);
+        $params = $options;
+        return self::$cloudClient->request(CloudConst::API_ACCOUNT_CURRENCIES_URL, CloudConst::GET, $params);
     }
 
 
@@ -58,6 +61,17 @@ class APIAccount
             'currency' => $currency
         ];
         return self::$cloudClient->request(CloudConst::API_ACCOUNT_DEPOSIT_ADDRESS_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/account/v1/withdraw/address/list
+     * Gets Withdraw Address List
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getWithdrawAddress(): array
+    {
+        $params = [];
+        return self::$cloudClient->request(CloudConst::API_ACCOUNT_WITHDRAW_ADDRESS_URL, CloudConst::GET, $params, Auth::KEYED);
     }
 
     /**
@@ -107,8 +121,11 @@ class APIAccount
      * url: GET https://api-cloud.bitmart.com/account/v2/deposit-withdraw/history
      * Search for all existed withdraws and deposits and return their latest status.
      * @param string $operationType: Type deposit=deposit; withdraw=withdraw
-     * @param int $N: Recent N records (value range 1-100)
-     * @param string $options.currency: Token symbol, e.g., 'BTC'
+     * @param int $N: Recent N records (value range 1-1000)
+     * @param array $options :
+     *  currency: Token symbol, e.g., 'BTC'
+     *  startTime: Default: 90 days from current timestamp (milliseconds)
+     *  endTime: Default: present timestamp (milliseconds)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getDepositWithdrawHistory(string $operationType, int $N, array $options = []): array
