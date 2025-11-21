@@ -1,19 +1,20 @@
 <?php
-use BitMart\Lib\CloudConfig;
 use BitMart\Spot\APIAccount;
-use BitMart\Spot\APISpot;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../ExampleConfig.php';
 
-$APIAccount = new APIAccount(new CloudConfig([
-    'accessKey' => "<your_api_key>",
-    'secretKey' => "<your_secret_key>",
-    'memo' => "<your_memo>",
-]));
+$APIAccount = new APIAccount(ExampleConfig::getExampleConfig());
 
-$response = $APIAccount->getWallet(
-    "BTC", 100
-)['response'];
+// Get wallet balance for specific currency
+$response = $APIAccount->getWallet( ['currency' => 'BTC'])['response'];
+echo json_encode($response) . PHP_EOL;
 
-echo json_encode($response);
+// Get wallet balance with USD valuation
+$response = $APIAccount->getWallet([ 'needUsdValuation' => true])['response'];
+echo json_encode($response) . PHP_EOL;
+
+// Get all wallet balances
+$response = $APIAccount->getWallet()['response'];
+echo json_encode($response) . PHP_EOL;
 

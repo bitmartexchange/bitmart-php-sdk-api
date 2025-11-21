@@ -25,6 +25,11 @@ class CloudClient
 
     public  function request($requestPath, $method, $params, $auth = Auth::NONE): array
     {
+        // Generate unique request ID if logging is enabled
+        $requestId = $this->cloudConfig->logger->isEnabled() 
+            ? CloudLogger::generateRequestId() 
+            : null;
+
         if ($method == 'GET' || $method == 'DELETE') {
             $url = $this->cloudConfig->url . $requestPath . (empty($params) ? '' : '?'.http_build_query($params));
         } else {
@@ -49,17 +54,9 @@ class CloudClient
 
         try {
 
-            if ($this->cloudConfig->xdebug) {
-                echo PHP_EOL;
-                echo('[' . @$method . '] ' . $url);
-                echo PHP_EOL;
-                echo 'RequestHeader:';
-                print_r($headers);
-                if ($body) {
-                    echo 'RequestBody:';
-                    print_r($body);
-                    echo PHP_EOL;
-                }
+            // log request
+            if ($this->cloudConfig->logger->isEnabled()) {
+                $this->cloudConfig->logger->logRequest($method, $url, $headers, $body ?: null, $requestId);
             }
 
 
@@ -71,7 +68,7 @@ class CloudClient
 
 
             $code = $response->getStatusCode();
-            $responseBody = $response->getBody();
+            $responseBody = (string)$response->getBody();
 
 
             $limit = [
@@ -82,22 +79,26 @@ class CloudClient
             ];
 
             $result = [
-                'response' => json_decode((string)$responseBody),
+                'response' => json_decode($responseBody),
                 'httpCode' => $code,
                 'limit' => $limit,
             ];
 
-            if ($this->cloudConfig->xdebug) {
-                echo '--';
-                echo PHP_EOL;
-                print_r($result);
-                echo('----------------------------');
+            // log response
+            if ($this->cloudConfig->logger->isEnabled()) {
+                $this->cloudConfig->logger->logResponse($code, $responseBody, $limit, $requestId);
             }
 
             return $result;
 
         } catch (GuzzleException $e) {
-            echo "Exception:" . $e->getMessage();
+            // log error
+            if ($this->cloudConfig->logger->isEnabled()) {
+                $this->cloudConfig->logger->logError("Request failed: " . $e->getMessage(), $e, $requestId);
+            } else {
+                // if logging is not enabled, use simple output (backward compatibility)
+                echo "Exception:" . $e->getMessage();
+            }
         }
 
         return [];

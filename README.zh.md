@@ -9,47 +9,47 @@ BitMart-PHP-SDK-API
 
 
 
-[BitMart Exchange official](https://bitmart.com) PHP client for the BitMart Cloud API.
+[BitMart 交易所官方](https://bitmart.com) PHP 客户端，用于 BitMart 云 API。
 
 
 
 
-Feature
+功能特性
 =========================
-- Provides exchange quick trading API
-- Easier withdrawal
-- Efficiency, higher speeds, and lower latencies
-- Priority in development and maintenance
-- Dedicated and responsive technical support
-- Provide webSocket apis calls
-- Supported APIs:
+- 提供交易所快速交易 API
+- 更便捷的提现功能
+- 高效、高速、低延迟
+- 优先开发和维护
+- 专业且响应迅速的技术支持
+- 提供 WebSocket API 调用
+- 支持的 API：
   - `/spot/*`
   - `/contract/*`
   - `/account/*`
-- Supported websockets:
-  - Spot WebSocket Market Stream
-  - Spot User Data Stream
-  - futures User Data Stream
-  - futures WebSocket Market Stream
-- Test cases and examples
+- 支持的 WebSocket：
+  - 现货 WebSocket 市场数据流
+  - 现货用户数据流
+  - 合约用户数据流
+  - 合约 WebSocket 市场数据流
+- 测试用例和示例代码
 
 
 
-Installation
+安装
 =========================
 
 ```php
 composer require bitmartexchange/bitmart-php-sdk-api
 ```
 
-Documentation
+文档
 =========================
-[API Documentation](https://developer-pro.bitmart.com/en/spot/#change-log)
+[API 文档](https://developer-pro.bitmart.com/en/spot/#change-log)
 
 
-Example
+示例
 =========================
-#### Spot Public API Example
+#### 现货公共 API 示例
 ```php
 <?php
 use BitMart\Lib\CloudConfig;
@@ -61,16 +61,16 @@ $APISpot = new APISpot(new CloudConfig([
     'timeoutSecond' => 5,
 ]));
 
-// Get a list of all cryptocurrencies on the platform
+// 获取平台上所有加密货币列表
 $response = $APISpot->getCurrencies()['response'];
 echo json_encode($response);
-// Querying aggregated tickers of a particular trading pair
+// 查询特定交易对的聚合行情
 $response = $APISpot->getV3Ticker("BTC_USDT")['response'];
 echo json_encode($response);
 ```
 
 
-#### Spot / Margin Trading Endpoints
+#### 现货/杠杆交易接口
 
 ```php
 <?php
@@ -115,19 +115,19 @@ echo json_encode($response);
 
 ```
 
-Please find [example/spot/Trading](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/spot/Trading) folder to check for more endpoints.
+更多接口示例请查看 [example/spot/Trading](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/spot/Trading) 文件夹。
 
 
 ---
 
-#### Spot WebSocket Subscribe Private Channels
+#### 现货 WebSocket 订阅私有频道
 
 
 ```php
 <?php
 use BitMart\Websocket\Spot\WsSpotPrv;
 require_once __DIR__ . '/../../../vendor/autoload.php';
-// Create Spot Websocket Client
+// 创建现货 WebSocket 客户端
 $ws = new WsSpotPrv([
     'accessKey' => "<your_api_key>",
     'secretKey' => "<your_secret_key>",
@@ -138,10 +138,10 @@ $ws = new WsSpotPrv([
     },
 ]);
 
-// Login
+// 登录
 $ws->login();
 
-// Subscribe Private Channels
+// 订阅私有频道
 $ws->send('{"op": "subscribe", "args": ["spot/user/balance:BALANCE_UPDATE"]}');
 
 $ws->send('{"op": "subscribe", "args": ["spot/user/order:BTC_USDT"]}');
@@ -151,13 +151,13 @@ $ws->send('{"op": "subscribe", "args": ["spot/user/order:BTC_USDT"]}');
 ```
 
 
-#### Spot WebSocket Subscribe Public Channels
+#### 现货 WebSocket 订阅公共频道
 
 ```php
 <?php
 use BitMart\Websocket\Spot\WsSpotPub;
 require_once __DIR__ . '/../../../vendor/autoload.php';
-// Create Spot Websocket Client
+// 创建现货 WebSocket 客户端
 $ws = new WsSpotPub([
     'callback' => function ($data) {
         echo "-------------------------".PHP_EOL;
@@ -169,7 +169,7 @@ $ws = new WsSpotPub([
 ]);
 
 
-// Subscribe Public Channels
+// 订阅公共频道
 $ws->send('{"op": "subscribe", "args": ["spot/ticker:BTC_USDT"]}');
 $ws->send('{"op": "subscribe", "args": ["spot/kline1m:BTC_USDT"]}');
 $ws->send('{"op": "subscribe", "args": ["spot/depth5:BTC_USDT"]}');
@@ -177,12 +177,12 @@ $ws->send('{"op": "subscribe", "args": ["spot/trade:BTC_USDT"]}');
 
 ```
 
-Please find [example/spot/Websocket/](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/spot/Websocket) folder to check for more endpoints.
+更多接口示例请查看 [example/spot/Websocket/](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/spot/Websocket) 文件夹。
 
 
 ---
 
-#### Futures Market Data Endpoints
+#### 合约市场数据接口
 
 ```php
 <?php
@@ -204,7 +204,7 @@ echo json_encode($response);
 
 
 
-#### Futures Trading Endpoints
+#### 合约交易接口
 
 
 ```php
@@ -239,11 +239,11 @@ echo json_encode($response);
 ```
 
 
-Please find [example/futures/Trading](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/futures/Trading) folder to check for more endpoints.
+更多接口示例请查看 [example/futures/Trading](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/futures/Trading) 文件夹。
 
 ---
 
-#### Futures WebSocket Subscribe Private Channels
+#### 合约 WebSocket 订阅私有频道
 
 
 ```php
@@ -262,10 +262,10 @@ $ws = new WsContractPrv([
         echo "-------------------------".$data.PHP_EOL;
     }
 ]);
-// Login
+// 登录
 $ws->login();
 
-// Subscribe Private Channels
+// 订阅私有频道
 $ws->send('{
     "action": "subscribe",
     "args":["futures/asset:USDT", "futures/asset:BTC", "futures/asset:ETH"]
@@ -273,7 +273,7 @@ $ws->send('{
 ```
 
 
-#### Futures WebSocket Subscribe Public Channels
+#### 合约 WebSocket 订阅公共频道
 
 
 ```php
@@ -289,7 +289,7 @@ $ws = new WsContractPub([
         echo "-------------------------".$data.PHP_EOL;
     }
 ]);
-// Subscribe Public Channels
+// 订阅公共频道
 $ws->send('{"action":"subscribe","args":["futures/ticker"]}');
 $ws->send('{"action":"subscribe","args":["futures/depth20:BTCUSDT"]}');
 $ws->send('{"action":"subscribe","args":["futures/trade:BTCUSDT"]}');
@@ -300,15 +300,15 @@ $ws->send('{"action":"subscribe","args":["futures/klineBin1m:BTCUSDT"]}');
 
 ```
 
-Please find [example/futures/Websocket/](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/futures/Websocket) folder to check for more endpoints.
+更多接口示例请查看 [example/futures/Websocket/](https://github.com/bitmartexchange/bitmart-php-sdk-api/tree/master/examples/futures/Websocket) 文件夹。
 
 
 
-Extra Options
+额外配置选项
 =========================
 
-### Authentication
-How to set API KEY?
+### 身份验证
+如何设置 API KEY？
 
 ```php
 $APISpot = new APISpot(new CloudConfig(
@@ -320,8 +320,8 @@ $APISpot = new APISpot(new CloudConfig(
   ));
 ```
 
-### Timeout
-Set HTTP `connection timeout` and `read timeout`.
+### 超时设置
+设置 HTTP `连接超时` 和 `读取超时`。
 
 ```php
 $APISpot = new APISpot(new CloudConfig(
@@ -331,9 +331,9 @@ $APISpot = new APISpot(new CloudConfig(
   ));
 ```
 
-### Logging
-If you want to `debug` the data requested by the API and the corresponding data returned by the API,
-you can set it like this:
+### 日志记录
+如果您想要 `调试` API 请求的数据和 API 返回的相应数据，
+可以这样设置：
 
 ```php
 $APISpot = new APISpot(new CloudConfig(
@@ -348,9 +348,9 @@ $APISpot = new APISpot(new CloudConfig(
   ));
 ```
 
-### Domain
-How to set API domain name? The domain name parameter is optional,
-the default domain name is `https://api-cloud.bitmart.com`.
+### 域名设置
+如何设置 API 域名？域名参数是可选的，
+默认域名是 `https://api-cloud.bitmart.com`。
 
 
 ```php
@@ -362,8 +362,8 @@ $APISpot = new APISpot(new CloudConfig(
 ```
 
 
-### Custom request headers
-You can add your own request header information here, but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`
+### 自定义请求头
+您可以在此处添加您自己的请求头信息，但请不要填写 `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`
 
 ```php
 $APISpot = new APISpot(new CloudConfig([
@@ -375,16 +375,16 @@ $APISpot = new APISpot(new CloudConfig([
 ```
 
 
-### Response Metadata
+### 响应元数据
 
-The bitmart API server provides the endpoint rate limit usage in the header of each response.
-This information can be obtained from the headers property.
-`x-bm-ratelimit-remaining` indicates the number of times the current window has been used,
-`x-bm-ratelimit-limit` indicates the maximum number of times the current window can be used,
-and `x-bm-ratelimit-reset` indicates the current window time.
+BitMart API 服务器在每个响应的响应头中提供端点速率限制使用情况。
+此信息可以从 headers 属性中获取。
+`x-bm-ratelimit-remaining` 表示当前窗口已使用的次数，
+`x-bm-ratelimit-limit` 表示当前窗口可以使用的最大次数，
+`x-bm-ratelimit-reset` 表示当前窗口时间。
 
 
-##### Example:
+##### 示例：
 
 ```
 x-bm-ratelimit-mode: IP
@@ -393,7 +393,7 @@ x-bm-ratelimit-limit: 600
 x-bm-ratelimit-reset: 60
 ```
 
-This means that this IP can call the endpoint 600 times within 60 seconds, and has called 10 times so far.
+这表示此 IP 在 60 秒内可以调用该端点 600 次，目前已调用 10 次。
 
 
 ```php
@@ -405,3 +405,4 @@ echo $response['limit']['Reset'];
 echo $response['limit']['Mode'];
 
 ```
+

@@ -11,11 +11,13 @@ $APIContract = new APIContractMarket(new CloudConfig([
     'timeoutSecond' => 5,
     'logger' => [
         'enabled' => true,
-        'format' => 'default',
         'outputToConsole' => true,
     ] 
-]));;
+]));
 
-$response = $APIContract->getContractFundingRate("BTCUSDT")['response'];
+$response = $APIContract->getContractLeverageBracket([
+    'symbol' => "BTCUSDT"
+])['response'];
 
 echo json_encode($response);
+

@@ -27,12 +27,9 @@ class APIContractMarket
      * @param string $symbol : Symbol of the contract(like BTCUSDT)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getContractDetails(string $symbol): array
+    public function getContractDetails(array $options = []): array
     {
-        $params = [
-            "symbol" => $symbol,
-        ];
-        return self::$cloudClient->request(CloudConst::API_CONTRACT_DETAILS_URL, CloudConst::GET, $params);
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_DETAILS_URL, CloudConst::GET, $options);
     }
 
     /**
@@ -134,6 +131,37 @@ class APIContractMarket
             "end_time" => $endTime,
         ];
         return self::$cloudClient->request(CloudConst::API_CONTRACT_MARK_PRICE_KLINE_URL, CloudConst::GET, $params);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/public/leverage-bracket
+     * Get Current Leverage Risk Limit
+     * @param array $options 
+     *   symbol : Symbol of the contract(like BTCUSDT), optional
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractLeverageBracket(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_LEVERAGE_BRACKET_URL, CloudConst::GET, $options);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/public/market-trade
+     * Query the latest trade data
+     * @param string $symbol : Symbol of the contract(like BTCUSDT)
+     * @param array $options
+     *  limit : Number of results per request. The maximum is 100; The default is 100
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractMarketTrade(string $symbol, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_MARKET_TRADE_URL, CloudConst::GET, $params);
     }
 
 }

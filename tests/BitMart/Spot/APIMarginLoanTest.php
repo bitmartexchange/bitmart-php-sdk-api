@@ -2,8 +2,8 @@
 
 namespace BitMart\Tests;
 
-use BitMart\Lib\CloudConfig;
 use BitMart\Spot\APIMarginLoan;
+use BitMart\Tests\TestConfig;
 use PHPUnit\Framework\TestCase;
 
 class APIMarginLoanTest extends TestCase
@@ -12,15 +12,7 @@ class APIMarginLoanTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->APIMarginLoan = new APIMarginLoan(new CloudConfig(
-            [
-                'accessKey' => "your_api_key",
-                'secretKey' => "your_secret_key",
-                'memo' => "your_memo",
-                'timeoutSecond' => 5,
-                'xdebug' => true
-            ]
-        ));
+        $this->APIMarginLoan = new APIMarginLoan(TestConfig::getSpotConfig());
     }
 
     public function testMarginIsolatedBorrow()

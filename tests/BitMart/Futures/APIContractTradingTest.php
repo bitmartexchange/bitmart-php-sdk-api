@@ -2,27 +2,30 @@
 
 namespace BitMart\Tests;
 
-use BitMart\CloudConst;
 use BitMart\Futures\APIContractTrading;
-use BitMart\Lib\CloudConfig;
+use BitMart\Tests\TestConfig;
 use PHPUnit\Framework\TestCase;
 
-class APIContractMarketTradingTest extends TestCase
+class APIContractTradingTest extends TestCase
 {
     protected $APIContract;
 
     protected function setUp(): void
     {
-        $this->APIContract = new APIContractTrading(new CloudConfig(
-            [
-                'url' => CloudConst::API_URL_V2_PRO,
-                'accessKey' => "your_api_key",
-                'secretKey' => "your_secret_key",
-                'memo' => "your_memo",
-                'timeoutSecond' => 5,
-                'xdebug' => true
-            ]
-        ));
+        $this->APIContract = new APIContractTrading(TestConfig::getFuturesConfig());
+    }
+
+    /**
+     * output the last API response if the test is not successful
+     */
+    protected function onNotSuccessfulTest(\Throwable $t): void
+    {
+        if ($this->APIContract && method_exists($this->APIContract, 'getLastResponse')) {
+            echo "\n=== Last API Response ===\n";
+            print_r($this->APIContract->getLastResponse());
+            echo "\n";
+        }
+        parent::onNotSuccessfulTest($t);
     }
 
 
@@ -33,12 +36,16 @@ class APIContractMarketTradingTest extends TestCase
 
     public function testGetContractTradeFeeRate()
     {
-        $this->assertEquals(1000, $this->APIContract->getContractTradeFeeRate("BTCUSDT", "220609666322019")['response']->code);
+        $this->assertEquals(1000, $this->APIContract->getContractTradeFeeRate("BTCUSDT")['response']->code);
     }
 
     public function testGetContractOrderDetail()
     {
         $this->assertEquals(1000, $this->APIContract->getContractOrderDetail("BTCUSDT", "220609666322019")['response']->code);
+
+        $this->assertEquals(1000, $this->APIContract->getContractOrderDetail("BTCUSDT", "220609666322019", [
+            'account' => 'futures',
+        ])['response']->code);
     }
 
     public function testGetContractOrderHistory()
@@ -48,6 +55,16 @@ class APIContractMarketTradingTest extends TestCase
         $this->assertEquals(1000, $this->APIContract->getContractOrderHistory(
             "BTCUSDT",
            [
+               'start_time' => $startTime,
+               'end_time' => $endTime,
+           ]
+        )['response']->code);
+
+        $this->assertEquals(1000, $this->APIContract->getContractOrderHistory(
+            "BTCUSDT",
+           [
+               'account' => 'futures',
+               'order_id' => '220609666322019',
                'start_time' => $startTime,
                'end_time' => $endTime,
            ]
@@ -89,6 +106,7 @@ class APIContractMarketTradingTest extends TestCase
         $this->assertEquals(1000, $this->APIContract->getContractPosition(
             [
                 'symbol' => 'BTCUSDT',
+                'account' => 'futures',
             ]
         )['response']->code);
     }
@@ -101,6 +119,7 @@ class APIContractMarketTradingTest extends TestCase
         $this->assertEquals(1000, $this->APIContract->getContractPositionRisk(
             [
                 'symbol' => 'BTCUSDT',
+                'account' => 'futures',
             ]
         )['response']->code);
     }
@@ -109,16 +128,25 @@ class APIContractMarketTradingTest extends TestCase
     {
 
         $this->assertEquals(1000, $this->APIContract->getContractTrades(
-            "BTCUSDT",
+            [
+                'symbol' => "BTCUSDT",
+            ]
         )['response']->code);
 
         $endTime = round(microtime(true) );
         $startTime = $endTime - (60*60);
         $this->assertEquals(1000, $this->APIContract->getContractTrades(
-            "BTCUSDT",
             [
+                'symbol' => "BTCUSDT",
+                'account' => 'futures',
                 'start_time' => $startTime,
                 'end_time' => $endTime,
+            ]
+        )['response']->code);
+
+        $this->assertEquals(1000, $this->APIContract->getContractTrades(
+            [
+                'account' => 'futures',
             ]
         )['response']->code);
     }
@@ -132,6 +160,7 @@ class APIContractMarketTradingTest extends TestCase
         $startTime = $endTime - (60*60)*1000;
         $this->assertEquals(1000, $this->APIContract->getContractTransactionHistory(
             [
+                'account' => 'futures',
                 'flow_type' => 0,
                 'start_time' => $startTime,
                 'end_time' => $endTime,
@@ -166,20 +195,21 @@ class APIContractMarketTradingTest extends TestCase
             'BTCUSDT',
             1,
             [
-                'client_order_id' => "test3000000001",
+                //'client_order_id' => "test3000000002",
                 'type' => "limit",
-                'leverage' => "1",
+                'leverage' => "10",
                 'open_type' => "isolated",
                 'mode' => 1,
-                'price' => "10",
+                'price' => "91400",
                 'size' => 1,
+                'stp_mode' => 1,
             ]
         )['response']->code);
     }
 
     public function testCancelOrder()
     {
-        $this->assertEquals(1000, $this->APIContract->cancelOrder("BTCUSDT", "230614362545891")['response']->code);
+        $this->assertEquals(1000, $this->APIContract->cancelOrder("BTCUSDT", "79224087421")['response']->code);
     }
 
     public function testCancelAllOrder()
@@ -321,6 +351,41 @@ class APIContractMarketTradingTest extends TestCase
         $this->assertEquals(1000, $this->APIContract->cancelTrailOrder("BTCUSDT", [
             "order_id" => "60633000005"
         ])['response']->code);
+    }
+
+    public function testModifyLimitOrder()
+    {
+        $this->assertEquals(1000, $this->APIContract->modifyLimitOrder("BTCUSDT", [
+            "order_id" => "220609666322019",
+            "price" => "50000",
+            "size" => 1,
+        ])['response']->code);
+    }
+
+    public function testCancelAllAfter()
+    {
+        $this->assertEquals(1000, $this->APIContract->cancelAllAfter("BTCUSDT", 360)['response']->code);
+    }
+
+    public function testGetPositionMode()
+    {
+        $this->assertEquals(1000, $this->APIContract->getPositionMode()['response']->code);
+    }
+
+    public function testSetPositionMode()
+    {
+        $this->assertEquals(1000, $this->APIContract->setPositionMode("one_way_mode")['response']->code);
+    }
+
+    public function testGetContractPositionV2()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractPositionV2()['response']->code);
+
+        $this->assertEquals(1000, $this->APIContract->getContractPositionV2(
+            [
+                'symbol' => 'BTCUSDT',
+            ]
+        )['response']->code);
     }
 
 

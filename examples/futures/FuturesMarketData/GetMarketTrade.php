@@ -14,8 +14,17 @@ $APIContract = new APIContractMarket(new CloudConfig([
         'format' => 'default',
         'outputToConsole' => true,
     ] 
-]));;
+]));
 
-$response = $APIContract->getContractFundingRate("BTCUSDT")['response'];
-
+$response = $APIContract->getContractMarketTrade("BTCUSDT")['response'];
 echo json_encode($response);
+
+
+$response = $APIContract->getContractMarketTrade(
+    "BTCUSDT",
+    [
+        'limit' => 50,
+    ]
+)['response'];
+echo json_encode($response);
+
