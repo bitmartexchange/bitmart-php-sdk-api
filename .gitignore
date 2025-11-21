@@ -2,3 +2,5 @@
 runtime/*
 vendor/*
 .phpunit.result.cache
+logs/*
+.vscode/*

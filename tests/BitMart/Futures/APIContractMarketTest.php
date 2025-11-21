@@ -2,9 +2,8 @@
 
 namespace BitMart\Tests;
 
-use BitMart\CloudConst;
 use BitMart\Futures\APIContractMarket;
-use BitMart\Lib\CloudConfig;
+use BitMart\Tests\TestConfig;
 use PHPUnit\Framework\TestCase;
 
 class APIContractMarketTest extends TestCase
@@ -13,18 +12,15 @@ class APIContractMarketTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->APIContract = new APIContractMarket(new CloudConfig(
-            [
-                'url' => CloudConst::API_URL_V2_PRO,
-                'timeoutSecond' => 5,
-                'xdebug' => true
-            ]
-        ));
+        $this->APIContract = new APIContractMarket(TestConfig::getFuturesConfig());
+
     }
 
     public function testGetContractDetails()
     {
-        $this->assertEquals(1000, $this->APIContract->getContractDetails("BTCUSDT")['response']->code);
+        $this->assertEquals(1000, $this->APIContract->getContractDetails([
+            'symbol' => "BTCUSDT",
+        ])['response']->code);
     }
 
     public function testGetContractDepth()
@@ -71,6 +67,22 @@ class APIContractMarketTest extends TestCase
             $startTime,
             $endTime
         )['response']->code);
+    }
+
+    public function testGetContractLeverageBracket()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractLeverageBracket([
+            'symbol' => "BTCUSDT"
+        ])['response']->code);
+    }
+
+    public function testGetContractMarketTrade()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractMarketTrade("BTCUSDT")['response']->code);
+
+        $this->assertEquals(1000, $this->APIContract->getContractMarketTrade("BTCUSDT", [
+            'limit' => 2,
+        ])['response']->code);
     }
 
 

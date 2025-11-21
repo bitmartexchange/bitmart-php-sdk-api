@@ -2,8 +2,8 @@
 
 namespace BitMart\Tests;
 
-use BitMart\Lib\CloudConfig;
 use BitMart\Spot\APISystem;
+use BitMart\Tests\TestConfig;
 use PHPUnit\Framework\TestCase;
 
 
@@ -14,12 +14,7 @@ class APISystemTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->APISystem = new APISystem(new CloudConfig(
-            [
-                'timeoutSecond'  => 5,
-                'xdebug'  => true,
-            ]
-        ));
+        $this->APISystem = new APISystem(TestConfig::getSpotConfig());
     }
 
     public function testGetSystemTime()

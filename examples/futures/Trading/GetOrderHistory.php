@@ -3,15 +3,10 @@
 use BitMart\CloudConst;
 use BitMart\Futures\APIContractTrading;
 use BitMart\Lib\CloudConfig;
-
+require_once __DIR__ . '/../../ExampleConfig.php';
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-$APIContract = new APIContractTrading(new CloudConfig([
-    'url' => CloudConst::API_URL_V2_PRO,
-    'accessKey' => "<your_api_key>",
-    'secretKey' => "<your_secret_key>",
-    'memo' => "<your_memo>",
-]));
+$APIContract = new APIContractTrading(ExampleConfig::getExampleConfig());
 
 $response = $APIContract->getContractOrderHistory(
     "BTCUSDT"
@@ -24,6 +19,8 @@ $startTime = $endTime - (60*60);
 $response = $APIContract->getContractOrderHistory(
     "BTCUSDT",
     [
+        'account' => 'futures',
+        'order_id' => '220609666322019',
         'start_time' => $startTime,
         'end_time' => $endTime,
     ]

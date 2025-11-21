@@ -2,8 +2,8 @@
 
 namespace BitMart\Tests;
 
-use BitMart\Lib\CloudConfig;
 use BitMart\Spot\APIAccount;
+use BitMart\Tests\TestConfig;
 use PHPUnit\Framework\TestCase;
 
 class APIAccountTest extends TestCase
@@ -12,15 +12,7 @@ class APIAccountTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->APIAccount = new APIAccount(new CloudConfig(
-            [
-                'accessKey' => "your_api_key",
-                'secretKey' => "your_secret_key",
-                'memo' => "your_memo",
-                'timeoutSecond' => 5,
-                'xdebug' => true
-            ]
-        ));
+        $this->APIAccount = new APIAccount(TestConfig::getSpotConfig());
     }
 
     public function testGetCurrencies()

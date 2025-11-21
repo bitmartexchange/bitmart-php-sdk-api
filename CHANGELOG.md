@@ -2,6 +2,40 @@ Changelog
 =========================
 
 
+### v2.3.0 Release
+#### New Features
+- New
+  - `/contract/private/modify-limit-order` Applicable for modifying futures limit orders(SIGNED)
+  - `/contract/private/cancel-all-after` Applicable for canceling all futures orders timed(SIGNED)
+  - `/contract/private/get-position-mode` Get Position Mode (KEYED)
+  - `/contract/private/set-position-mode` Set Position Mode (SIGNED)
+  - `/contract/private/position-v2` Get Current Position V2 (KEYED)
+  - `/contract/public/leverage-bracket` Get Current Leverage Risk Limit
+  - `/contract/public/market-trade` Query the latest trade data
+
+- Update
+  - `/contract/private/submit-order` Applicable for placing futures orders(SIGNED): Add the Request field **stp_mode**
+  - `/contract/private/transaction-history` Get Transaction History (KEYED): Add the Request field **account**
+  - `/contract/private/trades` Get Order Trade (KEYED): Add the Request field **account**, Request field **symbol** changed to optional
+  - `/contract/private/position-risk` Get Current Position Risk Details(KEYED): Add the Request field **account**
+  - `/contract/private/position` Get Current Position (KEYED): Add the Request field **account**
+  - `/contract/private/order-history` Get Order History (KEYED): Add the Request field **account**, **order_id**, **client_order_id**
+  - `/contract/private/order` Get Order Detail (KEYED): Add the Request field **account**
+#### Improvements
+- **Enhanced Logging System**: Introduced a comprehensive logging mechanism to replace the previous `echo` and `print_r` output methods
+  - Added `CloudLogger` class with configurable logging capabilities
+  - Support for multiple log formats: `default` (structured), `simple` (xdebug-compatible), and `json` (machine-readable)
+  - Configurable output destinations: console output and/or file logging
+  - Automatic request ID generation for request tracing and correlation
+  - Instance-based logger configuration: each `CloudConfig` instance has its own independent logger
+  - Configurable logging options including format, verbosity, and output channels
+  - Backward compatible: exception messages still use simple output when logging is disabled 
+
+
+---
+
+
+
 ### v2.2.0 Release
 #### New Features
 - New

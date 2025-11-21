@@ -51,14 +51,19 @@ class APIContractTrading
      * Get Order Detail (KEYED) - Applicable for querying contract order detail
      * @param string $symbol : Symbol of the contract(like BTCUSDT)
      * @param string $orderId : Order ID
+     * @param array $options
+     *  account : Account type (futures/copy_trading)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getContractOrderDetail(string $symbol, string $orderId): array
+    public function getContractOrderDetail(string $symbol, string $orderId, array $options = []): array
     {
-        $params = [
-            'symbol' => $symbol,
-            'order_id' => $orderId,
-        ];
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'order_id' => $orderId,
+            ],
+            $options
+        );
         return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_ORDER_URL, CloudConst::GET, $params, Auth::KEYED);
     }
 
@@ -67,6 +72,9 @@ class APIContractTrading
      * Get Order History (KEYED) - Applicable for querying contract order history
      * @param string $symbol : Symbol of the contract(like BTCUSDT)
      * @param array $options
+     *  account : Account type (futures/copy_trading)
+     *  order_id : Order ID
+     *  client_order_id : Client Order ID
      *  startTime : Start time, default is the last 7 days
      *  endTime : End time, default is the last 7 days
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
@@ -120,12 +128,12 @@ class APIContractTrading
      * Get Current Position (KEYED) - Applicable for checking the position details a specified contract
      * @param array $options
      *  symbol : Symbol of the contract(like BTCUSDT)
+     *  account : Account type (futures/copy_trading)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getContractPosition(array $options = []): array
     {
-        $params = $options;
-        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_POSITION_URL, CloudConst::GET, $params, Auth::KEYED);
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_POSITION_URL, CloudConst::GET, $options, Auth::KEYED);
     }
 
 
@@ -134,38 +142,34 @@ class APIContractTrading
      * Applicable for checking the position risk details a specified contract
      * @param array $options
      *  symbol : Symbol of the contract(like BTCUSDT)
+     *  account : Account type (futures/copy_trading)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getContractPositionRisk(array $options = []): array
     {
-        $params = $options;
-        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_POSITION_RISK_URL, CloudConst::GET, $params, Auth::KEYED);
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_POSITION_RISK_URL, CloudConst::GET, $options, Auth::KEYED);
     }
 
     /**
      * url: GET https://api-cloud-v2.bitmart.com/contract/private/trades
      * Get Order Trade (KEYED) - Applicable for querying contract order trade detail
-     * @param string $symbol : Symbol of the contract(like BTCUSDT)
      * @param array $options
+     *  symbol : Symbol of the contract(like BTCUSDT), optional
+     *  account : Account type (futures/copy_trading)
      *  startTime : Start time, default is the last 7 days
      *  endTime : End time, default is the last 7 days
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getContractTrades(string $symbol, array $options = []): array
+    public function getContractTrades(array $options = []): array
     {
-        $params = array_merge(
-            [
-                'symbol' => $symbol,
-            ],
-            $options
-        );
-        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRADES_URL, CloudConst::GET, $params, Auth::KEYED);
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRADES_URL, CloudConst::GET, $options, Auth::KEYED);
     }
 
     /**
      * url: GET https://api-cloud-v2.bitmart.com/contract/private/transaction-history
      * Get Transaction History (KEYED) - Applicable for querying futures transaction history
      * @param array $options
+     *  account : Account type (futures/copy_trading)
      *  symbol : Symbol of the contract
      *  flow_type : Type
                     - 0 = All (default)
@@ -181,8 +185,7 @@ class APIContractTrading
      */
     public function getContractTransactionHistory(array $options = []): array
     {
-        $params = $options;
-        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRANSACTION_HISTORY_URL, CloudConst::GET, $params, Auth::KEYED);
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_TRANSACTION_HISTORY_URL, CloudConst::GET, $options, Auth::KEYED);
     }
 
     /**
@@ -250,6 +253,7 @@ class APIContractTrading
                             -2=fair_price
      *  preset_take_profit_price : Pre-set TP price
      *  preset_stop_loss_price : Pre-set SL price
+     *  stp_mode : Self-Trade Prevention mode
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function submitOrder(string $symbol, int $side, array $options = []): array
@@ -594,6 +598,81 @@ class APIContractTrading
             $options
         );
         return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_CANCEL_TRAIL_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/modify-limit-order
+     * Modify Limit Order (SIGNED) - Applicable for modifying futures limit orders
+     * @param string $symbol : Symbol of the contract(like BTCUSDT)
+     * @param array $options
+     *  order_id : Order ID
+     *  client_order_id : Client Order ID (order_id or client_order_id must give one)
+     *  price : Order price
+     *  size : Order size (Number of contracts)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function modifyLimitOrder(string $symbol, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_MODIFY_LIMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/cancel-all-after
+     * Timed Cancel All Orders (SIGNED) - Applicable for canceling all futures orders timed
+     * @param string $symbol : Symbol of the contract(like BTCUSDT)
+     * @param int $timeout : Timeout in seconds, 0 means cancel the timed cancel all orders
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function cancelAllAfter(string $symbol, int $timeout): array
+    {
+        $params = [
+            'symbol' => $symbol,
+            'timeout' => $timeout,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_CANCEL_ALL_AFTER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/get-position-mode
+     * Get Position Mode (KEYED) - Applicable for getting position mode
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getPositionMode(): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_GET_POSITION_MODE_URL, CloudConst::GET, [], Auth::KEYED);
+    }
+
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/set-position-mode
+     * Set Position Mode (SIGNED) - Applicable for setting position mode
+     * @param string $positionMode : Position mode (one_way_mode/hedge_mode)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function setPositionMode(string $positionMode): array
+    {
+        $params = [
+            'position_mode' => $positionMode,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_SET_POSITION_MODE_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/position-v2
+     * Get Current Position V2 (KEYED) - Applicable for checking the position details a specified contract
+     * @param array $options
+     *  symbol : Symbol of the contract(like BTCUSDT), optional
+     *  account : Account type (futures/copy_trading)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractPositionV2(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_POSITION_V2_URL, CloudConst::GET, $options, Auth::KEYED);
     }
 
 }

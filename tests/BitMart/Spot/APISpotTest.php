@@ -2,8 +2,8 @@
 
 namespace BitMart\Tests;
 
-use BitMart\Lib\CloudConfig;
 use BitMart\Spot\APISpot;
+use BitMart\Tests\TestConfig;
 use PHPUnit\Framework\TestCase;
 
 class APISpotTest extends TestCase
@@ -12,19 +12,7 @@ class APISpotTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->APISpot = new APISpot(new CloudConfig(
-            [
-                'accessKey' => "your_api_key",
-                'secretKey' => "your_secret_key",
-                'memo' => "your_memo",
-                'timeoutSecond' => 5,
-                'xdebug' => true,
-                'customHeaders' => array(
-                    "Your-Custom-Header1" => "value1",
-                    "Your-Custom-Header2" => "value2",
-                ),
-            ]
-        ));
+        $this->APISpot = new APISpot(TestConfig::getSpotConfig());
     }
 
     // ------------ Public API

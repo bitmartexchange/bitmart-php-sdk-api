@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.2.0';
+    const VERSION = 'bitmart-php-sdk-api/2.3.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -96,6 +96,8 @@ class CloudConst
     const API_CONTRACT_FUNDING_RATE_HISTORY_URL = '/contract/public/funding-rate-history';
     const API_CONTRACT_KLINE_URL = '/contract/public/kline';
     const API_CONTRACT_MARK_PRICE_KLINE_URL = '/contract/public/markprice-kline';
+    const API_CONTRACT_LEVERAGE_BRACKET_URL = '/contract/public/leverage-bracket';
+    const API_CONTRACT_MARKET_TRADE_URL = '/contract/public/market-trade';
 
     # Futures Account Data
     const API_CONTRACT_ASSETS_URL = '/contract/private/assets-detail';
@@ -124,6 +126,11 @@ class CloudConst
     const API_CONTRACT_PRV_MODIFY_PRESET_PLAN_ORDER_URL = '/contract/private/modify-preset-plan-order';
     const API_CONTRACT_PRV_MODIFY_TP_SL_ORDER_ORDER_URL = '/contract/private/modify-tp-sl-order';
     const API_CONTRACT_PRV_TRANSFER_URL = '/account/v1/transfer-contract';
+    const API_CONTRACT_PRV_MODIFY_LIMIT_ORDER_URL = '/contract/private/modify-limit-order';
+    const API_CONTRACT_PRV_CANCEL_ALL_AFTER_URL = '/contract/private/cancel-all-after';
+    const API_CONTRACT_PRV_GET_POSITION_MODE_URL = '/contract/private/get-position-mode';
+    const API_CONTRACT_PRV_SET_POSITION_MODE_URL = '/contract/private/set-position-mode';
+    const API_CONTRACT_PRV_POSITION_V2_URL = '/contract/private/position-v2';
 
 
 }

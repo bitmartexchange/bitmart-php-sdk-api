@@ -338,7 +338,12 @@ you can set it like this:
 ```php
 $APISpot = new APISpot(new CloudConfig(
       [
-          'xdebug' => true
+          'logger' => [
+              'enabled' => true,
+              'outputToConsole' => true,
+              'outputToFile' => true,
+              'logFile' => __DIR__ . '/../../../logs/test.log',
+          ]
       ]
   ));
 ```
