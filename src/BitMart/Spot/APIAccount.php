@@ -38,15 +38,14 @@ class APIAccount
     /**
      * url: GET https://api-cloud.bitmart.com/account/v1/wallet
      * Gets Account Balance
-     * @param $currency: Token symbol, e.g., 'BTC'
+     * @param array $options
+     *  currency: Token symbol, e.g., 'BTC' (optional)
+     *  needUsdValuation : Whether to return USD valuation (optional)
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
-    public function getWallet(string $currency): array
+    public function getWallet(array $options = []): array
     {
-        $params = [
-            'currency' => $currency
-        ];
-        return self::$cloudClient->request(CloudConst::API_ACCOUNT_WALLET_URL, CloudConst::GET, $params, Auth::KEYED);
+        return self::$cloudClient->request(CloudConst::API_ACCOUNT_WALLET_URL, CloudConst::GET, $options, Auth::KEYED);
     }
 
     /**

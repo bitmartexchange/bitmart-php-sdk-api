@@ -262,6 +262,7 @@ class APISpot
      *  size : Order size || Required for placing orders by quantity
      *  price : Order Price
      *  notional : Required for placing orders by amount
+     *  stpMode : Self-Trade Prevention mode
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postSubmitOrder(string $symbol,string $side, string $type, array $options = []): array
@@ -315,7 +316,8 @@ class APISpot
      * New Batch Order(v4) (SIGNED) - Batch order
      * @param $symbol : Trading pair (e.g. BTC_USDT)
      * @param $orderParams : Order parameters, the number of transactions cannot exceed 10
-     * @param $options.recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param array $options
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @return array
      */
     public function postSubmitBatchOrder(string $symbol, array $orderParams, array $options = []): array
