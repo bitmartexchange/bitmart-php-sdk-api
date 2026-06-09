@@ -158,6 +158,8 @@ class APIContractTrading
      *  account : Account type (futures/copy_trading)
      *  startTime : Start time, default is the last 7 days
      *  endTime : End time, default is the last 7 days
+     *  order_id : Order ID
+     *  client_order_id : Client Order ID
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function getContractTrades(array $options = []): array
@@ -673,6 +675,220 @@ class APIContractTrading
     public function getContractPositionV2(array $options = []): array
     {
         return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_POSITION_V2_URL, CloudConst::GET, $options, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/auto_repayment
+     * Get Auto Repayment Record (KEYED) - Applicable for querying cross collateral auto repayment records
+     * @param array $options
+     *  start_time : Start time (timestamp in seconds)
+     *  end_time : End time (timestamp in seconds)
+     *  page : Current page
+     *  size : Query size
+     *  from_coin_code : Repayment currency (like USDT)
+     *  type : Repayment type (like AUTO_REPAY)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractAutoRepayment(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AUTO_REPAYMENT_URL, CloudConst::GET, $options, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/cross_collateral/interest_log
+     * Get Cross Collateral Interest Log (KEYED) - Applicable for querying cross collateral interest accrual logs
+     * @param array $options
+     *  start_time : Start time (timestamp in seconds)
+     *  end_time : End time (timestamp in seconds)
+     *  page : Current page
+     *  size : Query size
+     *  coin_code : Currency (like USDT)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractInterestLog(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_INTEREST_LOG_URL, CloudConst::GET, $options, Auth::KEYED);
+    }
+
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/claim
+     * Claim Demo Assets (SIGNED) - Applicable for claiming demo trading assets, no real assets required
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function claim(): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_CLAIM_URL, CloudConst::POST, [], Auth::SIGNED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/aff-customer-info
+     * Get Invited User Contract Account Info (KEYED) - Applicable for affiliates to query an invited user's contract account info
+     * @param $userId : The invited user ID to query
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateCustomerInfo($userId): array
+    {
+        $params = [
+            'userId' => $userId,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_CUSTOMER_INFO_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/deposit-withdrawal-list
+     * Get Invited User Deposit/Withdrawal List (KEYED) - Applicable for affiliates to query an invited user's deposit/withdrawal records
+     * @param int $page : Page number
+     * @param int $size : Records per page (max 50)
+     * @param $cid : The user CID to query
+     * @param $startTime : Start time (timestamp in seconds)
+     * @param $endTime : End time (timestamp in seconds), max interval 60 days
+     * @param array $options
+     *  type : Type (1=deposit, 2=withdrawal)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateDepositWithdrawalList(int $page, int $size, $cid, $startTime, $endTime, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'page' => $page,
+                'size' => $size,
+                'cid' => $cid,
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_DEPOSIT_WITHDRAWAL_LIST_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/rebate-inviteUser
+     * Get Invited Customer List (KEYED) - Applicable for affiliates to query the invited user rebate list
+     * @param $startTime : Start time (timestamp in seconds)
+     * @param $endTime : End time (timestamp in seconds), max interval 60 days
+     * @param int $page : Current page
+     * @param int $size : Records per page (max 50)
+     * @param array $options
+     *  cid : The user CID to query
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateRebateInviteUser($startTime, $endTime, int $page, int $size, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+                'page' => $page,
+                'size' => $size,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_REBATE_INVITE_USER_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/invite-check
+     * Check Invited User (KEYED) - Applicable for affiliates to check whether a user is an invited user
+     * @param $cid : The user CID to query
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateInviteCheck($cid): array
+    {
+        $params = [
+            'cid' => $cid,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_INVITE_CHECK_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/rebate-user
+     * Get Single User Rebate (KEYED) - Applicable for affiliates to query the rebate of a single invited user
+     * @param $cid : The user CID to query
+     * @param $startTime : Start time (timestamp in seconds)
+     * @param $endTime : End time (timestamp in seconds), max interval 60 days
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateRebateUser($cid, $startTime, $endTime): array
+    {
+        $params = [
+            'cid' => $cid,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_REBATE_USER_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/rebate-api
+     * Get Single API User Rebate (KEYED) - Applicable for affiliates to query the API rebate of a single invited user
+     * @param $cid : The user CID to query
+     * @param $startTime : Start time (timestamp in seconds)
+     * @param $endTime : End time (timestamp in seconds), max interval 60 days
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateRebateApi($cid, $startTime, $endTime): array
+    {
+        $params = [
+            'cid' => $cid,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_REBATE_API_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/rebate-list
+     * Get Rebate List (KEYED) - Applicable for affiliates to query the rebate records list
+     * @param int $page : Page number
+     * @param int $size : Records per page
+     * @param string $currency : Query currency
+     * @param array $options
+     *  user_id : The user ID to query
+     *  rebate_start_time : Rebate start time (timestamp in seconds)
+     *  rebate_end_time : Rebate end time (timestamp in seconds)
+     *  register_start_time : Register start time (timestamp in seconds)
+     *  register_end_time : Register end time (timestamp in seconds)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateRebateList(int $page, int $size, string $currency, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'page' => $page,
+                'size' => $size,
+                'currency' => $currency,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_REBATE_LIST_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/private/affiliate/trade-list
+     * Get Trade List (KEYED) - Applicable for affiliates to query an invited user's trade records
+     * @param $userId : The user ID to query
+     * @param int $type : Query type
+     *                    -1=USDT-M
+     *                    -2=Coin-M
+     * @param int $page : Page number
+     * @param int $size : Records per page
+     * @param array $options
+     *  start_time : Start time (timestamp in seconds)
+     *  end_time : End time (timestamp in seconds)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAffiliateTradeList($userId, int $type, int $page, int $size, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'user_id' => $userId,
+                'type' => $type,
+                'page' => $page,
+                'size' => $size,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_TRADE_LIST_URL, CloudConst::GET, $params, Auth::KEYED);
     }
 
 }

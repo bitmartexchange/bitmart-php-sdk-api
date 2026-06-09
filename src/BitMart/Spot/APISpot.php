@@ -523,4 +523,151 @@ class APISpot
         return self::$cloudClient->request(CloudConst::API_SPOT_V4_QUERY_ORDER_TRADES_URL, CloudConst::POST, $params, Auth::SIGNED);
     }
 
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/algo/submit_order
+     * Submit Algo Order(v4) (SIGNED) - Applicable for placing algo orders, supporting trigger(plan) orders and tp/sl orders
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param string $side : Order side
+     *                       -buy
+     *                       -sell
+     * @param string $type : Algo order type
+     *                       -tp/sl=One-way take-profit/stop-loss
+     *                       -trigger=Plan order
+     * @param array $options
+     *  client_order_id : Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     *  trigger_price : Trigger price
+     *  trigger_type : Trigger order type (limit/market)
+     *  price : Order price
+     *  notional : Special parameter for market buy order (type=market, side=buy)
+     *  size : Special parameter for market sell order and limit order
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postSubmitAlgoOrder(string $symbol, string $side, string $type, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'symbol' => $symbol,
+                'side' => $side,
+                'type' => $type,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_ALGO_SUBMIT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/algo/cancel_order
+     * Cancel Algo Order(v4) (SIGNED) - Cancel an unfilled algo order
+     * @param string $symbol : Trading pair (e.g. BTC_USDT)
+     * @param string $orderId : Order id
+     * @param string $type : Algo order type
+     *                       -tp/sl=One-way take-profit/stop-loss
+     *                       -trigger=Plan order
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postCancelAlgoOrder(string $symbol, string $orderId, string $type): array
+    {
+        $params = [
+            'symbol' => $symbol,
+            'order_id' => $orderId,
+            'type' => $type,
+        ];
+        return self::$cloudClient->request(CloudConst::API_SPOT_ALGO_CANCEL_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/algo/cancel_all
+     * Cancel All Algo Orders(v4) (SIGNED) - Cancel all unfilled algo orders
+     * @param string $type : Algo order type
+     *                       -tp/sl=One-way take-profit/stop-loss
+     *                       -trigger=Plan order
+     * @param array $options
+     *  symbol : Trading pair (e.g. BTC_USDT)
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postCancelAllAlgoOrder(string $type, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'type' => $type,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_ALGO_CANCEL_ALL_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/query/algo/order
+     * Query Algo Order By Id(v4) (SIGNED) - Query a single algo order by orderId
+     * @param string $orderId : Order id
+     * @param array $options
+     *  queryState : Query type (open/history)
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAlgoOrderById(string $orderId, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'orderId' => $orderId,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_V4_QUERY_ALGO_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/query/algo/client-order
+     * Query Algo Order By clientOrderId(v4) (SIGNED) - Query a single algo order by clientOrderId
+     * @param string $clientOrderId : User-defined order id
+     * @param array $options
+     *  queryState : Query type (open/history)
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAlgoOrderByClientOrderId(string $clientOrderId, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'clientOrderId' => $clientOrderId,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_SPOT_V4_QUERY_ALGO_CLIENT_ORDER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/query/algo/open-orders
+     * Current Algo Open Orders(v4) (SIGNED) - Query the current opening algo order list of the account
+     * @param array $options
+     *  symbol : Trading pair (e.g. BTC_USDT)
+     *  orderMode : Order mode (trigger/tp/sl)
+     *  startTime : Start time in milliseconds, (e.g. 1681701557927)
+     *  endTime : End time in milliseconds, (e.g. 1681701557927)
+     *  limit : Number of queries, allowed range [1,200], default 200
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAlgoCurrentOpenOrders(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_SPOT_V4_QUERY_ALGO_OPEN_ORDERS_URL, CloudConst::POST, $options, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/spot/v4/query/algo/history-orders
+     * Algo History Orders(v4) (SIGNED) - Query the account history algo order list
+     * @param array $options
+     *  symbol : Trading pair (e.g. BTC_USDT)
+     *  orderMode : Order mode (trigger/tp/sl)
+     *  startTime : Start time in milliseconds, (e.g. 1681701557927)
+     *  endTime : End time in milliseconds, (e.g. 1681701557927)
+     *  limit : Number of queries, allowed range [1,200], default 200
+     *  recvWindow : Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @return array : ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAlgoHistoryOrders(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_SPOT_V4_QUERY_ALGO_HISTORY_ORDERS_URL, CloudConst::POST, $options, Auth::SIGNED);
+    }
+
 }

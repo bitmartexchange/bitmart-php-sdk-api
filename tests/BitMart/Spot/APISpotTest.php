@@ -271,8 +271,81 @@ class APISpotTest extends TestCase
         )['response']->code);
     }
 
+    public function testPostSubmitAlgoOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->postSubmitAlgoOrder(
+            'BTC_USDT',
+            'buy',
+            'trigger',
+            [
+                'trigger_price' => '20000',
+                'trigger_type' => 'limit',
+                'price' => '20000',
+                'size' => '0.1',
+                'client_order_id' => 'test_algo_0001',
+            ]
+        )['response']->code);
+    }
 
+    public function testPostCancelAlgoOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->postCancelAlgoOrder(
+            'BTC_USDT',
+            '1223181',
+            'trigger'
+        )['response']->code);
+    }
 
+    public function testPostCancelAllAlgoOrder()
+    {
+        $this->assertEquals(1000, $this->APISpot->postCancelAllAlgoOrder(
+            'trigger',
+            [
+                'symbol' => 'BTC_USDT',
+            ]
+        )['response']->code);
+    }
 
+    public function testGetAlgoOrderById()
+    {
+        $this->assertEquals(1000, $this->APISpot->getAlgoOrderById(
+            '118100034543076010',
+            [
+                'queryState' => 'open',
+            ]
+        )['response']->code);
+    }
+
+    public function testGetAlgoOrderByClientOrderId()
+    {
+        $this->assertEquals(1000, $this->APISpot->getAlgoOrderByClientOrderId(
+            'test_algo_0001',
+            [
+                'queryState' => 'open',
+            ]
+        )['response']->code);
+    }
+
+    public function testGetAlgoCurrentOpenOrders()
+    {
+        $this->assertEquals(1000, $this->APISpot->getAlgoCurrentOpenOrders(
+            [
+                'symbol' => 'BTC_USDT',
+                'orderMode' => 'trigger',
+                'limit' => 200,
+            ]
+        )['response']->code);
+    }
+
+    public function testGetAlgoHistoryOrders()
+    {
+        $this->assertEquals(1000, $this->APISpot->getAlgoHistoryOrders(
+            [
+                'symbol' => 'BTC_USDT',
+                'orderMode' => 'trigger',
+                'limit' => 200,
+            ]
+        )['response']->code);
+    }
 
 }

@@ -85,5 +85,14 @@ class APIContractMarketTest extends TestCase
         ])['response']->code);
     }
 
+    public function testGetContractFundingRateV2()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractFundingRateV2()['response']->code);
+
+        $this->assertEquals(1000, $this->APIContract->getContractFundingRateV2([
+            'symbol' => 'BTCUSDT',
+        ])['response']->code);
+    }
+
 
 }
