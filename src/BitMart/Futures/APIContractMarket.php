@@ -164,4 +164,16 @@ class APIContractMarket
         return self::$cloudClient->request(CloudConst::API_CONTRACT_MARKET_TRADE_URL, CloudConst::GET, $params);
     }
 
+    /**
+     * url: GET https://api-cloud-v2.bitmart.com/contract/public/funding-rate-v2
+     * Get Current Funding Rate (V2)
+     * @param array $options
+     *  symbol : Symbol of the contract(like BTCUSDT), optional
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getContractFundingRateV2(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_FUNDING_RATE_V2_URL, CloudConst::GET, $options);
+    }
+
 }

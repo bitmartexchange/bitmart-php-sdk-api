@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.3.0';
+    const VERSION = 'bitmart-php-sdk-api/2.4.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -80,6 +80,15 @@ class CloudConst
     const API_SPOT_V4_QUERY_TRADES_URL = '/spot/v4/query/trades';
     const API_SPOT_V4_QUERY_ORDER_TRADES_URL = '/spot/v4/query/order-trades';
 
+    # spot algo order
+    const API_SPOT_ALGO_SUBMIT_ORDER_URL = '/spot/v4/algo/submit_order';
+    const API_SPOT_ALGO_CANCEL_ORDER_URL = '/spot/v4/algo/cancel_order';
+    const API_SPOT_ALGO_CANCEL_ALL_URL = '/spot/v4/algo/cancel_all';
+    const API_SPOT_V4_QUERY_ALGO_ORDER_URL = '/spot/v4/query/algo/order';
+    const API_SPOT_V4_QUERY_ALGO_CLIENT_ORDER_URL = '/spot/v4/query/algo/client-order';
+    const API_SPOT_V4_QUERY_ALGO_OPEN_ORDERS_URL = '/spot/v4/query/algo/open-orders';
+    const API_SPOT_V4_QUERY_ALGO_HISTORY_ORDERS_URL = '/spot/v4/query/algo/history-orders';
+
     # Margin Loan
     const API_MARGIN_ISOLATED_BORROW_URL = '/spot/v1/margin/isolated/borrow';
     const API_MARGIN_ISOLATED_REPAY_URL = '/spot/v1/margin/isolated/repay';
@@ -98,6 +107,7 @@ class CloudConst
     const API_CONTRACT_MARK_PRICE_KLINE_URL = '/contract/public/markprice-kline';
     const API_CONTRACT_LEVERAGE_BRACKET_URL = '/contract/public/leverage-bracket';
     const API_CONTRACT_MARKET_TRADE_URL = '/contract/public/market-trade';
+    const API_CONTRACT_FUNDING_RATE_V2_URL = '/contract/public/funding-rate-v2';
 
     # Futures Account Data
     const API_CONTRACT_ASSETS_URL = '/contract/private/assets-detail';
@@ -131,6 +141,21 @@ class CloudConst
     const API_CONTRACT_PRV_GET_POSITION_MODE_URL = '/contract/private/get-position-mode';
     const API_CONTRACT_PRV_SET_POSITION_MODE_URL = '/contract/private/set-position-mode';
     const API_CONTRACT_PRV_POSITION_V2_URL = '/contract/private/position-v2';
+    const API_CONTRACT_PRV_AUTO_REPAYMENT_URL = '/contract/private/auto_repayment';
+    const API_CONTRACT_PRV_INTEREST_LOG_URL = '/contract/private/cross_collateral/interest_log';
+
+    # Futures Demo Trading
+    const API_CONTRACT_PRV_CLAIM_URL = '/contract/private/claim';
+
+    # Futures Affiliate
+    const API_CONTRACT_PRV_AFFILIATE_CUSTOMER_INFO_URL = '/contract/private/affiliate/aff-customer-info';
+    const API_CONTRACT_PRV_AFFILIATE_DEPOSIT_WITHDRAWAL_LIST_URL = '/contract/private/affiliate/deposit-withdrawal-list';
+    const API_CONTRACT_PRV_AFFILIATE_REBATE_INVITE_USER_URL = '/contract/private/affiliate/rebate-inviteUser';
+    const API_CONTRACT_PRV_AFFILIATE_INVITE_CHECK_URL = '/contract/private/affiliate/invite-check';
+    const API_CONTRACT_PRV_AFFILIATE_REBATE_USER_URL = '/contract/private/affiliate/rebate-user';
+    const API_CONTRACT_PRV_AFFILIATE_REBATE_API_URL = '/contract/private/affiliate/rebate-api';
+    const API_CONTRACT_PRV_AFFILIATE_REBATE_LIST_URL = '/contract/private/affiliate/rebate-list';
+    const API_CONTRACT_PRV_AFFILIATE_TRADE_LIST_URL = '/contract/private/affiliate/trade-list';
 
 
 }

@@ -388,5 +388,115 @@ class APIContractTradingTest extends TestCase
         )['response']->code);
     }
 
+    public function testGetContractAutoRepayment()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractAutoRepayment(
+            [
+                'from_coin_code' => 'USDT',
+                'page' => 1,
+                'size' => 1000,
+            ]
+        )['response']->code);
+    }
+
+    public function testGetContractInterestLog()
+    {
+        $this->assertEquals(1000, $this->APIContract->getContractInterestLog(
+            [
+                'coin_code' => 'USDT',
+                'page' => 1,
+                'size' => 20,
+            ]
+        )['response']->code);
+    }
+
+    public function testClaim()
+    {
+        $this->assertEquals(1000, $this->APIContract->claim()['response']->code);
+    }
+
+    public function testGetAffiliateCustomerInfo()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateCustomerInfo(1234567)['response']->code);
+    }
+
+    public function testGetAffiliateDepositWithdrawalList()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateDepositWithdrawalList(
+            1,
+            50,
+            1234567,
+            1770739200,
+            1771257600,
+            [
+                'type' => 1,
+            ]
+        )['response']->code);
+    }
+
+    public function testGetAffiliateRebateInviteUser()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateRebateInviteUser(
+            1770739200,
+            1771257600,
+            1,
+            50,
+            [
+                'cid' => 1234567,
+            ]
+        )['response']->code);
+    }
+
+    public function testGetAffiliateInviteCheck()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateInviteCheck(1234567)['response']->code);
+    }
+
+    public function testGetAffiliateRebateUser()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateRebateUser(
+            1234567,
+            1770739200,
+            1771257600
+        )['response']->code);
+    }
+
+    public function testGetAffiliateRebateApi()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateRebateApi(
+            1234567,
+            1770739200,
+            1771257600
+        )['response']->code);
+    }
+
+    public function testGetAffiliateRebateList()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateRebateList(
+            1,
+            50,
+            'USDT',
+            [
+                'user_id' => 1234567,
+                'rebate_start_time' => 1770739200,
+                'rebate_end_time' => 1771257600,
+            ]
+        )['response']->code);
+    }
+
+    public function testGetAffiliateTradeList()
+    {
+        $this->assertEquals(1000, $this->APIContract->getAffiliateTradeList(
+            1234567,
+            1,
+            1,
+            50,
+            [
+                'start_time' => 1770739200,
+                'end_time' => 1771257600,
+            ]
+        )['response']->code);
+    }
+
 
 }

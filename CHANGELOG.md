@@ -2,6 +2,45 @@ Changelog
 =========================
 
 
+### v2.4.0 Release
+#### New Features
+- New
+  - `/spot/v4/algo/submit_order` Submit Algo Order(v4) (SIGNED)
+  - `/spot/v4/algo/cancel_order` Cancel Algo Order(v4) (SIGNED)
+  - `/spot/v4/algo/cancel_all` Cancel All Algo Orders(v4) (SIGNED)
+  - `/spot/v4/query/algo/order` Query Algo Order By Id(v4) (SIGNED)
+  - `/spot/v4/query/algo/client-order` Query Algo Order By clientOrderId(v4) (SIGNED)
+  - `/spot/v4/query/algo/open-orders` Current Algo Open Orders(v4) (SIGNED)
+  - `/spot/v4/query/algo/history-orders` Algo History Orders(v4) (SIGNED)
+  - `/contract/public/funding-rate-v2` Get Current Funding Rate (V2)
+  - `/contract/private/auto_repayment` Get Auto Repayment Record (KEYED)
+  - `/contract/private/cross_collateral/interest_log` Get Cross Collateral Interest Log (KEYED)
+  - `/contract/private/claim` Claim Demo Assets (SIGNED)
+  - `/contract/private/affiliate/aff-customer-info` Get Invited User Contract Account Info (KEYED)
+  - `/contract/private/affiliate/deposit-withdrawal-list` Get Invited User Deposit/Withdrawal List (KEYED)
+  - `/contract/private/affiliate/rebate-inviteUser` Get Invited Customer List (KEYED)
+  - `/contract/private/affiliate/invite-check` Check Invited User (KEYED)
+  - `/contract/private/affiliate/rebate-user` Get Single User Rebate (KEYED)
+  - `/contract/private/affiliate/rebate-api` Get Single API User Rebate (KEYED)
+  - `/contract/private/affiliate/rebate-list` Get Rebate List (KEYED)
+  - `/contract/private/affiliate/trade-list` Get Trade List (KEYED)
+
+- Update
+  - `/contract/private/trades` Get Order Trade (KEYED): Add the Request field **order_id**, **client_order_id**
+
+#### Improvements
+- **Unit Test Configuration via `.env`**: `tests/TestConfig.php` now loads test credentials and host from a project `.env` file
+  - Reads `BITMART_API_KEY`, `BITMART_SECRET_KEY`, `BITMART_MEMO` and `BITMART_API_URL` (optional, overrides both spot and futures host)
+  - Resolution precedence: `.env` file > system environment variable > defaults in `TestConfig`
+  - Zero-dependency built-in `.env` parser (no extra Composer package)
+  - `.env` is gitignored; an `.env.example` template is provided
+  - Backward compatible: when no `.env` is present, tests fall back to the existing default values
+
+
+---
+
+
+
 ### v2.3.0 Release
 #### New Features
 - New

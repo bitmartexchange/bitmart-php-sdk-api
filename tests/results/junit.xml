@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="BitMart\Tests\APIContractTradingTest" file="/Users/ricci/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php" tests="1" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="0.777879">
-    <testcase name="testGetContractOrderHistory" class="BitMart\Tests\APIContractTradingTest" classname="BitMart.Tests.APIContractTradingTest" file="/Users/ricci/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php" line="51" assertions="2" time="0.777879">
-      <system-out>
+  <testsuite name="BitMart\Tests\APIContractTradingTest" file="/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="1" skipped="0" time="0.587183">
+    <testcase name="testGetAffiliateTradeList" class="BitMart\Tests\APIContractTradingTest" classname="BitMart.Tests.APIContractTradingTest" file="/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php" line="487" assertions="1" time="0.587183">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">BitMart\Tests\APIContractTradingTest::testGetAffiliateTradeList
+Failed asserting that 40025 matches expected 1000.
+
+/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php:489
+</failure>
+      <system-out>[2026-06-09 14:56:51] [RequestID: 49b3d44545f49dcc] [GET] https://api-cloud.bmexchangeaws-test.com/contract/private/affiliate/trade-list?user_id=1234567&amp;type=1&amp;page=1&amp;size=50&amp;start_time=1770739200&amp;end_time=1771257600
+RequestHeader:
+Array
+(
+    [Content-Type] =&gt; application/json
+    [User-Agent] =&gt; bitmart-php-sdk-api/2.4.0
+    [X-BM-KEY] =&gt; a0a053a31cca9346e52844ee3f13eaa9867c4a51
+)
+[2026-06-09 14:56:51] [RequestID: 49b3d44545f49dcc] --Response
+{"msg":"User does not exist","errno":"invalidUserId","code":40025,"success":false,"requestId":"f30e03acbac94d3a9d12e2f574fc743c"}
 ----------------------------
 </system-out>
     </testcase>
