@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="BitMart\Tests\APIContractTradingTest" file="/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="1" skipped="0" time="0.587183">
-    <testcase name="testGetAffiliateTradeList" class="BitMart\Tests\APIContractTradingTest" classname="BitMart.Tests.APIContractTradingTest" file="/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php" line="487" assertions="1" time="0.587183">
-      <failure type="PHPUnit\Framework\ExpectationFailedException">BitMart\Tests\APIContractTradingTest::testGetAffiliateTradeList
-Failed asserting that 40025 matches expected 1000.
+  <testsuite name="BitMart\Tests\APIContractSubAccountTest" file="/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractSubAccountTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="1" skipped="0" time="0.622818">
+    <testcase name="testPostSubToMainForSub" class="BitMart\Tests\APIContractSubAccountTest" classname="BitMart.Tests.APIContractSubAccountTest" file="/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractSubAccountTest.php" line="39" assertions="1" time="0.622818">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">BitMart\Tests\APIContractSubAccountTest::testPostSubToMainForSub
+Failed asserting that 30012 matches expected 1000.
 
-/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractTradingTest.php:489
+/Users/ricci-mac/Documents/sdk/bitmart-php-sdk-api/tests/BitMart/Futures/APIContractSubAccountTest.php:41
 </failure>
-      <system-out>[2026-06-09 14:56:51] [RequestID: 49b3d44545f49dcc] [GET] https://api-cloud.bmexchangeaws-test.com/contract/private/affiliate/trade-list?user_id=1234567&amp;type=1&amp;page=1&amp;size=50&amp;start_time=1770739200&amp;end_time=1771257600
+      <system-out>[2026-06-15 03:17:30] [RequestID: d37c24472899b61d] [POST] https://api-cloud.bmexchangeaws-test.com/account/contract/sub-account/sub/v1/sub-to-main
 RequestHeader:
 Array
 (
     [Content-Type] =&gt; application/json
-    [User-Agent] =&gt; bitmart-php-sdk-api/2.4.0
+    [User-Agent] =&gt; bitmart-php-sdk-api/2.6.0
     [X-BM-KEY] =&gt; a0a053a31cca9346e52844ee3f13eaa9867c4a51
+    [X-BM-SIGN] =&gt; fe4a845d9f5d4deea0dddb18b83188c602f76f47c7f7edcbc18c9f0cfa440195
+    [X-BM-TIMESTAMP] =&gt; 1781493450361
+    [Your-Custom-Header1] =&gt; value1
+    [Your-Custom-Header2] =&gt; value2
 )
-[2026-06-09 14:56:51] [RequestID: 49b3d44545f49dcc] --Response
-{"msg":"User does not exist","errno":"invalidUserId","code":40025,"success":false,"requestId":"f30e03acbac94d3a9d12e2f574fc743c"}
+RequestBody:{"requestNo":"test-request-no-0007","amount":"1","currency":"USDT"}
+[2026-06-15 03:17:30] [RequestID: d37c24472899b61d] --Response
+{"trace":"c3762c31-cf10-4c1b-a664-573b154ddd25","code":30012,"msg":"Header X-BM-KEY is forbidden to request it"}
+
 ----------------------------
 </system-out>
     </testcase>

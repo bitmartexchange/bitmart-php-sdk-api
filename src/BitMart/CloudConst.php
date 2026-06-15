@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.4.0';
+    const VERSION = 'bitmart-php-sdk-api/2.6.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -53,6 +53,24 @@ class CloudConst
     const API_ACCOUNT_MARGIN_ISOLATED_TRANSFER_URL = '/spot/v1/margin/isolated/transfer';
     const API_SPOT_USER_FEE_URL = '/spot/v1/user_fee';
     const API_SPOT_ACTUAL_TRADE_FEE_URL = '/spot/v1/trade_fee';
+
+    # sub-account url (spot)
+    const API_ACCOUNT_SUB_MAIN_SUB_TO_MAIN_URL = '/account/sub-account/main/v1/sub-to-main';
+    const API_ACCOUNT_SUB_SUB_TO_MAIN_URL = '/account/sub-account/sub/v1/sub-to-main';
+    const API_ACCOUNT_SUB_MAIN_MAIN_TO_SUB_URL = '/account/sub-account/main/v1/main-to-sub';
+    const API_ACCOUNT_SUB_MAIN_SUB_TO_SUB_URL = '/account/sub-account/main/v1/sub-to-sub';
+    const API_ACCOUNT_SUB_MAIN_TRANSFER_LIST_URL = '/account/sub-account/main/v1/transfer-list';
+    const API_ACCOUNT_SUB_TRANSFER_HISTORY_URL = '/account/sub-account/v1/transfer-history';
+    const API_ACCOUNT_SUB_MAIN_WALLET_URL = '/account/sub-account/main/v1/wallet';
+    const API_ACCOUNT_SUB_MAIN_SUBACCOUNT_LIST_URL = '/account/sub-account/main/v1/subaccount-list';
+
+    # sub-account url (contract)
+    const API_ACCOUNT_CONTRACT_SUB_MAIN_SUB_TO_MAIN_URL = '/account/contract/sub-account/main/v1/sub-to-main';
+    const API_ACCOUNT_CONTRACT_SUB_MAIN_MAIN_TO_SUB_URL = '/account/contract/sub-account/main/v1/main-to-sub';
+    const API_ACCOUNT_CONTRACT_SUB_SUB_TO_MAIN_URL = '/account/contract/sub-account/sub/v1/sub-to-main';
+    const API_ACCOUNT_CONTRACT_SUB_MAIN_WALLET_URL = '/account/contract/sub-account/main/v1/wallet';
+    const API_ACCOUNT_CONTRACT_SUB_MAIN_TRANSFER_LIST_URL = '/account/contract/sub-account/main/v1/transfer-list';
+    const API_ACCOUNT_CONTRACT_SUB_TRANSFER_HISTORY_URL = '/account/contract/sub-account/v1/transfer-history';
 
     # spot trading
     const API_SPOT_CURRENCIES_URL = '/spot/v1/currencies';
