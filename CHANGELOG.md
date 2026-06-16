@@ -2,6 +2,34 @@ Changelog
 =========================
 
 
+### v2.7.0 Release
+#### New Features
+- New
+  - `/newearn/cloud/v1/earn` Get Finance Account Holdings (KEYED)
+  - `/newearn/cloud/v1/saving/product` Get Flexible Savings Product List (KEYED)
+  - `/newearn/cloud/v1/saving/subscribe` Subscribe Flexible Savings (SIGNED)
+  - `/newearn/cloud/v1/saving/redeem` Redeem Flexible Savings (SIGNED)
+  - `/newearn/cloud/v1/saving/earn` Get Flexible Savings Holdings (KEYED)
+  - `/newearn/cloud/v1/saving/record` Get Flexible Savings History Records (KEYED)
+  - `/newearn/cloud/v1/saving/subscribe/operate` Toggle Auto-Subscribe for a Flexible Product (SIGNED)
+  - `/newearn/cloud/v1/saving/subscribe/status` Get Auto-Subscribe Status for a Flexible Product (KEYED)
+  - `/newearn/cloud/v1/saving/subscribe/batch/operate` Toggle Global Flexible Auto-Subscribe (SIGNED)
+  - `/newearn/cloud/v1/saving/subscribe/batch` Get Global Flexible Auto-Subscribe Status (KEYED)
+  - `/newearn/cloud/v1/saving/fixed/product` Get Fixed Savings Product List (KEYED)
+  - `/newearn/cloud/v1/saving/fixed/subscribe` Subscribe Fixed Savings (SIGNED)
+  - `/newearn/cloud/v1/saving/fixed/earn` Get Fixed Savings Holdings (KEYED)
+  - `/newearn/cloud/v1/saving/fixed/record` Get Fixed Savings History Records (KEYED)
+  - `/newearn/cloud/v1/saving/fixed/redeem` Early Redeem Fixed Savings (SIGNED)
+  - `/newearn/cloud/v1/saving/fixed/subscribe/operate` Modify Fixed Savings Auto-Renewal (SIGNED)
+
+#### Improvements
+- **New `APIFinance` class** (`BitMart\Finance\APIFinance`): a dedicated Finance (Savings / Earn) domain client, alongside the existing Spot / Contract domain classes
+
+
+---
+
+
+
 ### v2.6.0 Release
 #### New Features
 - New

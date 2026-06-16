@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.6.0';
+    const VERSION = 'bitmart-php-sdk-api/2.7.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -71,6 +71,24 @@ class CloudConst
     const API_ACCOUNT_CONTRACT_SUB_MAIN_WALLET_URL = '/account/contract/sub-account/main/v1/wallet';
     const API_ACCOUNT_CONTRACT_SUB_MAIN_TRANSFER_LIST_URL = '/account/contract/sub-account/main/v1/transfer-list';
     const API_ACCOUNT_CONTRACT_SUB_TRANSFER_HISTORY_URL = '/account/contract/sub-account/v1/transfer-history';
+
+    # Finance (Savings / Earn)
+    const API_FINANCE_EARN_URL = '/newearn/cloud/v1/earn';
+    const API_FINANCE_SAVING_PRODUCT_URL = '/newearn/cloud/v1/saving/product';
+    const API_FINANCE_SAVING_SUBSCRIBE_URL = '/newearn/cloud/v1/saving/subscribe';
+    const API_FINANCE_SAVING_REDEEM_URL = '/newearn/cloud/v1/saving/redeem';
+    const API_FINANCE_SAVING_EARN_URL = '/newearn/cloud/v1/saving/earn';
+    const API_FINANCE_SAVING_RECORD_URL = '/newearn/cloud/v1/saving/record';
+    const API_FINANCE_SAVING_SUBSCRIBE_OPERATE_URL = '/newearn/cloud/v1/saving/subscribe/operate';
+    const API_FINANCE_SAVING_SUBSCRIBE_STATUS_URL = '/newearn/cloud/v1/saving/subscribe/status';
+    const API_FINANCE_SAVING_SUBSCRIBE_BATCH_OPERATE_URL = '/newearn/cloud/v1/saving/subscribe/batch/operate';
+    const API_FINANCE_SAVING_SUBSCRIBE_BATCH_URL = '/newearn/cloud/v1/saving/subscribe/batch';
+    const API_FINANCE_FIXED_PRODUCT_URL = '/newearn/cloud/v1/saving/fixed/product';
+    const API_FINANCE_FIXED_SUBSCRIBE_URL = '/newearn/cloud/v1/saving/fixed/subscribe';
+    const API_FINANCE_FIXED_EARN_URL = '/newearn/cloud/v1/saving/fixed/earn';
+    const API_FINANCE_FIXED_RECORD_URL = '/newearn/cloud/v1/saving/fixed/record';
+    const API_FINANCE_FIXED_REDEEM_URL = '/newearn/cloud/v1/saving/fixed/redeem';
+    const API_FINANCE_FIXED_SUBSCRIBE_OPERATE_URL = '/newearn/cloud/v1/saving/fixed/subscribe/operate';
 
     # spot trading
     const API_SPOT_CURRENCIES_URL = '/spot/v1/currencies';
