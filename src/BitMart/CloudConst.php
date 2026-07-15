@@ -23,7 +23,7 @@ class CloudConst
 
     # http header
     const APPLICATION_JSON = 'application/json';
-    const VERSION = 'bitmart-php-sdk-api/2.7.0';
+    const VERSION = 'bitmart-php-sdk-api/2.8.0';
 
     const GET = "GET";
     const POST = "POST";
@@ -53,6 +53,10 @@ class CloudConst
     const API_ACCOUNT_MARGIN_ISOLATED_TRANSFER_URL = '/spot/v1/margin/isolated/transfer';
     const API_SPOT_USER_FEE_URL = '/spot/v1/user_fee';
     const API_SPOT_ACTUAL_TRADE_FEE_URL = '/spot/v1/trade_fee';
+    const API_ACCOUNT_GET_DEPOSIT_ACCOUNT_URL = '/account/v1/get-deposit-account';
+    const API_ACCOUNT_SET_DEPOSIT_ACCOUNT_URL = '/account/v1/set-deposit-account';
+    const API_ACCOUNT_TRANSFER_URL = '/account/v1/transfer';
+    const API_UAPI_KEY_ACCOUNT_INFO_URL = '/uapi-key/v1/account/info';
 
     # sub-account url (spot)
     const API_ACCOUNT_SUB_MAIN_SUB_TO_MAIN_URL = '/account/sub-account/main/v1/sub-to-main';
@@ -179,6 +183,8 @@ class CloudConst
     const API_CONTRACT_PRV_POSITION_V2_URL = '/contract/private/position-v2';
     const API_CONTRACT_PRV_AUTO_REPAYMENT_URL = '/contract/private/auto_repayment';
     const API_CONTRACT_PRV_INTEREST_LOG_URL = '/contract/private/cross_collateral/interest_log';
+    const API_CONTRACT_PRV_CLOSE_ALL_POSITION_URL = '/contract/private/close-all-position';
+    const API_CONTRACT_PRV_ACCOUNT_TRANSFER_URL = '/contract/private/account/v1/transfer';
 
     # Futures Demo Trading
     const API_CONTRACT_PRV_CLAIM_URL = '/contract/private/claim';

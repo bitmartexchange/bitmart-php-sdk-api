@@ -891,4 +891,44 @@ class APIContractTrading
         return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_AFFILIATE_TRADE_LIST_URL, CloudConst::GET, $params, Auth::KEYED);
     }
 
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/close-all-position
+     * Close All Positions (SIGNED) - Applicable for closing all positions in one click
+     * @param $contractType : Contract type
+     *                        -1=USDT-FUTURES
+     *                        -2=COIN-FUTURES
+     * @param array $options
+     *  symbol : Symbol of the contract(like BTCUSDT); if omitted, closes positions for all symbols
+     *  position_side : Position side (long/short); if omitted, closes positions in all directions
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function closeAllPosition($contractType, array $options = []): array
+    {
+        $params = array_merge(
+            [
+                'contractType' => $contractType,
+            ],
+            $options
+        );
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_CLOSE_ALL_POSITION_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud-v2.bitmart.com/contract/private/account/v1/transfer
+     * Fund Account Transfer (SIGNED) - Transfer between fund account and contract account
+     * @param string $currency : Currency (e.g. USDT)
+     * @param string $amount : Transfer amount
+     * @param string $type : Transfer direction (fund_to_contract/contract_to_fund)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function accountTransfer(string $currency, string $amount, string $type): array
+    {
+        $params = [
+            'currency' => $currency,
+            'amount' => $amount,
+            'type' => $type,
+        ];
+        return self::$cloudClient->request(CloudConst::API_CONTRACT_PRV_ACCOUNT_TRANSFER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
 }

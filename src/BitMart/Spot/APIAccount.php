@@ -102,6 +102,7 @@ class APIAccount
                         3=Phone
      *  value: Account
      *  areaCode: Phone area code, required when account type is phone, e.g.: 61
+     *  sourceAccount: Withdrawal source account (SPOT/FUND); if omitted, balance is taken from spot then fund account
      * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
      */
     public function postWithdraw(string $currency, string $amount, array $options = []): array
@@ -211,6 +212,56 @@ class APIAccount
             'symbol' => $symbol,
         ];
         return self::$cloudClient->request(CloudConst::API_SPOT_ACTUAL_TRADE_FEE_URL, CloudConst::GET, $params, Auth::KEYED);
+    }
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/account/v1/get-deposit-account
+     * Get Deposit Account (KEYED) - Query the default deposit crediting account
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getDepositAccount(): array
+    {
+        return self::$cloudClient->request(CloudConst::API_ACCOUNT_GET_DEPOSIT_ACCOUNT_URL, CloudConst::GET, [], Auth::KEYED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/account/v1/set-deposit-account
+     * Set Deposit Account (SIGNED) - Set the default deposit crediting account (not available for sub-accounts)
+     * @param array $options
+     *  account_type: Deposit account type (SPOT/CONTRACT/FUND)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postSetDepositAccount(array $options = []): array
+    {
+        return self::$cloudClient->request(CloudConst::API_ACCOUNT_SET_DEPOSIT_ACCOUNT_URL, CloudConst::POST, $options, Auth::SIGNED);
+    }
+
+    /**
+     * url: POST https://api-cloud.bitmart.com/account/v1/transfer
+     * Fund Account Transfer (SIGNED) - Transfer between spot account and fund account
+     * @param string $currency : Currency (e.g. USDT)
+     * @param string $amount : Transfer amount
+     * @param string $type : Transfer direction (spot_to_fund/fund_to_spot)
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function postAccountTransfer(string $currency, string $amount, string $type): array
+    {
+        $params = [
+            'currency' => $currency,
+            'amount' => $amount,
+            'type' => $type,
+        ];
+        return self::$cloudClient->request(CloudConst::API_ACCOUNT_TRANSFER_URL, CloudConst::POST, $params, Auth::SIGNED);
+    }
+
+    /**
+     * url: GET https://api-cloud.bitmart.com/uapi-key/v1/account/info
+     * Get Account Info (KEYED) - Query the account information of the API key
+     * @return array: ([response] =>stdClass, [httpCode] => 200, [limit] =>stdClass)
+     */
+    public function getAccountInfo(): array
+    {
+        return self::$cloudClient->request(CloudConst::API_UAPI_KEY_ACCOUNT_INFO_URL, CloudConst::GET, [], Auth::KEYED);
     }
 
 
