@@ -2,6 +2,24 @@ Changelog
 =========================
 
 
+### v2.8.0 Release
+#### New Features
+- New
+  - `/account/v1/get-deposit-account` Get Deposit Account (KEYED)
+  - `/account/v1/set-deposit-account` Set Deposit Account (SIGNED)
+  - `/account/v1/transfer` Fund Account Transfer (SIGNED)
+  - `/uapi-key/v1/account/info` Get Account Info (KEYED)
+  - `/contract/private/close-all-position` Close All Positions (SIGNED)
+  - `/contract/private/account/v1/transfer` Fund Account Transfer (SIGNED)
+
+- Update
+  - `/account/v1/withdraw/apply` Withdraw (SIGNED): Add the Request Parameters **sourceAccount**
+
+
+---
+
+
+
 ### v2.7.0 Release
 #### New Features
 - New

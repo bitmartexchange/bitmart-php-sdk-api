@@ -498,5 +498,25 @@ class APIContractTradingTest extends TestCase
         )['response']->code);
     }
 
+    public function testCloseAllPosition()
+    {
+        $this->assertEquals(1000, $this->APIContract->closeAllPosition(
+            1,
+            [
+                'symbol' => 'BTCUSDT',
+                'position_side' => 'long',
+            ]
+        )['response']->code);
+    }
+
+    public function testAccountTransfer()
+    {
+        $this->assertEquals(1000, $this->APIContract->accountTransfer(
+            'USDT',
+            '10',
+            'fund_to_contract'
+        )['response']->code);
+    }
+
 
 }

@@ -110,4 +110,24 @@ class APIAccountTest extends TestCase
     {
         $this->assertEquals(1000, $this->APIAccount->getActualTradeFeeRate("BTC_USDT")['response']->code);
     }
+
+    public function testGetDepositAccount()
+    {
+        $this->assertEquals(1000, $this->APIAccount->getDepositAccount()['response']->code);
+    }
+
+    public function testPostSetDepositAccount()
+    {
+        $this->assertEquals(1000, $this->APIAccount->postSetDepositAccount(['account_type' => 'SPOT'])['response']->code);
+    }
+
+    public function testPostAccountTransfer()
+    {
+        $this->assertEquals(1000, $this->APIAccount->postAccountTransfer('USDT', '10', 'spot_to_fund')['response']->code);
+    }
+
+    public function testGetAccountInfo()
+    {
+        $this->assertEquals(1000, $this->APIAccount->getAccountInfo()['response']->code);
+    }
 }
